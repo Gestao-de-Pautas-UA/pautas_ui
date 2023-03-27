@@ -1,24 +1,31 @@
-import {
-  ThemeProvider,
-  Theme,
-  Button
-} from "@uaveiro/ui";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Overview from './pages/overview/Overview';
+import Topbar from './components/topbar/Topbar';
+import Sidebar from './components/sidebar/Sidebar';
+import Cards from './pages/overview/cards';
+import Pauta from './pages/pauta/Pauta';
 
 function App() {
   return (
-    <ThemeProvider theme={Theme}>
-      <div>
-        <h1>Welcome to my React App</h1>
-        <p>This is a sample paragraph of information.</p>
-        <ul>
-          <li>List item 1</li>
-          <li>List item 2</li>
-          <li>List item 4</li>
-        </ul>
-          <Button>Hello from paco2</Button>
-      </div>
-    </ThemeProvider>
-  );
+    <Router>
+
+      {/* <Topbar/>
+      <Sidebar/> */}
+      {/* <Overview/> */}
+      {/* <Cards/> */}
+      
+      <Pauta/>
+
+      
+
+
+     
+
+    </Router>
+  )
+
 }
+
+
 
 export default App;
