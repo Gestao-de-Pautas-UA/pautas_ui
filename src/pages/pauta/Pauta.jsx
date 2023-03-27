@@ -8,9 +8,17 @@ import {
 
 export default function Pauta() {
     return (
+
         <ThemeProvider theme={Theme}>
+            <button className="buttonRight">Download para preencher localmente</button>
+            <button className="buttonRight">Upload de Up preenchida</button>
             <Tables {...data} />
-            </ThemeProvider>
+            
+            <button className="buttonRight">Guardar</button>
+            <button className="buttonRight">Assinar</button>
+          </ThemeProvider>
+
+       
     );
   }
 
