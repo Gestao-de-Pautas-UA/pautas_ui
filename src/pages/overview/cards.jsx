@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import {Container ,Card,Row, Col, Button} from 'react-bootstrap';  
 import "./overview.css"
+import MyDropdown from '../../components/dropdown/dropdown';
 
 function Cards() {  
     const ButtonStyle = ({ type, text }) => {
@@ -11,7 +12,7 @@ function Cards() {
     <div> 
         <h2>Gestão de Pautas</h2>
         <div>
-            <p>Ano lectivo: </p>
+            <p><MyDropdown/> </p>
             <p>List/Card:</p>
         </div> 
    <Container className='p-4'>  

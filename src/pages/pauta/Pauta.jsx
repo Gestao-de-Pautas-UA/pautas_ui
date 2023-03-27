@@ -6,10 +6,12 @@ import {
     Theme
   } from "@uaveiro/ui";
 
+  import MyDropdown from '../../components/dropdown/dropdown';
 export default function Pauta() {
     return (
 
         <ThemeProvider theme={Theme}>
+       
             <button className="buttonRight">Download para preencher localmente</button>
             <button className="buttonRight">Upload de Up preenchida</button>
             <Tables {...data} />

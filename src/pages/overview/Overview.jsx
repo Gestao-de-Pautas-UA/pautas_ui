@@ -7,7 +7,7 @@ import {
     Indent,
     Breadcrumbs 
   } from "@uaveiro/ui";
-
+import MyDropdown from "../../components/dropdown/dropdown";
 
 
 //import './data.txt'
@@ -26,8 +26,12 @@ export default function Overview() {
 
       <h2>Gestão de Pautas</h2>
       <div>
-        <p>Ano lectivo: </p>
+        <p><MyDropdown/> </p>
+        
+      </div>
+      <div>
         <p>List/Card:</p>
+        
       </div>
 
       

@@ -12,9 +12,9 @@ function App() {
       {/* <Topbar/>
       <Sidebar/> */}
       {/* <Overview/> */}
-      {/* <Cards/> */}
+      <Cards/>
       
-      <Pauta/>
+      {/* <Pauta/> */}
 
       
 
