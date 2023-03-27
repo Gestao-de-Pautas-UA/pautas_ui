@@ -12,12 +12,13 @@ export default function Pauta() {
 
         <ThemeProvider theme={Theme}>
        
-            <button className="buttonRight">Download para preencher localmente</button>
-            <button className="buttonRight">Upload de Up preenchida</button>
-            <Tables {...data} />
-            
-            <button className="buttonRight">Guardar</button>
-            <button className="buttonRight">Assinar</button>
+            {/* <button className="buttonRight">Download para preencher localmente</button>
+            <button className="buttonRight">Upload de Up preenchida</button> */}
+            <div style={{width: '100%'}}>
+              <Tables {...data} />
+            </div>
+            {/* <button className="buttonRight">Guardar</button>
+            <button className="buttonRight">Assinar</button> */}
           </ThemeProvider>
 
        

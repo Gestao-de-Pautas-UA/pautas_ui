@@ -13,7 +13,7 @@ import Overview from '../../pages/overview/Overview';
 
 const Sidebar = () => {
   return (
-    <div style={{ display: 'flex', height: '89vh', overflow: 'scroll initial' }}>
+    <div style={{display: 'flex', height: '89vh', overflow: 'scroll initial' }}>
       <CDBSidebar textColor="#fff" backgroundColor="#333">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
           {/* <a href="" className="text-decoration-none" style={{ color: 'inherit' }}>

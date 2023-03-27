@@ -9,12 +9,13 @@ function App() {
   return (
     <Router>
 
-      {/* <Topbar/>
-      <Sidebar/> */}
-      {/* <Overview/> */}
-      <Cards/>
-      
-      {/* <Pauta/> */}
+      <Topbar/>
+      <div style={{display:'flex'}}>
+        <Sidebar/>
+        <Overview/>
+        {/* <Cards/> */}
+        {/* <Pauta/> */}
+      </div>
 
       
 

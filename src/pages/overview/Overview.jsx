@@ -23,17 +23,21 @@ export default function Overview() {
       {/* <ContentContainer height="135px">
         <Breadcrumbs {...data} /> 
       </ContentContainer> */}
-
-      <h2>Gestão de Pautas</h2>
-      <div>
-        <p><MyDropdown/> </p>
-        
+      <div style={{ display: 'flex' }}>
+        {/* <div style={{width: '100%'}}>
+        <h2>Gestão de Pautas</h2>
+        </div>
+        <div>
+        <div>
+          <p><MyDropdown/> </p>
+          
+        </div>
+        <div>
+          <p>List/Card:</p>
+          
+        </div>
+        </div> */}
       </div>
-      <div>
-        <p>List/Card:</p>
-        
-      </div>
-
       
 
       <ContentContainer backgroundColor="#F5F5F5" padding="20px">
@@ -63,7 +67,9 @@ export default function Overview() {
               </td>
               <td>
                 {/* <Link href="/">Editar</Link> */}
+                
                 <button>Editar</button>
+                
               </td>
               <td>
                 <button>Detalhes</button>
