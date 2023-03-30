@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -37,6 +38,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       }),
       marginLeft: 0,
     }),
+    
   }),
 );
 
@@ -79,9 +81,9 @@ export default function NavBar() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex'}} >
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} style={{ background: '#0EB4BD' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -92,44 +94,53 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+          <img src="/logo.png" className="App-logo"  />
+          <Typography variant="h6" noWrap component="div" className='paco' >
+            paco
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
         sx={{
+          
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            background: '#292929', 
+            
+            
           },
         }}
         variant="persistent"
         anchor="left"
         open={open}
+        color="#000"
+        
+        
       >
-        <DrawerHeader>
+        <DrawerHeader style={{ background: '#0EB4BD' }}> 
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />  }
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        <List >
+        
+          {['Gestao de pautas'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text}/>
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
+        {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
@@ -140,7 +151,7 @@ export default function NavBar() {
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
