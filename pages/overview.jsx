@@ -1,8 +1,9 @@
-import 'bootstrap/dist/css/bootstrap.min.css';  
+import { ThemeProvider, Theme, Tables, Table, Indent, Cards } from "@uaveiro/ui";
+// import 'bootstrap/dist/css/bootstrap.min.css';  
 import {Container ,Card,Row, Col, Button} from 'react-bootstrap';  
-import "./overview.css"
 
-function Cards() {  
+
+export default function Overview() {  
     const ButtonStyle = ({ type, text }) => {
         return <button className={"widgetLgButton " + type}>{text}</button>;
       };
@@ -11,7 +12,6 @@ function Cards() {
     <div> 
         <h2>Gestão de Pautas</h2>
         <div>
-            <p>Ano lectivo: </p>
             <p>List/Card:</p>
         </div> 
    <Container className='p-4'>  
@@ -65,4 +65,57 @@ function Cards() {
     
   );  
 }  
-export default Cards;
+
+
+// export default function Overview() {
+
+    
+//     return (
+//       <ThemeProvider theme={Theme}>
+
+//         {/* ------ START TABELA ------- */}
+
+//         {/* <Table marginTop="0">
+//   <caption>Table Title</caption>
+//   <thead>
+//     <tr>
+//       <th>Firstname</th>
+//       <th>Lastname</th>
+//       <th>Age</th>
+//     </tr>
+//   </thead>
+//     <hr></hr>
+//   <tbody>
+//     <tr>
+//       <td>
+//         <Indent>Jill</Indent>
+//       </td>
+//       <td>Smith</td>
+//       <td>50</td>
+//     </tr>
+//     <tr>
+//       <td>
+//         <Indent>Eve</Indent>
+//       </td>
+//       <td>Jackson</td>
+//       <td>94</td>
+//     </tr>
+//     <tr>
+//       <td>
+//         <Indent>John</Indent>
+//       </td>
+//       <td>Limn</td>
+//       <td>21</td>
+//     </tr>
+//   </tbody>
+// </Table> */}
+//         {/* ------ END TABELA ------- */}
+
+
+        
+
+
+//     </ThemeProvider>
+//     )
+// }
+
