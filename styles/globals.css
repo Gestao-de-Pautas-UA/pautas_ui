@@ -26,5 +26,7 @@
 }
 
 .pauta-page-button-row {
-
+ 
+ display: flex;
+ justify-content: end;
 }
