@@ -59,7 +59,8 @@ export default function Pauta() {
     return (
 
       <div class="pauta-page-container">
-          <h1 className="pauta-page-title">{ pautaName.pautaNome }</h1>
+        <div className="pauta-page-title">{ pautaName.pautaNome }</div>
+        <div class="pauta-page-button-row"></div>
         <ThemeProvider theme={Theme}>
           <Table marginTop="0">
             <caption>Tabela de alunos</caption>

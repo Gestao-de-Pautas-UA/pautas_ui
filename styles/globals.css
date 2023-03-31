@@ -1,5 +1,11 @@
+
+:root {
+  --main-black-text: color: rgb(41, 41, 41);
+  --main-grey-text: color: rgb(117, 117, 117);
+}
+
+
 .App-logo {
-    
     height: 50px;
   }
 
@@ -10,9 +16,15 @@
   }
 
 .pauta-page-title {
-  color: blueviolet;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--main-black-text);
 }
 
 .pauta-page-container {
-   background-color: aquamarine;
+  margin: 0px 30px 0px 30px;
+}
+
+.pauta-page-button-row {
+
 }
