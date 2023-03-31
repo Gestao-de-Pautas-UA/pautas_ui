@@ -1,30 +1,26 @@
 
 :root {
-  --main-black-text: color: rgb(41, 41, 41);
-  --main-grey-text: color: rgb(117, 117, 117);
+  --paco-black-text: #292929 !important;
+  --paco-grey-text: #757575 !important;
 }
 
 
 .App-logo {
-    height: 50px;
-  }
+  height: 50px;
+}
 
-  .paco {
-    font: optional;
-    margin: 0px 0px 0px 60px;
-
-  }
+.paco {
+  font: optional;
+  margin: 0px 0px 0px 60px;
+  
+}
 
 .pauta-page-title {
   font-size: 1.75rem;
   font-weight: 500;
-  color: var(--main-black-text);
+  color: var(--paco-black-text);
 }
 
 .pauta-page-container {
   margin: 0px 30px 0px 30px;
-}
-
-.pauta-page-button-row {
-
 }
