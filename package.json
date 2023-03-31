@@ -15,6 +15,7 @@
     "@uaveiro/ui": "^1.4.0-beta.77",
     "dompurify": "^3.0.1",
     "global": "^4.4.0",
+    "mdb-react-ui-kit": "^6.0.0",
     "moment": "^2.29.4",
     "next": "13.2.4",
     "polished": "^4.2.2",

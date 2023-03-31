@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import NavBar from '@/component/navbar/navbar';
 import { Roboto } from 'next/font/google';
 

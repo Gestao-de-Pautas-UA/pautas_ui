@@ -63,12 +63,9 @@ export default function Pauta() {
           <div className="pauta-page-title">{ pautaName.pautaNome }</div>
           <div class="pauta-page-button-row">
             <Button variant="default" width="9rem" >Download para preencher</Button>
-            <div>
-              <Button variant="default" width="9.5rem">Upload de planilha da pauta</Button>
-            </div>
+            <Button variant="default" width="9.5rem">Upload de planilha da pauta</Button>
           </div>
             <Table marginTop="0">
-              <caption>Tabela de alunos</caption>
               <thead>
                 <tr>
                   <th>Número Mecanográfico</th>
