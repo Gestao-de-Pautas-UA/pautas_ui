@@ -10,6 +10,11 @@ export default function App({ Component, pageProps }) {
     <main className={roboto.className}>
       <NavBar />
       <Component {...pageProps} />
+      <style jsx global>{`
+        body, html {
+          color: #292929;
+        }
+      `}</style>
     </main>
   );
 }
