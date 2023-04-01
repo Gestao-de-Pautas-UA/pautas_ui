@@ -10,7 +10,7 @@
   }
 
 
-  .circle_btn{
+  /* .circle_btn{
  
     display:block;
     height: 300px;
@@ -18,4 +18,10 @@
     border-radius: 50%;
     border: 1px solid red;
 
+  } */
+
+  .overviewTable{
+    margin-left: 50px;
+    margin-right: 50px;
+    
   }

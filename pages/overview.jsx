@@ -1,14 +1,17 @@
 import { Tables } from "@uaveiro/ui";
 import { ThemeProvider, Theme} from "@uaveiro/ui";
 import data from "./data";
+import Dropdown from '../component/dropdown/dropdown';
+
 
 export default function Overview(){
     return <ThemeProvider theme={Theme}>
         <div>
-            
+            <Dropdown/>
+        </div>
 
+        <div className="overviewTable">
             <Tables  isFullWidth {...data} />
-
         </div>
     </ThemeProvider>
 }
