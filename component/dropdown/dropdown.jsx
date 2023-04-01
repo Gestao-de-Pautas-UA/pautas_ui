@@ -13,7 +13,7 @@ export default function Dropdown() {
   };
 
   return (
-    <Box sx={{ width: 130 , marginLeft: 5  }}>
+    <Box sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Ano</InputLabel>
         <Select

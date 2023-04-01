@@ -2,12 +2,14 @@ import { Tables } from "@uaveiro/ui";
 import { ThemeProvider, Theme} from "@uaveiro/ui";
 import data from "./data";
 import Dropdown from '../component/dropdown/dropdown';
-
+import IconButtons from '../component/viewButton/viewButton';
 
 export default function Overview(){
     return <ThemeProvider theme={Theme}>
-        <div>
+        <h2 className="tituloPautas">Gestão de Pautas</h2>
+        <div style={{ display: 'flex' }}>
             <Dropdown/>
+            <IconButtons/>
         </div>
 
         <div className="overviewTable">

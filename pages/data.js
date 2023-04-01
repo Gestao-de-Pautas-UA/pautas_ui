@@ -1,6 +1,6 @@
 const data = {
     hasSectionTitle: true,
-    title: "Gestão de Pautas",
+    title: "",
     data: `
       <table>
 
