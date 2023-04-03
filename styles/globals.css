@@ -1,24 +1,25 @@
+
+:root {
+  --paco-black-text: #292929 !important;
+  --paco-grey-text: #757575 !important;
+}
+
+
 .App-logo {
-    
-    height: 50px;
-  }
+  height: 50px;
+}
 
-  .paco {
-    font: optional;
-    margin: 0px 0px 0px 60px;
+.paco {
+  font: optional;
+  margin: 0px 0px 0px 60px;
+  
+}
 
-  }
-
-
-  /* .circle_btn{
- 
-    display:block;
-    height: 300px;
-    width: 300px;
-    border-radius: 50%;
-    border: 1px solid red;
-
-  } */
+.pauta-page-title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--paco-black-text);
+}
 
   .overviewTable{
     margin-left: 50px;
@@ -29,7 +30,6 @@
     
   }
 
-
   .iconButton{
     margin-left: 950px
 
@@ -39,3 +39,8 @@
     margin-left: 50px;
     margin-right: 50px;
   }
+
+.pauta-page-container {
+  margin: 0px 30px 0px 30px;
+}
+
