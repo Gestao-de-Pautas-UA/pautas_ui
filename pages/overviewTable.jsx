@@ -1,10 +1,10 @@
 import { ThemeProvider, Theme} from "@uaveiro/ui";
-import Table from '../component/tableview/tableView'
+import TableView from '../component/tableview/tableView';
 import Card from '../component/cardview/cardView';
 
 export default function overviewTable(){
     return <ThemeProvider theme={Theme}>
-        <Table/>
+        <TableView/>
         {/* <Card/> */}
      
     </ThemeProvider>

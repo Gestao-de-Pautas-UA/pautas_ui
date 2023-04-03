@@ -1,4 +1,4 @@
-import { Tables } from "@uaveiro/ui";
+import { Button, Tables } from "@uaveiro/ui";
 import { ThemeProvider, Theme} from "@uaveiro/ui";
 
 import Dropdown from '../dropdown/dropdown';
@@ -11,6 +11,7 @@ export default function Card(){
         <div style={{ display: 'flex' }}>
             <Dropdown/>
             <IconButtons/>
+            
         </div>
 
         <div style={{ display: 'flex' }}>
