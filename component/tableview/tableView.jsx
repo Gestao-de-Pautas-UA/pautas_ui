@@ -59,6 +59,7 @@ export default function TableView(){
             <div className="overviewTable">
 
                 <Table 
+                    
                     marginTop="15px" 
                     borders="1px solid" 
                     col2Size="20%"
@@ -79,14 +80,22 @@ export default function TableView(){
                     </thead>
                     <tbody>
                         {subjectData.map((subject) => (
+                            
                             <tr>
                                 <td>{subject.disciplina}</td>
                                 <td>{subject.n_pauta}</td>
                                 <td>{subject.epoca_exame}</td>
-                                {/* <td>{subject.estado}</td> */}
-                                <td><CircleIcon color="primary"/></td>
-                                <td><Button variant="outlined">Editar</Button></td>
-                                <td><Button variant="contained">Detalhes</Button></td>
+                                <td>
+                                    {subject.estado === "Por preencher" ? (
+                                        <CircleIcon sx={{color: "red" }} />
+                                    ) : subject.estado === "Preenchido" ? (
+                                        <CircleIcon color="primary" />
+                                    ) : (
+                                        <CircleIcon color="success" />
+                                    )}
+                                </td>
+                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></td>
+                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Detalhes</Button></td>
                             </tr>
                         ))}
 

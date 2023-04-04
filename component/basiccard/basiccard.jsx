@@ -64,8 +64,9 @@ export default function BasicCard() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button >Editar</Button>
-            <Button >Detalhes</Button>
+            <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button>
+            <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Detalhes</Button>
+            
           </CardActions>
         </Card>
       );
