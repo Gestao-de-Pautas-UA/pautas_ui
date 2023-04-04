@@ -16,8 +16,7 @@ export default function Card(){
 
         <div style={{ display: 'flex' }}>
             <BasicCard/>
-            <BasicCard/>
-            <BasicCard/>
+ 
         </div>
     </ThemeProvider>
 }
