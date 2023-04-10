@@ -21,6 +21,26 @@
   color: var(--paco-black-text);
 }
 
+  .overviewTable{
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 1px;
+    margin-bottom: 100px;
+    
+    
+  }
+
+  .iconButton{
+    margin-left: 950px
+
+  }
+
+  .tituloPautas{
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
 .pauta-page-container {
   margin: 0px 30px 0px 30px;
 }
+

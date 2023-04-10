@@ -50,18 +50,21 @@ const AppBar = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
+    // width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+  zIndex: theme.zIndex.drawer + 1,
+  paddingTop: theme.spacing(1),
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  height: '80px',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -83,19 +86,19 @@ export default function NavBar() {
   return (
     <Box sx={{ display: 'flex'}} >
       <CssBaseline />
-      <AppBar position="fixed" open={open} style={{ background: '#0EB4BD' }}>
+      <AppBar position="fixed" open={open} style={{ background: '#0EB4BD', height: '80px' }}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
+        <IconButton
+          color={open ? "black" : "inherit"}
+          aria-label="open drawer"
+          onClick={open ? handleDrawerClose : handleDrawerOpen}
+          edge="start"
+          sx={{ mr: 2, mx: 2, ...(open && close) }}
+        >
+        <MenuIcon />
+        </IconButton>
           <img src="/logo.png" className="App-logo"  />
-          <Typography variant="h6" noWrap component="div" className='paco' >
+          <Typography sx={{fontSize: '1.75rem', fontWeight: '100'}} noWrap component="div" className='paco' >
             paco
           </Typography>
         </Toolbar>
@@ -128,30 +131,23 @@ export default function NavBar() {
         <Divider />
         <List >
         
-          {['Gestao de pautas'].map((text, index) => (
+          {['Gestão de pautas'].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+              <ListItemButton sx={{paddingLeft: '0px'}}>
+                <ListItemIcon  sx={{minWidth: '3.5px', height: '18px', background: '#0EB4BD', marginRight: '20px', paddingBottom: '2px' }}>
                 </ListItemIcon>
-                <ListItemText primary={text}/>
+                <ListItemText
+                  primary={
+                    <Typography style={{ textAlign: 'left', color: '#FFFFFF', fontWeight: '600' }}>
+                      {text}
+                    </Typography>
+                  }
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-        <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
+
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
