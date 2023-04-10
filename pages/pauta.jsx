@@ -1,10 +1,15 @@
 import { Table, Theme, ThemeProvider, Button } from "@uaveiro/ui";
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Input } from "@uaveiro/ui";  
+import { Typography } from "@mui/material";
 
 
 export default function Pauta() {
-  const pautaName = { "pautaNome": "Projecto em Informática" };
+  const pauta = { 
+      "pautaNome": "Projecto em Informática",
+      "pautaNumero": "49984",
+      "pautaEpoca": "Normal",
+     };
 
   const studentsData = [
       {
@@ -179,7 +184,20 @@ export default function Pauta() {
 
       <ThemeProvider theme={Theme}>
         <div class="pauta-page-container">
-          <div className="pauta-page-title">{ pautaName.pautaNome }</div>
+          {/* <div >
+            <Button variant="text">Text</Button>
+          </div> */}
+          <div style={{ display: 'flex', marginBottom: '25px'}}>
+            <Typography sx={{fontSize: '1.75rem' ,fontWeight: '600', lineHeight: '1.5', marginRight: '10px'}}
+            >{pauta.pautaNome}
+            </Typography>
+            <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px', marginRight: '8px'}}
+            >{pauta.pautaNumero}
+            </Typography>
+            <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px'}}
+            >{pauta.pautaEpoca}
+            </Typography>
+          </div>
           <MDBContainer class="w-100">
             <MDBRow end>
               <MDBCol md="3" lg="2">
