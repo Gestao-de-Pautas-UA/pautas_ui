@@ -94,7 +94,7 @@ export default function TableView(){
                                         <CircleIcon color="success" />
                                     )}
                                 </td>
-                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
+                                <td><a href="https://pautas-ui.vercel.app/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
                                 <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Detalhes</Button></td>
                             </tr>
                         ))}
