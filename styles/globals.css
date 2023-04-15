@@ -4,6 +4,12 @@
   --paco-grey-text: #757575 !important;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 .App-logo {
   height: 50px;
