@@ -8,47 +8,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import axios from 'axios';
 
 
-// export default function TableView(){
-//     return <ThemeProvider theme={Theme}>
-//         <h2 className="tituloPautas">Gestão de Pautas</h2>
-//         <div style={{ display: 'flex' }}>
-//             <Dropdown/>
-//             <IconButtons/>
-//         </div>
-
-//         <div className="overviewTable">
-//             <Tables  isFullWidth {...data} />
-//         </div>
-//     </ThemeProvider>
-// }
-
 export default function TableView(){
-    // const subjectData = [
-    //     {
-    //         "disciplina": "Engenharia de Software",
-    //         "epoca_exame": "Normal",
-    //         "n_pauta": "123NM",
-    //         "estado": "Por preencher"
-    //     }, 
-    //     {
-    //         "disciplina": "Base de dados",
-    //         "epoca_exame": "Normal",
-    //         "n_pauta": "456NM",
-    //         "estado": "Preenchido"
-    //     }, 
-    //     {
-    //         "disciplina": "Projecto em Informática",
-    //         "epoca_exame": "Recurso",
-    //         "n_pauta": "789RE",
-    //         "estado": "Assinado"
-    //     }, 
-    //     {
-    //         "disciplina": "APSEI",
-    //         "epoca_exame": "Normal",
-    //         "n_pauta": "101NM",
-    //         "estado": "Por preencher"
-    //     }
-    // ];
 
     const [data, setData] = useState(null);
 
