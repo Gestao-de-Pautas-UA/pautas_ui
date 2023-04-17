@@ -6,6 +6,9 @@ import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
 import axios from 'axios';
+import EstadoVermelho from '../legend/estadoVermelho'
+import EstadoAmarelo from "../legend/estadoAmarelo";
+import EstadoVerde from "../legend/estadoVerde";
 
 
 export default function TableView(){
@@ -71,17 +74,21 @@ export default function TableView(){
                                 <td>{subject.tipoExame}</td>
                                 <td>
                                     {subject.estado === "POR_PREENCHER" ? (
-                                        <CircleIcon sx={{color: "red" }} />
+                                        // <CircleIcon sx={{color: "red" }} />
+                                        <EstadoVermelho/>
                                     ) : subject.estado === "PREENCHIDA" ? (
                                         // <CircleIcon color="primary" />
-                                        <CircleIcon sx={{color: "orange" }} />
+                                        // <CircleIcon sx={{color: "orange" }} />
+                                        <EstadoAmarelo/>
                                     ) : (
+
                                         // <CircleIcon color="success" />
-                                         <CircleIcon color="primary" />
+                                        //  <CircleIcon color="primary" />
+                                        <EstadoVerde/>
                                     )}
                                 </td>
-                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
-                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Detalhes</Button></td>
+                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Editar</Button></a></td>
+                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button></td>
                             </tr>
                         ))}
 
@@ -89,6 +96,7 @@ export default function TableView(){
                     </tbody>
                 </Table>
             </div>
+
 
         </ThemeProvider>
 
