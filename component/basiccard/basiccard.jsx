@@ -10,6 +10,9 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { red } from '@mui/material/colors';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import EstadoAmarelo from '../legend/estadoAmarelo';
+import EstadoVerde from '../legend/estadoVerde';
+import EstadoVermelho from '../legend/estadoVermelho';
 
 
 export default function BasicCard() {
@@ -42,13 +45,16 @@ export default function BasicCard() {
       let estadoIcon;
   
       if (subject.estado === "POR_PREENCHER") {
-        estadoIcon = <CircleIcon sx={{ fontSize: 10.5, color: "red" }} />;
+        // estadoIcon = <CircleIcon sx={{ fontSize: 10.5, color: "red" }} />;
+        estadoIcon = <EstadoVermelho/>;
 
       } else if (subject.estado === "PREENCHIDA") {
-        estadoIcon = <CircleIcon  sx={{ fontSize: 10.5, color: "orange" }}/>;
+        // estadoIcon = <CircleIcon  sx={{ fontSize: 10.5, color: "orange" }}/>;
+        estadoIcon = <EstadoAmarelo/>;
 
       } else if (subject.estado === "ASSINADA") {
-        estadoIcon = <CircleIcon color="success" sx={{ fontSize: 10.5 }}/>;
+        // estadoIcon = <CircleIcon color="success" sx={{ fontSize: 10.5 }}/>;
+        estadoIcon = <EstadoVerde/>;
       }
   
       return (
@@ -60,7 +66,7 @@ export default function BasicCard() {
             <Typography variant="body2">
               <b>N_Pauta:</b> {subject.disciplinaResponse.codigo} <br />
               <b>Época:</b> {subject.tipoExame} <br />
-              <b>Estado:</b> {estadoIcon} <br />
+              <b>Estado:</b> <p>{estadoIcon} </p><br />
             </Typography>
           </CardContent>
           <CardActions>
