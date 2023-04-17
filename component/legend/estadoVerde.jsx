@@ -46,6 +46,7 @@ export default function EstadoVerde() {
       highlightSelectedOnly
       readOnly
       max={3}
+      size='small'
     />
    
     <Typography component="legend" fontSize='12px'>Assinada</Typography>

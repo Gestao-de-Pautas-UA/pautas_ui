@@ -45,7 +45,9 @@ export default function EstadoVermelho() {
       getLabelText={(value) => customIcons[value].label}
       highlightSelectedOnly
       readOnly
-      max={3} />
+      max={3}
+      size='small'
+      />
       <Typography component="legend" fontSize='12px'>Por preencher</Typography>
       </>
   );

@@ -46,6 +46,7 @@ export default function EstadoAmarelo() {
       highlightSelectedOnly
       readOnly
       max={3}
+        size='small'
     />
     <Typography component="legend" fontSize='12px'>Preenchia</Typography>
     </>

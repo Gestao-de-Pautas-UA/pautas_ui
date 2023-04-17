@@ -58,7 +58,7 @@ export default function BasicCard() {
       }
   
       return (
-        <Card sx={{ width: 350, height: 250, marginLeft: 5, marginTop: 15}} key={index}>
+        <Card sx={{ width: 350, height: 300, marginLeft: 5, marginTop: 15}} key={index}>
           <CardContent>
             <Typography variant="h5" component="div">
               {subject.disciplinaResponse.nome}
@@ -70,8 +70,8 @@ export default function BasicCard() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button>
-            <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Detalhes</Button>
+            <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>Editar</Button>
+            <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>Detalhes</Button>
             
           </CardActions>
         </Card>
