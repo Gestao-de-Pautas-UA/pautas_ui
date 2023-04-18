@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Table, Theme, ThemeProvider, Button, TableLoading, ProfileLoading } from "@uaveiro/ui";
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Input } from "@uaveiro/ui";  
-import { Typography, TextField } from "@mui/material";
+import { Typography, TextField, Paper } from "@mui/material";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -85,7 +85,7 @@ export default function Pauta() {
               </Typography>
             </div>
             <div style={{marginBottom: '25px'}} >
-              <Typography sx={{fontWeight: '500', lineHeight: '1.5', color: '#757575', fontSize: '20px', }}
+              <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', fontSize: '20px', }}
               >{data.anoLectivo}
               </Typography>
             </div>
@@ -142,6 +142,10 @@ export default function Pauta() {
             </tbody>
           </Table>
         </div>
+
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , textAlign: 'center', fontWeight: '600'}} elevation={24}>
+          66 - Reprovado por nota mínima / 77 - Faltou / 88 - Desistiu / 99 - Reprovado por faltas
+        </Paper>
       </ThemeProvider>
     );
 }
