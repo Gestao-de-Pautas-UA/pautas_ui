@@ -71,17 +71,24 @@ export default function Pauta() {
               <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
                   Pauta
               </Typography>
-        </div>         
-          <div style={{ display: 'flex', marginBottom: '25px'}}>
-            <Typography sx={{fontSize: '1.75rem' ,fontWeight: '600', lineHeight: '1.5', marginRight: '10px'}}
-            >{data.disciplinaResponse.nome}
-            </Typography>
-            <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px', marginRight: '8px'}}
-            >{data.disciplinaResponse.codigo}
-            </Typography>
-            <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px'}}
-            >{data.tipoExame}
-            </Typography>
+        </div>
+          <div>         
+            <div style={{ display: 'flex'}}>
+              <Typography sx={{fontSize: '1.75rem' ,fontWeight: '600', lineHeight: '1.5', marginRight: '10px'}}
+              >{data.disciplinaResponse.nome}
+              </Typography>
+              <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px', marginRight: '8px'}}
+              >{data.disciplinaResponse.codigo}
+              </Typography>
+              <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px'}}
+              >{data.tipoExame}
+              </Typography>
+            </div>
+            <div style={{marginBottom: '25px'}} >
+              <Typography sx={{fontWeight: '500', lineHeight: '1.5', color: '#757575', fontSize: '20px', }}
+              >{data.anoLectivo}
+              </Typography>
+            </div>
           </div>
           <MDBContainer class="w-100">
             <MDBRow end>
@@ -90,7 +97,7 @@ export default function Pauta() {
               </MDBCol>
               <MDBCol md="3" lg="2">
                 <div class="d-flex justify-content-end">
-                  <Button variant="default" width="9.5rem">Upload de planilha da pauta</Button>
+                  <Button variant="default" width="9.5rem">Upload de Excel ou CSV</Button>
                 </div>
               </MDBCol>
             </MDBRow>
