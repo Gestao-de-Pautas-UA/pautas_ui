@@ -50,3 +50,13 @@ input::-webkit-inner-spin-button {
   margin: 0px 30px 0px 30px;
 }
 
+.text-link {
+  color: var(--paco-grey-text);
+  font-size: 12px;
+}
+
+.text-link:hover {
+  color: var(--paco-black-text);
+  text-decoration: underline;
+}
+
