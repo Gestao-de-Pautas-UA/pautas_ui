@@ -22,7 +22,8 @@ export default function Pauta() {
         return;
       }
       try {
-        const response = await axios.get(`http://20.123.119.238/pautasBack/pauta/${pautaId}`); //545GGRE
+        const path = `/pauta/${pautaId}`
+        const response = await axios.get(process.env.API_URL); //545GGRE
         setData(response.data);
         console.log(response.data)
       } catch (error) {
