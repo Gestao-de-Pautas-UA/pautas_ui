@@ -1,61 +1,59 @@
-import { Table, Tables } from "@uaveiro/ui";
+import { Table, Tables, TableLoading} from "@uaveiro/ui";
 import { ThemeProvider, Theme} from "@uaveiro/ui";
-import data from "./data";
 import Dropdown from '../dropdown/dropdown';
 import IconButtons from '../viewButton/viewButton';
-import { useState } from 'react';
-import { Button } from "@mui/material";
+import { useState, useEffect } from 'react';
+import { Button, Stack } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
+import axios from 'axios';
+import EstadoVermelho from '../legend/estadoVermelho'
+import EstadoAmarelo from "../legend/estadoAmarelo";
+import EstadoVerde from "../legend/estadoVerde";
 
-// export default function TableView(){
-//     return <ThemeProvider theme={Theme}>
-//         <h2 className="tituloPautas">Gestão de Pautas</h2>
-//         <div style={{ display: 'flex' }}>
-//             <Dropdown/>
-//             <IconButtons/>
-//         </div>
-
-//         <div className="overviewTable">
-//             <Tables  isFullWidth {...data} />
-//         </div>
-//     </ThemeProvider>
-// }
 
 export default function TableView(){
-    const subjectData = [
-        {
-            "disciplina": "Engenharia de Software",
-            "epoca_exame": "Normal",
-            "n_pauta": "123NM",
-            "estado": "Por preencher"
-        }, 
-        {
-            "disciplina": "Base de dados",
-            "epoca_exame": "Normal",
-            "n_pauta": "456NM",
-            "estado": "Preenchido"
-        }, 
-        {
-            "disciplina": "Projecto em Informática",
-            "epoca_exame": "Recurso",
-            "n_pauta": "789RE",
-            "estado": "Assinado"
-        }, 
-        {
-            "disciplina": "APSEI",
-            "epoca_exame": "Normal",
-            "n_pauta": "101NM",
-            "estado": "Por preencher"
-        }
-    ];
+
+    //Chamada a api 
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://20.123.119.238/pautasBack/pautas/10309907');
+                setData(response.data);
+            } catch(error){
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
+  
+    if (!data) {
+        return <ThemeProvider theme={Theme}>
+                <div class="pautas-page-container">
+                    {/* <TableLoading /> */}
+                </div>
+              </ThemeProvider>;
+      }
+
+
+    // mapeamento dos valores do estado para um número de ordem
+    const estadoMap = {
+        POR_PREENCHER: 1,
+        PREENCHIDA: 2,
+        ASSINADA: 3,
+    };
+    
+    // ordenação do array data de acordo com o mapeamento do estado
+    data.sort((a, b) => estadoMap[a.estado] - estadoMap[b.estado]);
+    
+    // mapeamento reverso para mostrar a ordem descendente
+    // data.sort((a, b) => estadoMap[b.estado] - estadoMap[a.estado]);
+    
 
     return (
         <ThemeProvider theme={Theme}>
-            <h2 className="tituloPautas">Gestão de Pautas</h2>
-            <div style={{ display: 'flex' }}>
-                <Dropdown/>
-                <IconButtons/>
-            </div>
             <div className="overviewTable">
 
                 <Table 
@@ -75,27 +73,32 @@ export default function TableView(){
                         <th>Estado</th>
                         <th>Editar</th>
                         <th>Detalhes</th>
-
                     </tr>
                     </thead>
                     <tbody>
-                        {subjectData.map((subject) => (
+                        {data.map((subject, index) => (
                             
                             <tr>
-                                <td>{subject.disciplina}</td>
-                                <td>{subject.n_pauta}</td>
-                                <td>{subject.epoca_exame}</td>
+                                <td>{subject.disciplinaResponse.nome}</td>
+                                <td>{subject.disciplinaResponse.codigo}</td>
+                                <td>{subject.tipoExame}</td>
                                 <td>
-                                    {subject.estado === "Por preencher" ? (
-                                        <CircleIcon sx={{color: "red" }} />
-                                    ) : subject.estado === "Preenchido" ? (
-                                        <CircleIcon color="primary" />
+                                    {subject.estado === "POR_PREENCHER" ? (
+                                        // <CircleIcon sx={{color: "red" }} />
+                                        <EstadoVermelho/>
+                                    ) : subject.estado === "PREENCHIDA" ? (
+                                        // <CircleIcon color="primary" />
+                                        // <CircleIcon sx={{color: "orange" }} />
+                                        <EstadoAmarelo/>
                                     ) : (
-                                        <CircleIcon color="success" />
+
+                                        // <CircleIcon color="success" />
+                                        //  <CircleIcon color="primary" />
+                                        <EstadoVerde/>
                                     )}
                                 </td>
-                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
-                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Detalhes</Button></td>
+                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Editar</Button></a></td>
+                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button></td>
                             </tr>
                         ))}
 
@@ -103,6 +106,7 @@ export default function TableView(){
                     </tbody>
                 </Table>
             </div>
+
 
         </ThemeProvider>
 

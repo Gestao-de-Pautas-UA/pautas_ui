@@ -1,12 +1,46 @@
 import { Theme, ThemeProvider, Button } from "@uaveiro/ui";
-import overviewTable from "./overviewTable";
 import TableView from "../component/tableview/tableView";
+import Dropdown from '../component/dropdown/dropdown'
+import Container from 'react-bootstrap';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import GridViewIcon from '@mui/icons-material/GridView';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import { useState } from "react";
+import OverviewCard  from "../component/overview/overviewCard";
 
 export default function Home() {
+  const [view, setView] = useState('tableView');
+
+  const handleViewChange = (newView) => {
+    setView(newView);
+  };
+
+  const renderView = () => {
+    if (view === 'tableView') {
+      return <TableView />;
+    } else if (view === 'overviewCard') {
+      return <OverviewCard />;
+    }
+  };
+
   return (
-    <ThemeProvider theme={Theme}>
-      <TableView/>
-    </ThemeProvider>
+    <div>
+      <h2 className="tituloPautas">Gestão de Pautas</h2>
+      <div style={{ display: 'flex' }}>
+        <Dropdown />
+        <Stack className='iconButton' direction="row" spacing={1}>
+          <IconButton aria-label="table" onClick={() => handleViewChange('tableView')}>
+            <TableRowsIcon />
+          </IconButton>
+
+          <IconButton aria-label="grid" onClick={() => handleViewChange('overviewCard')}>
+            <GridViewIcon />
+          </IconButton>
+        </Stack>
+      </div>
+       
+      <div>{renderView()}</div>
+    </div>
   );
 }
-
