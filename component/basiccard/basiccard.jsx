@@ -40,6 +40,21 @@ export default function BasicCard() {
               </ThemeProvider>;
       }
 
+          // mapeamento dos valores do estado para um número de ordem
+      const estadoMap = {
+        POR_PREENCHER: 1,
+        PREENCHIDA: 2,
+        ASSINADA: 3,
+      };
+    
+      // ordenação do array data de acordo com o mapeamento do estado
+      data.sort((a, b) => estadoMap[a.estado] - estadoMap[b.estado]);
+      
+      // mapeamento reverso para mostrar a ordem descendente
+      // data.sort((a, b) => estadoMap[b.estado] - estadoMap[a.estado]);
+      
+
+
 
     const cards = data.map((subject, index) => {
       let estadoIcon;
