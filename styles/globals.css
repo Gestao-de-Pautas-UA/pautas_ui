@@ -60,3 +60,55 @@ input::-webkit-inner-spin-button {
   text-decoration: underline;
 }
 
+.sheet-details-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+
+.sheet-details {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 20px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.sheet-details button {
+  margin-top: 70px;
+  margin-left: 50px;
+}
+.sheet-details__title {
+  font-size:  1.75rem;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.sheet-details__list {
+  font-size: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.sheet-details__list li {
+  margin-bottom: 20px; 
+}
+
+
+.graph-container {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
