@@ -7,12 +7,6 @@ import BasicCard from '../basiccard/basiccard';
 
 export default function Card(){
     return <ThemeProvider theme={Theme}>
-        <h2 className="tituloPautas">Gestão de Pautas</h2>
-        <div style={{ display: 'flex' }}>
-            <Dropdown/>
-            <IconButtons/>
-            
-        </div>
 
         <div style={{ display: 'flex' }}>
             <BasicCard/>

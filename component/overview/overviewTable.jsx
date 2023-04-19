@@ -1,5 +1,5 @@
 import { ThemeProvider, Theme} from "@uaveiro/ui";
-import TableView from '../component/tableview/tableView';
+import TableView from '../tableview/tableView';
 
 
 

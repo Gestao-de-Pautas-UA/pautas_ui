@@ -3,7 +3,7 @@ import { ThemeProvider, Theme} from "@uaveiro/ui";
 import Dropdown from '../dropdown/dropdown';
 import IconButtons from '../viewButton/viewButton';
 import { useState, useEffect } from 'react';
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
 import axios from 'axios';
 import EstadoVermelho from '../legend/estadoVermelho'
@@ -13,6 +13,7 @@ import EstadoVerde from "../legend/estadoVerde";
 
 export default function TableView(){
 
+    //Chamada a api 
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -37,13 +38,9 @@ export default function TableView(){
       }
 
 
+
     return (
         <ThemeProvider theme={Theme}>
-            <h2 className="tituloPautas">Gestão de Pautas</h2>
-            <div style={{ display: 'flex' }}>
-                <Dropdown/>
-                <IconButtons/>
-            </div>
             <div className="overviewTable">
 
                 <Table 
