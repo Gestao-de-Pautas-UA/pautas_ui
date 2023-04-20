@@ -1,201 +1,50 @@
-import { Table, Theme, ThemeProvider, Button } from "@uaveiro/ui";
+import { Table, Theme, ThemeProvider, Button, TableLoading, ProfileLoading } from "@uaveiro/ui";
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Input } from "@uaveiro/ui";  
-import { Typography } from "@mui/material";
+import { Typography, TextField } from "@mui/material";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
 export default function Pauta() {
-  const pauta = { 
-      "pautaNome": "Projecto em Informática",
-      "pautaNumero": "49984",
-      "pautaEpoca": "Normal",
-     };
+  const [data, setData] = useState(null);
 
-  const studentsData = [
-      {
-        "nmec": 11005,
-        "nome": "Maria Paz Freire Remígio Frias",
-        "regime": "T",
-        "codigoCurso": "11415",
-        "repetente": true
-      },
-      {
-        "nmec": 11006,
-        "nome": "Lisandro Barreno Aires Figueiró",
-        "regime": "O",
-        "codigoCurso": "12416",
-        "repetente": false
-      },
-      {
-        "nmec": 11007,
-        "nome": "Lourenço Anhaia Baptista Barroso",
-        "regime": "O",
-        "codigoCurso": "11853",
-        "repetente": false
-      },
-      {
-        "nmec": 11008,
-        "nome": "Lucas Rebocho Carvalhais",
-        "regime": "O",
-        "codigoCurso": "12023",
-        "repetente": false
-      },
-      {
-        "nmec": 11009,
-        "nome": "João Bonito Afonso",
-        "regime": "O",
-        "codigoCurso": "15513",
-        "repetente": false
-      },
-      {
-        "nmec": 11010,
-        "nome": "Leonor Rebimbas",
-        "regime": "O",
-        "codigoCurso": "11243",
-        "repetente": false
-      },
-      {
-        "nmec": 11011,
-        "nome": "Joaquim Toledo Rocha Silvestre Marmou",
-        "regime": "O",
-        "codigoCurso": "14334",
-        "repetente": true
-      },
-      {
-        "nmec": 11012,
-        "nome": "Sara Marquesa dos Santos",
-        "regime": "O",
-        "codigoCurso": "12342",
-        "repetente": false
-      },
-      {
-        "nmec": 11013,
-        "nome": "Pedro Albuquerque Guedes",
-        "regime": "O",
-        "codigoCurso": "14253",
-        "repetente": false
-      },
-      {
-        "nmec": 11014,
-        "nome": "Inês Santos Ferreira",
-        "regime": "T",
-        "codigoCurso": "11873",
-        "repetente": false
-      },
-      {
-        "nmec": 11015,
-        "nome": "Fábio Ribeiro Mendes",
-        "regime": "O",
-        "codigoCurso": "14543",
-        "repetente": false
-      },
-      {
-        "nmec": 11016,
-        "nome": "Diogo Valente Moreira",
-        "regime": "T",
-        "codigoCurso": "12314",
-        "repetente": false
-      },
-      {
-        "nmec": 11017,
-        "nome": "Marta Carvalho Rodrigues",
-        "regime": "O",
-        "codigoCurso": "11234",
-        "repetente": false
-      },
-      {
-        "nmec": 11018,
-        "nome": "Luís Miguel Abreu dos Santos",
-        "regime": "O",
-        "codigoCurso": "13534",
-        "repetente": true
-      },
-      {
-        "nmec": 11005,
-        "nome": "Maria Paz Freire Remígio Frias",
-        "regime": "T",
-        "codigoCurso": "11415",
-        "repetente": true
-      },
-      {
-        "nmec": 11006,
-        "nome": "Lisandro Barreno Aires Figueiró",
-        "regime": "O",
-        "codigoCurso": "12416",
-        "repetente": false
-      },
-      {
-        "nmec": 11007,
-        "nome": "Lourenço Anhaia Baptista Barroso",
-        "regime": "O",
-        "codigoCurso": "11853",
-        "repetente": false
-      },
-      {
-        "nmec": 11008,
-        "nome": "Lucas Rebocho Carvalhais",
-        "regime": "O",
-        "codigoCurso": "12023",
-        "repetente": false
-      },
-      {
-        "nmec": 11009,
-        "nome": "João Bonito Afonso",
-        "regime": "O",
-        "codigoCurso": "15513",
-        "repetente": false
-      },
-      {
-        "nmec": 11010,
-        "nome": "Leonor Rebimbas",
-        "regime": "O",
-        "codigoCurso": "11243",
-        "repetente": false
-      },
-      {
-        "nmec": 11011,
-        "nome": "Joaquim Toledo Rocha Silvestre Marmou",
-        "regime": "O",
-        "codigoCurso": "14334",
-        "repetente": true
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://20.123.119.238/pautasBack/pauta/545GGRE');
+        setData(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
       }
-    ];
+    };
+    fetchData();
+  }, []);
 
-    const studentsNotas = [
-      { "nota": 13 },
-      { "nota": 9 },
-      { "nota": 11 },
-      { "nota": null },
-      { "nota": 16 },
-      { "nota": null },
-      { "nota": 10 },
-      { "nota": 12 },
-      { "nota": null },
-      { "nota": 14 },
-      { "nota": null },
-      { "nota": 15 },
-      { "nota": 18 },
-      { "nota": 8 },
-      { "nota": null },
-      { "nota": 17 }
-    ];
+
+  
+     if (!data) {
+      return <ThemeProvider theme={Theme}>
+              <div class="pautas-page-container">
+                  <TableLoading />
+              </div>
+            </ThemeProvider>;
+    }
   
     return (
 
       <ThemeProvider theme={Theme}>
         <div class="pauta-page-container">
-          {/* <div >
-            <Button variant="text">Text</Button>
-          </div> */}
           <div style={{ display: 'flex', marginBottom: '25px'}}>
             <Typography sx={{fontSize: '1.75rem' ,fontWeight: '600', lineHeight: '1.5', marginRight: '10px'}}
-            >{pauta.pautaNome}
+            >{data.disciplinaResponse.nome}
             </Typography>
             <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px', marginRight: '8px'}}
-            >{pauta.pautaNumero}
+            >{data.disciplinaResponse.codigo}
             </Typography>
             <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', paddingTop: '12.5px'}}
-            >{pauta.pautaEpoca}
+            >{data.tipoExame}
             </Typography>
           </div>
           <MDBContainer class="w-100">
@@ -220,24 +69,30 @@ export default function Pauta() {
               <tr>
                 <th>Nome</th>
                 <th>Nº Mec.</th>
-                <th>Regime</th>
+                {/* <th>Regime</th> */}
                 <th>Código de Curso</th>
-                <th>Repetente</th>
+                {/* <th>Repetente</th> */}
                 <th>Nota</th>
               </tr>
             </thead>
             <tbody>
-              {studentsData.map((student, index) =>{
-                const notaContent = studentsNotas[index] 
+              {data.pautaAlunoResponse.map((student, index) =>{
+
+                // const notaContent = studentsNotas[index] 
                 return (
                 <tr>
-                  <td>{student.nome}</td>
-                  <td>{student.nmec}</td>
-                  <td>{student.regime}</td>
-                  <td>{student.codigoCurso}</td>
-                  <td>{student.repetente ? "Sim" : "Não" }</td>
+                  <td>{student.aluno.nome}</td>
+                  <td>{student.aluno.nmec}</td>
+                  {/* <td>{student.regime}</td> */}
+                  <td>{student.aluno.codidoCurso}</td>
+                  {/* <td>{student.repetente ? "Sim" : "Não" }</td> */}
                   <td>
-                    <Input border="1px solid #424242" width="90px" color="#424242" value={studentsNotas[index]?.nota || ""}/>
+                    <Input border="1px solid #424242" 
+                      width="90px" 
+                      color="#424242" 
+                      defaultValue={student.nota}
+                      type="number"
+                      step="0.01"/>
                   </td>
                 </tr>
               )})}
