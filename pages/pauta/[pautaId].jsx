@@ -1,14 +1,37 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Table, Theme, ThemeProvider, Button, TableLoading, ProfileLoading } from "@uaveiro/ui";
+import { Table, Theme, ThemeProvider, TableLoading, ProfileLoading } from "@uaveiro/ui";
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Input } from "@uaveiro/ui";  
-import { Typography, TextField, Paper } from "@mui/material";
+import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  uaButton: {
+    /* define your custom styles here */
+    borderRadius: 1,  
+    backgroundColor: 'white', 
+    color: 'black', 
+    borderColor: 'black', 
+    fontSize: '14px',
+    padding: '4px 12px 0px 12px',
+    height: '40px',
+    textTransform: 'capitalize',
+    justifyContent: 'center',
+    fontWeight: '400',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+    },
+  },
+});
 
 export default function Pauta() {
+  
+    const classes = useStyles();
 
     const router = useRouter()
     const { pautaId } = router.query
@@ -92,24 +115,28 @@ export default function Pauta() {
             </div>
           </div>
           <div>
-            <MDBContainer class="w-100">
-              <MDBRow>
-                <MDBCol md="3" lg="2">
-                  <Button variant="default" width="9rem" >Guardar</Button>
-                </MDBCol>
-                <MDBCol md="3" lg="2">
-                  <Button variant="default" width="9rem" >Assinar</Button>
-                </MDBCol>
-                <MDBCol md="3" lg="2">
-                  <Button variant="default" width="9rem" >Download para preencher</Button>
-                </MDBCol>
-                <MDBCol md="3" lg="2">
-                  <div class="d-flex justify-content-end">
-                    <Button variant="default" width="9.5rem">Upload de Excel ou CSV</Button>
-                  </div>
-                </MDBCol>
-              </MDBRow>
-            </MDBContainer>
+                <Grid container spacing={1}>
+                  <Grid item md={3} lg={2}>
+                    <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}}>
+                      Editar
+                    </Button>
+                    <Button variant="outlined" className={classes.uaButton}>
+                      Editar
+                    </Button>
+                  </Grid>
+                  <Grid item md={3} lg={2}>
+                  </Grid>
+                  <Grid item md={3} lg={4} sx={{ textAlign: 'right' }}>
+                  </Grid>
+                  <Grid item md={3} lg={4} sx={{ textAlign: 'right' }} >
+                    <Button variant="outlined" className={classes.uaButton}>
+                      Editar
+                    </Button>
+                    <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px'}}>
+                      Editar
+                    </Button>
+                  </Grid>
+                </Grid>
           </div>
           <Table 
             marginTop="15px" 
