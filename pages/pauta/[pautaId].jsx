@@ -91,18 +91,26 @@ export default function Pauta() {
               </Typography>
             </div>
           </div>
-          <MDBContainer class="w-100">
-            <MDBRow end>
-              <MDBCol md="3" lg="2">
-                <Button variant="default" width="9rem" >Download para preencher</Button>
-              </MDBCol>
-              <MDBCol md="3" lg="2">
-                <div class="d-flex justify-content-end">
-                  <Button variant="default" width="9.5rem">Upload de Excel ou CSV</Button>
-                </div>
-              </MDBCol>
-            </MDBRow>
-          </MDBContainer>
+          <div>
+            <MDBContainer class="w-100">
+              <MDBRow>
+                <MDBCol md="3" lg="2">
+                  <Button variant="default" width="9rem" >Guardar</Button>
+                </MDBCol>
+                <MDBCol md="3" lg="2">
+                  <Button variant="default" width="9rem" >Assinar</Button>
+                </MDBCol>
+                <MDBCol md="3" lg="2">
+                  <Button variant="default" width="9rem" >Download para preencher</Button>
+                </MDBCol>
+                <MDBCol md="3" lg="2">
+                  <div class="d-flex justify-content-end">
+                    <Button variant="default" width="9.5rem">Upload de Excel ou CSV</Button>
+                  </div>
+                </MDBCol>
+              </MDBRow>
+            </MDBContainer>
+          </div>
           <Table 
             marginTop="15px" 
             borders="1px solid" 
