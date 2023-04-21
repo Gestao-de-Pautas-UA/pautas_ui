@@ -1,13 +1,23 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Table, Theme, ThemeProvider, TableLoading, ProfileLoading } from "@uaveiro/ui";
-import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { Table, Theme, ThemeProvider, TableLoading } from "@uaveiro/ui";
 import { Input } from "@uaveiro/ui";  
 import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@mui/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles({
   uaButton: {
@@ -32,7 +42,42 @@ const useStyles = makeStyles({
 });
 
 export default function Pauta() {
+
+  const [open, setOpen] = useState(false);
   
+  const handleCloseAlert = () => {
+    setOpen(false);
+  };
+
+  
+  const [invalidInputs, setInvalidInputs] = useState([]);
+
+  const handleGuardar = () => {
+    const invalidInputs = [];
+    let counter = 0;
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach((input) => {
+      const inputValue = Number(input.value);
+      if (
+        isNaN(inputValue) ||
+        (inputValue < 0 || inputValue > 20) &&
+        (inputValue !== 66 && inputValue !== 77 && inputValue !== 88 && inputValue !== 99)
+        ) {
+          invalidInputs.push(counter);
+        }
+        counter++;
+      });
+    setInvalidInputs(invalidInputs);
+    if (invalidInputs.length > 0) {
+      setOpen(true);
+    }
+
+    if (invalidInputs.length === 0) {
+      // PUT GUARDAR
+    }
+
+  };
+
     const classes = useStyles();
 
     const router = useRouter()
@@ -120,20 +165,20 @@ export default function Pauta() {
                 <Grid container spacing={1}>
 
                   <Grid item md={3} lg={2}>
-                    <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}}>
+                    <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar}>
                       Guardar
                     </Button>
                     <Button variant="outlined" className={classes.uaButton}>
                       Assinar
                     </Button>
                   </Grid>
-                  <Grid item md={5} lg={4}>
+                  <Grid item sm={4} md={5} lg={4}>
                   </Grid>
                   <Grid item md={4} lg={5} sx={{ textAlign: 'right' }} >
                     <Button variant="outlined" className={classes.uaButton}>
                       Download para preencher
                     </Button>
-                    <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', height: '70px'}}>
+                    <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px'}}>
                       Upload de Excel ou CSV
                     </Button>
                   </Grid>
@@ -142,13 +187,13 @@ export default function Pauta() {
           <Table 
             marginTop="4px" 
             borders="1px solid" 
-            col2Size="10%"
+            col2Size="65%"
             col3Size="10%"
             col4Size="15%" >
             <thead>
               <tr>
-                <th>Nome</th>
                 <th>Nº Mec.</th>
+                <th>Nome</th>
                 {/* <th>Regime</th> */}
                 <th>Código de Curso</th>
                 {/* <th>Repetente</th> */}
@@ -156,18 +201,19 @@ export default function Pauta() {
               </tr>
             </thead>
             <tbody>
-              {data.pautaAlunoResponse.map((student, index) =>{
+              {data.pautaAlunoResponse
+                .sort((a, b) => a.aluno.nmec - b.aluno.nmec)
+                .map((student, index) =>{
 
-                // const notaContent = studentsNotas[index] 
                 return (
                 <tr>
-                  <td>{student.aluno.nome}</td>
                   <td>{student.aluno.nmec}</td>
+                  <td>{student.aluno.nome}</td>
                   {/* <td>{student.regime}</td> */}
                   <td>{student.aluno.codidoCurso}</td>
                   {/* <td>{student.repetente ? "Sim" : "Não" }</td> */}
                   <td>
-                    <Input border="1px solid #424242" 
+                    <Input border={`1px solid ${invalidInputs.includes(index) ? 'red' : '#424242'}`}
                       width="90px" 
                       color="#424242" 
                       defaultValue={student.nota}
@@ -183,6 +229,37 @@ export default function Pauta() {
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , textAlign: 'center', fontWeight: '600'}} elevation={24}>
           66 - Reprovado por nota mínima / 77 - Faltou / 88 - Desistiu / 99 - Reprovado por faltas
         </Paper>
+
+
+
+        <div>
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleCloseAlert}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Notas inválidas foram inseridas para alguns alunos"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                {invalidInputs.map((index) => (
+                  <div key={index}>
+                    {data.pautaAlunoResponse[index].aluno.nmec} - {data.pautaAlunoResponse[index].aluno.nome}
+                  </div>
+                ))}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button 
+                onClick={handleCloseAlert} 
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >Fechar</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       </ThemeProvider>
     );
 }
