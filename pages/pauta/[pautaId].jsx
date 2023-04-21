@@ -17,8 +17,10 @@ const useStyles = makeStyles({
     color: 'black', 
     borderColor: 'black', 
     fontSize: '14px',
-    padding: '4px 12px 0px 12px',
-    height: '40px',
+    padding: '0px 12px 0px 12px',
+    height: 'auto',
+    minHeight: '40px',
+    maxWidth: '140px',
     textTransform: 'capitalize',
     justifyContent: 'center',
     fontWeight: '400',
@@ -108,7 +110,7 @@ export default function Pauta() {
               >{data.tipoExame}
               </Typography>
             </div>
-            <div style={{marginBottom: '25px'}} >
+            <div style={{marginBottom: '35px'}} >
               <Typography sx={{fontWeight: '400', lineHeight: '1.5', color: '#757575', fontSize: '20px', }}
               >{data.anoLectivo}
               </Typography>
@@ -116,30 +118,29 @@ export default function Pauta() {
           </div>
           <div>
                 <Grid container spacing={1}>
+
                   <Grid item md={3} lg={2}>
                     <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}}>
-                      Editar
+                      Guardar
                     </Button>
                     <Button variant="outlined" className={classes.uaButton}>
-                      Editar
+                      Assinar
                     </Button>
                   </Grid>
-                  <Grid item md={3} lg={2}>
+                  <Grid item md={5} lg={4}>
                   </Grid>
-                  <Grid item md={3} lg={4} sx={{ textAlign: 'right' }}>
-                  </Grid>
-                  <Grid item md={3} lg={4} sx={{ textAlign: 'right' }} >
+                  <Grid item md={4} lg={5} sx={{ textAlign: 'right' }} >
                     <Button variant="outlined" className={classes.uaButton}>
-                      Editar
+                      Download para preencher
                     </Button>
-                    <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px'}}>
-                      Editar
+                    <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', height: '70px'}}>
+                      Upload de Excel ou CSV
                     </Button>
                   </Grid>
                 </Grid>
           </div>
           <Table 
-            marginTop="15px" 
+            marginTop="4px" 
             borders="1px solid" 
             col2Size="10%"
             col3Size="10%"
