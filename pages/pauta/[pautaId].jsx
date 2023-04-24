@@ -12,17 +12,18 @@ export default function Pauta() {
 
     const router = useRouter()
     const { pautaId } = router.query
-    console.log(pautaId)
 
     const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!pautaId) {
-        return;
-      }
-      try {
-        const response = await axios.get(`http://20.123.119.238/pautasBack/pauta/${pautaId}`); //545GGRE
+    
+    useEffect(() => {
+      const fetchData = async () => {
+        if (!pautaId) {
+          return;
+        }
+        try {
+        const path = `/pauta/${pautaId}`;
+        const url = process.env.API_URL + path;
+        const response = await axios.get(url);
         setData(response.data);
         console.log(response.data)
       } catch (error) {

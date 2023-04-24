@@ -1,3 +1,3 @@
-export default function PautaLacrada() {
+export default function PautaLacrda() {
     return ''
 }
