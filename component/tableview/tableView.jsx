@@ -14,17 +14,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 export default function TableView(){
 
-    const estadoMap = {
-        "POR_PREENCHER": 0,
-        "PREENCHIDA": 1,
-        "ASSINADA": 2
-    }
-
     //Chamada a api 
     const [data, setData] = useState(null);
-    const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
-    const [ordenacaoEstado, setOrdenacaoEstado] = useState("crescente");
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,30 +28,45 @@ export default function TableView(){
         fetchData();
     }, []);
 
-    // função de ordenação para ordem crescente
-    const ordenarPorEstadoCrescente = (a, b) => estadoMap[a.estado] - estadoMap[b.estado];
-    const ordenarPorDisciplinaCrescente = (a, b) => a.disciplinaResponse.nome.localeCompare(b.disciplinaResponse.nome);
-    
-    // função de ordenação para ordem decrescente
-    const ordenarPorEstadoDecrescente = (a, b) => estadoMap[b.estado] - estadoMap[a.estado];
-    const ordenarPorDisciplinaDecrescente = (a, b) => b.disciplinaResponse.nome.localeCompare(a.disciplinaResponse.nome);
 
-    // função de alternância de ordenação
+    //Ordenação por disciplina
+    const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
+    const ordenarPorDisciplinaCrescente = (a, b) => a.disciplinaResponse.nome.localeCompare(b.disciplinaResponse.nome);
+    const ordenarPorDisciplinaDecrescente = (a, b) => b.disciplinaResponse.nome.localeCompare(a.disciplinaResponse.nome);
     const alternarOrdenacaoDisciplina = () => {
         if (ordenacaoDisciplina === "crescente") {
             setOrdenacaoDisciplina("decrescente");
         } else {
             setOrdenacaoDisciplina("crescente");
         }
+        const ordemDisciplina = ordenacaoDisciplina === "crescente" ? ordenarPorDisciplinaCrescente : ordenarPorDisciplinaDecrescente;
+        data.sort(ordemDisciplina);
     }
 
+
+
+
+    //Ordenação por estado
+    const estadoMap = {
+        "POR_PREENCHER": 0,
+        "PREENCHIDA": 1,
+        "ASSINADA": 2
+    }
+    const [ordenacaoEstado, setOrdenacaoEstado] = useState("crescente");
+    const ordenarPorEstadoCrescente = (a, b) => estadoMap[a.estado] - estadoMap[b.estado];
+    const ordenarPorEstadoDecrescente = (a, b) => estadoMap[b.estado] - estadoMap[a.estado];
     const alternarOrdenacaoEstado = () => {
         if (ordenacaoEstado === "crescente") {
             setOrdenacaoEstado("decrescente");
         } else {
             setOrdenacaoEstado("crescente");
         }
+        const ordemEstado = ordenacaoEstado === "crescente" ? ordenarPorEstadoCrescente : ordenarPorEstadoDecrescente;
+        data.sort(ordemEstado);
     }
+
+   
+
 
     if (!data) {
         return <ThemeProvider theme={Theme}>
@@ -70,17 +76,8 @@ export default function TableView(){
               </ThemeProvider>;
       }
 
-    // ordem a ser aplicada de acordo com a ordenação atual
-    const ordemDisciplina = ordenacaoDisciplina === "crescente" ? ordenarPorDisciplinaCrescente : ordenarPorDisciplinaDecrescente;
-    const ordemEstado = ordenacaoEstado === "crescente" ? ordenarPorEstadoCrescente : ordenarPorEstadoDecrescente;
 
 
-
-
-
-    // ordenação do array data de acordo com a ordem definida
-    data.sort(ordemDisciplina);
-    // data.sort(ordemEstado);
 
 
 
