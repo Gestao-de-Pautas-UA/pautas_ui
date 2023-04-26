@@ -1,6 +1,8 @@
+import * as React from 'react';
 import { Table, Tables, TableLoading} from "@uaveiro/ui";
 import { ThemeProvider, Theme} from "@uaveiro/ui";
 import Dropdown from '../dropdown/dropdown';
+
 import IconButtons from '../viewButton/viewButton';
 import { useState, useEffect } from 'react';
 import { Button, Stack } from "@mui/material";
@@ -11,6 +13,12 @@ import EstadoAmarelo from "../legend/estadoAmarelo";
 import EstadoVerde from "../legend/estadoVerde";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 export default function TableView(){
 
@@ -77,16 +85,95 @@ export default function TableView(){
       }
 
 
+      function DropdownSort() {
+        const [anchorEl, setAnchorEl] = React.useState(null);
+        const open = Boolean(anchorEl);
+        const handleClick = (event) => {
+          setAnchorEl(event.currentTarget);
+        };
+        const handleClose = () => {
+          setAnchorEl(null);
+        };
+        return (
+          <React.Fragment>
+            <Box sx={{  float: 'right' , margin: '25px'}}>
+      
+              <Tooltip title="Ordenação">
+                <FilterAltIcon
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                >
+                  
+                </FilterAltIcon>
+              </Tooltip>
+            </Box>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+      
+              <MenuItem onClick={alternarOrdenacaoDisciplina}>
+                Ordenar por disciplina
+                
+              </MenuItem>
+              <MenuItem onClick={alternarOrdenacaoEstado}>
+                Ordenar por estado
+              </MenuItem>
+              
+              
+            </Menu>
+          </React.Fragment>
+        );
+      }
 
 
 
 
-    
+
 
     return (
         <ThemeProvider theme={Theme}>
+      
             <div className="overviewTable">
-
+                <div className="overviewTable__header"> 
+                <DropdownSort />
+                </div>
+            
                 <Table 
                     
                     marginTop="15px" 
