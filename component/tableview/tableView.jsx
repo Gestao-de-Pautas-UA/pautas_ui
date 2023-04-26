@@ -9,8 +9,13 @@ import axios from 'axios';
 import EstadoVermelho from '../legend/estadoVermelho'
 import EstadoAmarelo from "../legend/estadoAmarelo";
 import EstadoVerde from "../legend/estadoVerde";
+ 
+import Link from 'next/link'
+
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
 
 export default function TableView(){
 
@@ -131,8 +136,12 @@ export default function TableView(){
                                         <EstadoVerde/>
                                     )}
                                 </td>
-                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Editar</Button></a></td>
-                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button></td>
+                                <td><a href="https://pautas-ui.vercel.app/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
+                                <td>
+                                    <Link href={`/pautaDetails/${subject.codigoPauta}`}>
+                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button>
+                                    </Link>
+                                </td>
                             </tr>
                         ))}
 
@@ -140,7 +149,6 @@ export default function TableView(){
                     </tbody>
                 </Table>
             </div>
-
 
         </ThemeProvider>
 
