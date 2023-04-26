@@ -1,9 +1,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-
-    <img src="https://github.com/thisbra/pautas_paco/raw/main/images/ua.png" alt="Logo" width="200" height="80">
-
+    <a>
+    <img src="public/paco2_ua.png" alt="Logo" width="200" height="80">
+    </a>
 
   <h3 align="center">pautas_ui</h3>
 
