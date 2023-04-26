@@ -11,11 +11,20 @@ import OverviewCard  from "../component/overview/overviewCard";
 
 export default function Home() {
   const [view, setView] = useState('tableView');
-  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedYear, setSelectedYear] = useState('2019/2020');
 
+  //Para a vista selecionada no iconButton
   const handleViewChange = (newView) => {
     setView(newView);
   };
+
+  //Para o ano selecionado no dropdown
+  const handleSelect = (event) => {
+    const year = event.target.value;
+    onSelectYear(year);
+    setSelectedYear(year);
+};
+
 
   const renderView = () => {
     if (view === 'tableView' ) {
@@ -29,7 +38,7 @@ export default function Home() {
     <div>
       <h2 className="tituloPautas">Gestão de Pautas</h2>
       <div style={{ display: 'flex' }}>
-        <Dropdown onSelectYear={(year) => setSelectedYear(year)} />
+      <Dropdown onSelectYear={handleSelect} />
         <Stack className='iconButton' direction="row" spacing={1}>
           <IconButton aria-label="table" onClick={() => handleViewChange('tableView')}>
             <TableRowsIcon />

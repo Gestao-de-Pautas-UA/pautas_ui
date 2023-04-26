@@ -1,41 +1,38 @@
 import * as React from 'react';
 import { Table, Tables, TableLoading} from "@uaveiro/ui";
 import { ThemeProvider, Theme} from "@uaveiro/ui";
-import Dropdown from '../dropdown/dropdown';
-
-import IconButtons from '../viewButton/viewButton';
 import { useState, useEffect } from 'react';
 import { Button, Stack } from "@mui/material";
-import CircleIcon from '@mui/icons-material/Circle';
 import axios from 'axios';
 import EstadoVermelho from '../legend/estadoVermelho'
 import EstadoAmarelo from "../legend/estadoAmarelo";
 import EstadoVerde from "../legend/estadoVerde";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-export default function TableView(){
+export default function TableView({year}){
 
+  console.log('oi', year);
     //Chamada a api 
     const [data, setData] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://20.123.119.238/pautasBack/pautas/10309907');
-                setData(response.data);
+                setData(response.data.filter(obj => obj.anoLectivo === year));
             } catch(error){
                 console.error(error);
             }
         };
         fetchData();
-    }, []);
+    }, [year]);
 
+
+    // const dadosFiltrados = data.filter(obj => obj.anoLectivo === anoFiltrado);
 
     //Ordenação por disciplina
     const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
