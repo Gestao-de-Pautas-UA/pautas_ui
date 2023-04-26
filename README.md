@@ -1,5 +1,23 @@
-# pautas-ui
-Frontend of the final project for the Informatics Engineering degree at Universidade de Aveiro. 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+
+    <img src="https://github.com/thisbra/pautas_paco/raw/main/images/ua.png" alt="Logo" width="200" height="80">
+
+
+  <h3 align="center">pautas_ui</h3>
+
+  <p align="center">
+    Frontend of the final project for the Informatics Engineering degree at Universidade de Aveiro.
+    <br />
+    <br />
+    <br />
+    ·
+    <a href="https://groupthree.azurewebsites.net/">Presentation Website</a>
+    ·
+  </p>
+</div>
+
 
 ### Description
 This interface was developed to create a modern way for professors to manage, post and sign final grades sheets of the disciplines he/she is responsible for. It is a new version from the old platform (paco) that was complicated and outdated. The frontend was built using **React**, **NextJs** and **Axios**, managed through this github repository and used the AMA's API (Portuguese governmental agency for admnistrative modernization) to sign documents using the professor's personal digital key.  
