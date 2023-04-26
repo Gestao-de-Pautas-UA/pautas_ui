@@ -37,6 +37,7 @@
     "react-lazy-load-image-component": "^1.5.6",
     "react-palette": "^1.0.2",
     "react-player": "^2.12.0",
+    "react-remote-sortable-columns": "^1.0.1",
     "react-select": "^5.7.2",
     "react-sizeme": "^3.0.2",
     "react-slick": "^0.25.2",

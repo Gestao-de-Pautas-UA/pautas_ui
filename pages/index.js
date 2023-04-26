@@ -11,14 +11,15 @@ import OverviewCard  from "../component/overview/overviewCard";
 
 export default function Home() {
   const [view, setView] = useState('tableView');
+  const [selectedYear, setSelectedYear] = useState(null);
 
   const handleViewChange = (newView) => {
     setView(newView);
   };
 
   const renderView = () => {
-    if (view === 'tableView') {
-      return <TableView />;
+    if (view === 'tableView' ) {
+      return <TableView year={selectedYear} />;
     } else if (view === 'overviewCard') {
       return <OverviewCard />;
     }
@@ -28,7 +29,7 @@ export default function Home() {
     <div>
       <h2 className="tituloPautas">Gestão de Pautas</h2>
       <div style={{ display: 'flex' }}>
-        <Dropdown />
+        <Dropdown onSelectYear={(year) => setSelectedYear(year)} />
         <Stack className='iconButton' direction="row" spacing={1}>
           <IconButton aria-label="table" onClick={() => handleViewChange('tableView')}>
             <TableRowsIcon />
@@ -39,8 +40,10 @@ export default function Home() {
           </IconButton>
         </Stack>
       </div>
-       
-      <div>{renderView()}</div>
+
+      {/* <div>{renderView()}</div> */}
+      {view === 'tableView' && <TableView year={selectedYear} />}
+      {view === 'overviewCard' && <OverviewCard />}
     </div>
   );
 }
