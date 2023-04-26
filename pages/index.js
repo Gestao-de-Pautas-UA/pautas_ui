@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import OverviewCard  from "../component/overview/overviewCard";
-
+import BasicCard from "@/component/basiccard/basiccard";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -120,7 +120,7 @@ export default function Home() {
 
       {/* <div>{renderView()}</div> */}
       {view === 'tableView' && <TableView year={selectedYear} />}
-      {view === 'overviewCard' && <OverviewCard />}
+      {view === 'overviewCard' && <BasicCard year={selectedYear} />}
     </div>
   );
 }

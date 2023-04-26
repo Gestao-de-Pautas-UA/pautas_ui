@@ -16,7 +16,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 export default function TableView({year}){
 
-  console.log('oi', year);
+
     //Chamada a api 
     const [data, setData] = useState(null);
     useEffect(() => {
