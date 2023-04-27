@@ -7,6 +7,10 @@ import axios from 'axios';
 import EstadoVermelho from '../legend/estadoVermelho'
 import EstadoAmarelo from "../legend/estadoAmarelo";
 import EstadoVerde from "../legend/estadoVerde";
+ 
+import Link from 'next/link'
+
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -14,7 +18,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
+
 export default function TableView({year}){
+
 
 
     //Chamada a api 
@@ -212,8 +218,12 @@ export default function TableView({year}){
                                         <EstadoVerde/>
                                     )}
                                 </td>
-                                <td><a href="http://localhost:3001/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Editar</Button></a></td>
-                                <td><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button></td>
+                                <td><a href="https://pautas-ui.vercel.app/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
+                                <td>
+                                    <Link href={`/pautaDetails/${subject.codigoPauta}`}>
+                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button>
+                                    </Link>
+                                </td>
                             </tr>
                         ))}
 
@@ -221,7 +231,6 @@ export default function TableView({year}){
                     </tbody>
                 </Table>
             </div>
-
 
         </ThemeProvider>
 
