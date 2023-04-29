@@ -9,8 +9,11 @@ import axios from 'axios';
 
 export default function Dropdown() {
 
-  //Chamada a api
   const [data, setData] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+
+
+  //Chamada a api
   useEffect(() => {
       const fetchData = async () => {
           try {
@@ -33,12 +36,19 @@ export default function Dropdown() {
     }
     });
 
+
+    //Função que altera o estado do ano seleccionado
+    const handleYearChange = (event) => {
+      setSelectedYear(event.target.value);
+    };
+  
+
     //Dropdown que exibe os anos lectivos
     return (
       <Box  sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
         <FormControl fullWidth>
           <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
-        <Select label="Question">
+        <Select label="Ano" value={selectedYear} onChange={handleYearChange}>
           {uniqueData.map((choice) => (
             <MenuItem key={choice} value={choice}>
               {choice}
