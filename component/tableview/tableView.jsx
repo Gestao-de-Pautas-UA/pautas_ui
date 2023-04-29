@@ -38,8 +38,6 @@ export default function TableView({year}){
     }, [year]);
 
 
-    // const dadosFiltrados = data.filter(obj => obj.anoLectivo === anoFiltrado);
-
     //Ordenação por disciplina
     const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
     const ordenarPorDisciplinaCrescente = (a, b) => a.disciplinaResponse.nome.localeCompare(b.disciplinaResponse.nome);
@@ -174,7 +172,7 @@ export default function TableView({year}){
       
             <div className="overviewTable">
                 <div className="overviewTable__header"> 
-                <DropdownSort />
+      
                 </div>
             
                 <Table 
@@ -218,10 +216,10 @@ export default function TableView({year}){
                                         <EstadoVerde/>
                                     )}
                                 </td>
-                                <td><a href="https://pautas-ui.vercel.app/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black' }}>Editar</Button></a></td>
+                                <td><a href="https://pautas-ui.vercel.app/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Editar</Button></a></td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '11px' }}>Detalhes</Button>
+                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Detalhes</Button>
                                     </Link>
                                 </td>
                             </tr>
