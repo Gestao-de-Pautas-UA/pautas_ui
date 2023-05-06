@@ -18,11 +18,11 @@ export default function pautaDetails() {
     const [showPopup, setShowPopup] = useState(false);
     const handleLacrarClick = () => {
         setShowPopup(true);
-      }
-    
+    }
+
+
 
       
-
    const router = useRouter();
    const pautaDetailsID = router.query.pautaDetailsID;
    const [pautaData, setPautaData] = useState(null);  
@@ -46,7 +46,7 @@ export default function pautaDetails() {
     }
   }, [pautaDetailsID]);
 
-   
+
 
 
     if(!pautaData && !pdfData) {
@@ -54,6 +54,27 @@ export default function pautaDetails() {
             <div>Loading...</div>
         )
     }
+
+    const handleDownloadPdf = () => {
+        const file = new Blob([pdfData], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+      };
+
+
+
+    const getPautaStatus = () => {
+        console.log(pautaData.estado);
+        if (pautaData.estado === "PREENCHIDA" || pautaData.estado === "ASSINADA") {
+          return handleDownloadPdf();
+        } else {
+            return alert("Impossivel vizualizar: Pauta não preenchida");
+        
+        }
+      }
+      
+
+      
     
     const course = pautaData.disciplinaResponse.nome;
     const courseCode = pautaData.disciplinaResponse.codigo;
@@ -80,18 +101,14 @@ export default function pautaDetails() {
         graphArray.push(count);
     }
 
-    const handleDownloadPdf = () => {
-        const file = new Blob([pdfData], { type: 'application/pdf' });
-        const fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
-      };
+
 
     return (
         <ThemeProvider theme={Theme}>
 
 
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
-            <Button onClick={handleDownloadPdf} variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
+            <Button onClick={getPautaStatus} variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
             <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px',marginLeft: '10px' }} onClick={handleLacrarClick}>Lacrar*</Button>
             {showPopup && 
             <div style={{display: 'block', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.5)'}}>
