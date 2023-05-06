@@ -13,6 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import { typeOf } from 'react-is';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -47,20 +48,41 @@ const useStyles = makeStyles({
 });
 
 export default function Pauta() {
-
+  
   const router = useRouter()
   const { pautaId } = router.query
+  
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!pautaId) {
+        return;
+      }
+      try {
+      const path = `/pauta/${pautaId}`;
+      const url = process.env.API_URL + path;
+      const response = await axios.get(url);
+      setData(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchData();
+  }, [pautaId]);
+
 
   const [openGuardar, setOpenGuardar] = useState(false);
   const [openAssinar, setOpenAssinar] = useState(false);
-
+  
   const [openOverwrite, setOpenOverwrite] = useState(false);
   
-
+  
   const handleCloseGuardar = () => {
     setOpenGuardar(false);
   };
-
+  
   const handleCloseAssinar = () => {
     setOpenAssinar(false);
   };
@@ -73,7 +95,7 @@ export default function Pauta() {
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [emptyInputs, setEmptyInputs] = useState([]);
 
-  const handleGuardar = () => {
+  const handleGuardar = async () => {
     const invalidInputs = [];
     let counter = 0;
     const inputs = document.querySelectorAll('input[type="number"]');
@@ -95,36 +117,89 @@ export default function Pauta() {
     }
 
     if (invalidInputs.length === 0) {
-      // PUT GUARDAR
+      try {
+        const path = '/save/pauta'
+        const url = process.env.API_URL + path;
+        const alunoRequests = [];
+        
+        data.pautaAlunoResponse
+              .sort((a, b) => a.aluno.nmec - b.aluno.nmec)
+              .map((student, index) =>{
+
+              const nmec = student.aluno.nmec;
+              const nota = document.getElementById(nmec).value
+
+                alunoRequests.push({nmec, nota})
+              
+            })
+
+        setData(null)
+
+        console.log({alunoRequests, codigoPauta: pautaId});
+        const response = await axios.post(url, {
+          alunoRequests,
+          codigoPauta: pautaId
+        });
+
+
+        try {
+          const path = `/pauta/${pautaId}`;
+          const url = process.env.API_URL + path;
+          const response = await axios.get(url);
+          setData(response.data);
+          console.log(response.data)
+        } catch (error) {
+          console.error(error);
+        }
+
+        console.log(response.status);
+        return invalidInputs;
+      } catch (error) {
+        console.error(error);
+        // handle the error
+      }
     }
 
   };
 
-  const handleAssinar = () => {
+  const waitForTable = async () => {
+    let table = null;
+    while (!table) {
+      table = document.querySelector('table');
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    return table;
+  };
 
-    handleGuardar();
+  const handleAssinar = async () => {
 
-    const emptyInputs = [];
+    const invalidGuardar = await handleGuardar();
+
+    const table = await waitForTable();
+
     let counter = 0;
     const inputs = document.querySelectorAll('input[type="number"]');
     inputs.forEach((input) => {
       const inputValue = Number(input.value);
+      console.log(inputValue);
+      console.log(typeOf(inputValue));
       if (
         isNaN(inputValue) ||
-        input.value === ''
+        input.value === '' || input.value === "0"
         ) {
           emptyInputs.push(counter);
         }
         counter++;
       });
-    setEmptyInputs(emptyInputs);
-    if (emptyInputs.length > 0) {
-      setOpenAssinar(true);
-    }
-
-    console.log("Número de emptys: " + emptyInputs.length)
-    console.log("Número de invalids: " + invalidInputs.length)
-    if (emptyInputs.length === 0 && invalidInputs.length === 0) {
+      setEmptyInputs(emptyInputs);
+      if (emptyInputs.length > 0) {
+        setOpenAssinar(true);
+      }
+      
+      
+      console.log("Invalidos: " + invalidGuardar);
+      console.log("Emptys: " + emptyInputs);
+      if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
       router.push(`/pauta/${pautaId}/assinar`)
       
       // MUDAR ESTADO DA PAUTA PARA PREENCHIDA
@@ -149,25 +224,6 @@ export default function Pauta() {
   const classes = useStyles();
 
 
-  const [data, setData] = useState(null);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!pautaId) {
-        return;
-      }
-      try {
-      const path = `/pauta/${pautaId}`;
-      const url = process.env.API_URL + path;
-      const response = await axios.get(url);
-      setData(response.data);
-      console.log(response.data)
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  fetchData();
-}, [pautaId]);
 
 
 
@@ -287,6 +343,7 @@ export default function Pauta() {
                   <Input border={`1px solid ${invalidInputs.includes(index) ? 'red' : '#424242'}`}
                     width="90px" 
                     color="#424242" 
+                    id={student.aluno.nmec}
                     defaultValue={student.nota}
                     type="number"
                     step="0.01"/>
