@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { RotateRight } from '@mui/icons-material';
+import { typeOf } from 'react-is';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -40,29 +40,62 @@ const useStyles = makeStyles({
       color: '#FFFFFF',
     },
   },
+  uaDialog: {
+    border:'0px solid',
+    borderRadius: '1px',
+    height: '500px',
+  },
 });
 
 export default function Pauta() {
-
+  
   const router = useRouter()
   const { pautaId } = router.query
+  
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!pautaId) {
+        return;
+      }
+      try {
+      const path = `/pauta/${pautaId}`;
+      const url = process.env.API_URL + path;
+      const response = await axios.get(url);
+      setData(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchData();
+  }, [pautaId]);
+
 
   const [openGuardar, setOpenGuardar] = useState(false);
   const [openAssinar, setOpenAssinar] = useState(false);
   
+  const [openOverwrite, setOpenOverwrite] = useState(false);
+  
+  
   const handleCloseGuardar = () => {
     setOpenGuardar(false);
   };
-
+  
   const handleCloseAssinar = () => {
     setOpenAssinar(false);
+  };
+
+  const handleCloseOverwrite = () => {
+    setOpenOverwrite(false);
   };
 
   
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [emptyInputs, setEmptyInputs] = useState([]);
 
-  const handleGuardar = () => {
+  const handleGuardar = async () => {
     const invalidInputs = [];
     let counter = 0;
     const inputs = document.querySelectorAll('input[type="number"]');
@@ -84,65 +117,113 @@ export default function Pauta() {
     }
 
     if (invalidInputs.length === 0) {
-      // PUT GUARDAR
+      try {
+        const path = '/save/pauta'
+        const url = process.env.API_URL + path;
+        const alunoRequests = [];
+        
+        data.pautaAlunoResponse
+              .sort((a, b) => a.aluno.nmec - b.aluno.nmec)
+              .map((student, index) =>{
+
+              const nmec = student.aluno.nmec;
+              const nota = document.getElementById(nmec).value
+
+                alunoRequests.push({nmec, nota})
+              
+            })
+
+        setData(null)
+
+        console.log({alunoRequests, codigoPauta: pautaId});
+        const response = await axios.post(url, {
+          alunoRequests,
+          codigoPauta: pautaId
+        });
+
+
+        try {
+          const path = `/pauta/${pautaId}`;
+          const url = process.env.API_URL + path;
+          const response = await axios.get(url);
+          setData(response.data);
+          console.log(response.data)
+        } catch (error) {
+          console.error(error);
+        }
+
+        console.log(response.status);
+        return invalidInputs;
+      } catch (error) {
+        console.error(error);
+        // handle the error
+      }
     }
 
   };
 
-  const handleAssinar = () => {
+  const waitForTable = async () => {
+    let table = null;
+    while (!table) {
+      table = document.querySelector('table');
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    return table;
+  };
 
-    handleGuardar();
+  const handleAssinar = async () => {
 
-    const emptyInputs = [];
+    const invalidGuardar = await handleGuardar();
+
+    const table = await waitForTable();
+
     let counter = 0;
     const inputs = document.querySelectorAll('input[type="number"]');
     inputs.forEach((input) => {
       const inputValue = Number(input.value);
+      console.log(inputValue);
+      console.log(typeOf(inputValue));
       if (
         isNaN(inputValue) ||
-        input.value === ''
+        input.value === '' || input.value === "0"
         ) {
           emptyInputs.push(counter);
         }
         counter++;
       });
-    setEmptyInputs(emptyInputs);
-    if (emptyInputs.length > 0) {
-      setOpenAssinar(true);
-    }
-
-    console.log("Número de emptys: " + emptyInputs.length)
-    console.log("Número de invalids: " + invalidInputs.length)
-    if (emptyInputs.length === 0 && invalidInputs.length === 0) {
-      // router push /assinar
+      setEmptyInputs(emptyInputs);
+      if (emptyInputs.length > 0) {
+        setOpenAssinar(true);
+      }
+      
+      
+      console.log("Invalidos: " + invalidGuardar);
+      console.log("Emptys: " + emptyInputs);
+      if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
       router.push(`/pauta/${pautaId}/assinar`)
-      // console.log("Pode assinar")
+      
+      // MUDAR ESTADO DA PAUTA PARA PREENCHIDA
     }
+  }
 
+  const handleDownload = () => {
+    // POST Guardar antes de GET Download
+
+    // GET File `/get/pdf/{pautaId}`
+
+    // Make browser download the file
+
+  }
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+
+    setOpenOverwrite(true);
   }
 
   const classes = useStyles();
 
 
-  const [data, setData] = useState(null);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!pautaId) {
-        return;
-      }
-      try {
-      const path = `/pauta/${pautaId}`;
-      const url = process.env.API_URL + path;
-      const response = await axios.get(url);
-      setData(response.data);
-      console.log(response.data)
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  fetchData();
-}, [pautaId]);
 
 
 
@@ -217,11 +298,17 @@ export default function Pauta() {
                 <Grid item sm={4} md={5} lg={4}>
                 </Grid>
                 <Grid item md={4} lg={5} sx={{ textAlign: 'right' }} >
-                  <Button variant="outlined" className={classes.uaButton}>
+                  <Button variant="outlined" className={classes.uaButton} onClick={handleDownload}>
                     Download para preencher
                   </Button>
-                  <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px'}}>
-                    Upload de Excel ou CSV
+                  <Button component="label" variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', textAlign:'center'}}>
+                    Upload de Ficheiro Excel
+                      <input
+                        type="file"
+                        accept=".xls,.xlsx"
+                        hidden
+                        onChange={handleFileUpload}
+                      />
                   </Button>
                 </Grid>
               </Grid>
@@ -229,16 +316,15 @@ export default function Pauta() {
         <Table 
           marginTop="4px" 
           borders="1px solid" 
-          col2Size="65%"
+          col2Size="55%"
           col3Size="10%"
-          col4Size="15%" >
+          col4Size="10%" >
           <thead>
             <tr>
               <th>Nº Mec.</th>
               <th>Nome</th>
-              {/* <th>Regime</th> */}
               <th>Código de Curso</th>
-              {/* <th>Repetente</th> */}
+              <th>Regime</th>
               <th>Nota</th>
             </tr>
           </thead>
@@ -251,13 +337,13 @@ export default function Pauta() {
               <tr>
                 <td>{student.aluno.nmec}</td>
                 <td>{student.aluno.nome}</td>
-                {/* <td>{student.regime}</td> */}
                 <td>{student.aluno.codidoCurso}</td>
-                {/* <td>{student.repetente ? "Sim" : "Não" }</td> */}
+                <td>{student.aluno.estatuto[0]}</td>
                 <td>
                   <Input border={`1px solid ${invalidInputs.includes(index) ? 'red' : '#424242'}`}
                     width="90px" 
                     color="#424242" 
+                    id={student.aluno.nmec}
                     defaultValue={student.nota}
                     type="number"
                     step="0.01"/>
@@ -332,6 +418,35 @@ export default function Pauta() {
           </DialogActions>
         </Dialog>
       </div>
+
+      <div>
+      <Dialog
+        open={openOverwrite}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleCloseOverwrite}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Alerta de sobrescrição de notas"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            O arquivo importado irá sobrescrever as notas existentes. Deseja continuar?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseOverwrite}
+              variant="outlined" 
+              className={classes.uaButton}
+              sx={{marginRight: '10px'}}
+              >Fechar</Button>
+          <Button onClick={handleCloseOverwrite}
+                  variant="outlined" 
+                  className={classes.uaButton}
+                  sx={{marginRight: '10px'}}
+                  >Cancelar</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
       
     </ThemeProvider>
   );
