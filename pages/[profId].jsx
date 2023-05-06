@@ -18,20 +18,29 @@ import axios from 'axios';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { useRouter } from 'next/router';
 
-
-
-export default function Home() {
-
-  const [view, setView] = useState('tableView');
-  const [selectedYear, setSelectedYear] = useState('2019/2020');
-  const [data, setData] = useState(null);
-
-  //Chamada a api
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await axios.get(process.env.API_URL+'/pautas/10309907');
+export default function Page() {
+    
+    const router = useRouter();
+    const { profId } = router.query;
+    
+    
+    const [view, setView] = useState('tableView');
+    const [selectedYear, setSelectedYear] = useState('2019/2020');
+    const [data, setData] = useState(null);
+    
+    //Chamada a api
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!profId){
+                return;
+            } 
+            
+            try {
+            const url = process.env.API_URL+'/pautas/' + profId;
+            console.log(url);
+            const response = await axios.get(url);
             setData(response.data);
             console.log(response.data);
         } catch(error){
@@ -39,7 +48,7 @@ export default function Home() {
         }
     };
     fetchData();
-  }, []);
+  }, [profId]);
 
   //Dropdown que exibe os anos lectivos
   function Dropdown() {

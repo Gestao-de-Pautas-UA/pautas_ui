@@ -17,10 +17,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-
+import {useRouter} from 'next/router';
 
 export default function TableView({year}){
 
+  
+  const router = useRouter();
 
 
     //Chamada a api 
@@ -30,6 +32,7 @@ export default function TableView({year}){
             try {
                 const response = await axios.get('http://20.123.119.238/pautasBack/pautas/10309907');
                 setData(response.data.filter(obj => obj.anoLectivo === year));
+                console.log(data);
             } catch(error){
                 console.error(error);
             }
@@ -37,7 +40,14 @@ export default function TableView({year}){
         fetchData();
     }, [year]);
 
+    const handleClickEditButton = (event) => {
+      router.push('/pauta/'+ event.currentTarget.id);
+    }
 
+    const handleClickDetailsButton = (event) => {
+      router.push('/pautaDetails/'+ event.currentTarget.id);
+    }
+  
     //Ordenação por disciplina
     const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
     const ordenarPorDisciplinaCrescente = (a, b) => a.disciplinaResponse.nome.localeCompare(b.disciplinaResponse.nome);
@@ -216,7 +226,15 @@ export default function TableView({year}){
                                         <EstadoVerde/>
                                     )}
                                 </td>
-                                <td><a href="https://pautas-ui.vercel.app/pauta"><Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Editar</Button></a></td>
+                                <td>
+                                  <Button 
+                                      id={subject.codigoPauta}
+                                      onClick={handleClickEditButton} 
+                                      variant="outlined" 
+                                      style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>
+                                        Editar
+                                  </Button>
+                                  </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
                                         <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Detalhes</Button>
