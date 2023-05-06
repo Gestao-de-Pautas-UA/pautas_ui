@@ -77,31 +77,31 @@ export default function Assinar() {
 
   };
 
-    if (!data) {
-    return <ThemeProvider theme={Theme}>
-            <div class="pautas-page-container">
-              <div style={{ marginBottom: '20px'}}>
-                <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                  lista de Pautas
-                </Typography>
-                </Link>
-                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-                  &gt;
-                </Typography>
-                <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-                  Pauta
-                </Typography>
-              </div>         
-              <TableLoading />
-            </div>
-          </ThemeProvider>;
-  }
+  //   if (!data) {
+  //   return <ThemeProvider theme={Theme}>
+  //           <div class="pautas-page-container">
+  //             <div style={{ marginBottom: '20px'}}>
+  //               <Link href="/">
+  //               <Typography className="text-link" sx={{ display: 'inline-block'}}>
+  //                 lista de Pautas
+  //               </Typography>
+  //               </Link>
+  //               <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+  //                 &gt;
+  //               </Typography>
+  //               <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+  //                 Pauta
+  //               </Typography>
+  //             </div>         
+  //             <TableLoading />
+  //           </div>
+  //         </ThemeProvider>;
+  // }
 
   return (
     <div class="pauta-page-container">
       <ThemeProvider theme={Theme}>
-      <div style={{ marginBottom: '20px'}}>
+      {/* <div style={{ marginBottom: '20px'}}>
         <Link href="/">
             <Typography className="text-link" sx={{ display: 'inline-block'}}>
                 lista de Pautas
@@ -139,7 +139,7 @@ export default function Assinar() {
             >{data.anoLectivo}
             </Typography>
           </div>
-        </div>
+        </div> */}
         <Grid container spacing={0}>
           <Grid item sm={6}>
             <div style={{display:'flex', justifyContent:'center', paddingLeft:'80px'}}>  
