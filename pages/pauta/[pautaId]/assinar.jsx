@@ -66,6 +66,17 @@ export default function Assinar() {
 }, [pautaId]);
 
 
+  const handlePlugin = async () => {
+    try {
+      const path = "http://localhost:3005/";
+      const response = await axios.get(path);
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+
+  };
+
     if (!data) {
     return <ThemeProvider theme={Theme}>
             <div class="pautas-page-container">
@@ -150,7 +161,10 @@ export default function Assinar() {
                   </CardContent>
                 </CardActionArea>
                 <CardActions sx={{justifyContent: 'center'}} >
-                  <Button variant="outlined" className={classes.uaButton}>
+                  <Button 
+                    variant="outlined" 
+                    className={classes.uaButton}
+                    onClick={handlePlugin}>
                     Assinar
                   </Button>
                 </CardActions>
