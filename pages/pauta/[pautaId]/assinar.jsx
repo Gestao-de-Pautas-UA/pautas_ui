@@ -71,37 +71,58 @@ export default function Assinar() {
       const path = "http://localhost:3005/";
       const response = await axios.get(path);
       console.log(response.data)
+
+      const response2 = await axios.get(`http://20.123.119.238/pautasBack/pdf/estudantes/${pautaId}`, {
+        responseType: 'arraybuffer'
+      });
+      console.log(response2.data)
+
+
+      const formData = new FormData();
+      const blob = new Blob([response2.data], { type: 'application/pdf' });
+
+      formData.append('file', blob);
+
+      const response3 = await axios.post("http://localhost:3005/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });      
+      console.log(response3)
+
+      
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+
     }
 
   };
 
-  //   if (!data) {
-  //   return <ThemeProvider theme={Theme}>
-  //           <div class="pautas-page-container">
-  //             <div style={{ marginBottom: '20px'}}>
-  //               <Link href="/">
-  //               <Typography className="text-link" sx={{ display: 'inline-block'}}>
-  //                 lista de Pautas
-  //               </Typography>
-  //               </Link>
-  //               <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-  //                 &gt;
-  //               </Typography>
-  //               <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-  //                 Pauta
-  //               </Typography>
-  //             </div>         
-  //             <TableLoading />
-  //           </div>
-  //         </ThemeProvider>;
-  // }
+    if (!data) {
+    return <ThemeProvider theme={Theme}>
+            <div class="pautas-page-container">
+              <div style={{ marginBottom: '20px'}}>
+                <Link href="/">
+                <Typography className="text-link" sx={{ display: 'inline-block'}}>
+                  lista de Pautas
+                </Typography>
+                </Link>
+                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+                  &gt;
+                </Typography>
+                <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+                  Pauta
+                </Typography>
+              </div>         
+              <TableLoading />
+            </div>
+          </ThemeProvider>;
+  }
 
   return (
     <div class="pauta-page-container">
       <ThemeProvider theme={Theme}>
-      {/* <div style={{ marginBottom: '20px'}}>
+      <div style={{ marginBottom: '20px'}}>
         <Link href="/">
             <Typography className="text-link" sx={{ display: 'inline-block'}}>
                 lista de Pautas
@@ -139,7 +160,7 @@ export default function Assinar() {
             >{data.anoLectivo}
             </Typography>
           </div>
-        </div> */}
+        </div>
         <Grid container spacing={0}>
           <Grid item sm={6}>
             <div style={{display:'flex', justifyContent:'center', paddingLeft:'80px'}}>  
