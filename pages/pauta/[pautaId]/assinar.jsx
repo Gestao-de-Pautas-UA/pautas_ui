@@ -66,31 +66,42 @@ export default function Assinar() {
 }, [pautaId]);
 
 
-    if (!data) {
-    return <ThemeProvider theme={Theme}>
-            <div class="pautas-page-container">
-              <div style={{ marginBottom: '20px'}}>
-                <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                  lista de Pautas
-                </Typography>
-                </Link>
-                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-                  &gt;
-                </Typography>
-                <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-                  Pauta
-                </Typography>
-              </div>         
-              <TableLoading />
-            </div>
-          </ThemeProvider>;
-  }
+  const handlePlugin = async () => {
+    try {
+      const path = "http://localhost:3005/";
+      const response = await axios.get(path);
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+
+  };
+
+  //   if (!data) {
+  //   return <ThemeProvider theme={Theme}>
+  //           <div class="pautas-page-container">
+  //             <div style={{ marginBottom: '20px'}}>
+  //               <Link href="/">
+  //               <Typography className="text-link" sx={{ display: 'inline-block'}}>
+  //                 lista de Pautas
+  //               </Typography>
+  //               </Link>
+  //               <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+  //                 &gt;
+  //               </Typography>
+  //               <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+  //                 Pauta
+  //               </Typography>
+  //             </div>         
+  //             <TableLoading />
+  //           </div>
+  //         </ThemeProvider>;
+  // }
 
   return (
     <div class="pauta-page-container">
       <ThemeProvider theme={Theme}>
-      <div style={{ marginBottom: '20px'}}>
+      {/* <div style={{ marginBottom: '20px'}}>
         <Link href="/">
             <Typography className="text-link" sx={{ display: 'inline-block'}}>
                 lista de Pautas
@@ -128,7 +139,7 @@ export default function Assinar() {
             >{data.anoLectivo}
             </Typography>
           </div>
-        </div>
+        </div> */}
         <Grid container spacing={0}>
           <Grid item sm={6}>
             <div style={{display:'flex', justifyContent:'center', paddingLeft:'80px'}}>  
@@ -150,7 +161,10 @@ export default function Assinar() {
                   </CardContent>
                 </CardActionArea>
                 <CardActions sx={{justifyContent: 'center'}} >
-                  <Button variant="outlined" className={classes.uaButton}>
+                  <Button 
+                    variant="outlined" 
+                    className={classes.uaButton}
+                    onClick={handlePlugin}>
                     Assinar
                   </Button>
                 </CardActions>
