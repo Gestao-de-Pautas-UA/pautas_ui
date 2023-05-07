@@ -42,5 +42,8 @@
     "react-sizeme": "^3.0.2",
     "react-slick": "^0.25.2",
     "styled-components": "^5.3.9"
+  },
+  "resolutions": {
+    "graceful-fs": "4.2.4"
   }
 }
