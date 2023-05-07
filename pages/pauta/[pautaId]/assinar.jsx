@@ -93,9 +93,12 @@ export default function Assinar() {
       const poll = () => {
         axios.get("http://localhost:3005/get/" + response3.data)
           .then(response => {
-            if (response.status === 200 && response.data.valid === true) {
+            if (response.status === 200) {
               console.log('Valid response received:', response.data);
               // Do something with the response
+              const file = new Blob([response.data], { type: 'application/pdf' });
+              const fileURL = URL.createObjectURL(file);
+              window.open(fileURL);
             } else {
               console.log('Invalid response received:', response.data);
               setTimeout(poll, 2000); // Call the function again after 2 seconds
@@ -108,6 +111,8 @@ export default function Assinar() {
       };
 
       poll(); // Start polling
+
+
     
     } catch (error) {
       // console.error(error);
