@@ -68,6 +68,7 @@ export default function Assinar() {
 
   const handlePlugin = async () => {
     try {
+      
       const path = "http://localhost:3005/";
       const response = await axios.get(path);
       console.log(response.data)
@@ -91,14 +92,17 @@ export default function Assinar() {
       console.log(response3)
 
       const poll = () => {
-        axios.get("http://localhost:3005/get/" + response3.data)
+        axios.get("http://localhost:3005/get/" + "26e86e06-0fad-429c-8e60-7f22a1afe19b", {responseType: 'arraybuffer'})
           .then(response => {
             if (response.status === 200) {
-              console.log('Valid response received:', response.data);
+              console.log('Valid response received');
               // Do something with the response
               const file = new Blob([response.data], { type: 'application/pdf' });
               const fileURL = URL.createObjectURL(file);
-              window.open(fileURL);
+              console.log(fileURL);
+              const windowReturn = window.open(fileURL);
+              console.log('Abrir window');
+              console.log(windowReturn);
             } else {
               console.log('Invalid response received:', response.data);
               setTimeout(poll, 2000); // Call the function again after 2 seconds
@@ -118,8 +122,6 @@ export default function Assinar() {
       // console.error(error);
 
     }
-
-  };
 
   };
 
