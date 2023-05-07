@@ -9,8 +9,16 @@ import { makeStyles } from '@mui/styles';
 import Link from 'next/link'
 import { useState, useEffect, forwardRef } from 'react';
 import axios from 'axios';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle  } from '@mui/material';
+import Slide from '@mui/material/Slide';
+import Image from 'next/image';
 
 
+
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 
 const useStyles = makeStyles({
@@ -66,42 +74,104 @@ export default function Assinar() {
 }, [pautaId]);
 
 
+  const [openSignDialog, setOpenSignDialog] = useState(false);
+
+  const handleCloseSignDialog = () => {
+    setOpenSignDialog(false);
+  };
+
+  const [signedPdfHashResponse, setSignedPdfHashResponse] = useState('');
+
   const handlePlugin = async () => {
     try {
+      
       const path = "http://localhost:3005/";
       const response = await axios.get(path);
       console.log(response.data)
+
+      const response2 = await axios.get(`http://20.123.119.238/pautasBack/pdf/estudantes/${pautaId}`, {
+        responseType: 'arraybuffer'
+      });
+      console.log(response2.data)
+
+
+      const formData = new FormData();
+      const blob = new Blob([response2.data], { type: 'application/pdf' });
+
+      formData.append('file', blob);
+
+      const response3 = await axios.post("http://localhost:3005/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });      
+      console.log(response3)
+
+      setSignedPdfHashResponse(response3.data);
+
+      
+      setOpenSignDialog(true);
+      
+      
     } catch (error) {
       console.error(error);
+      
     }
-
+    
   };
 
-  //   if (!data) {
-  //   return <ThemeProvider theme={Theme}>
-  //           <div class="pautas-page-container">
-  //             <div style={{ marginBottom: '20px'}}>
-  //               <Link href="/">
-  //               <Typography className="text-link" sx={{ display: 'inline-block'}}>
-  //                 lista de Pautas
-  //               </Typography>
-  //               </Link>
-  //               <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-  //                 &gt;
-  //               </Typography>
-  //               <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-  //                 Pauta
-  //               </Typography>
-  //             </div>         
-  //             <TableLoading />
-  //           </div>
-  //         </ThemeProvider>;
-  // }
+
+  const handleGetAndOpenSigned = async () => {
+    setOpenSignDialog(false);
+    // Fazer se o usuário clicou no botão de Já assinei
+    axios.get("http://localhost:3005/get/" + signedPdfHashResponse, {responseType: 'arraybuffer'})
+      .then(response => {
+        if (response.status === 200) {
+          console.log('Valid response received');
+          // Do something with the response
+          const file = new Blob([response.data], { type: 'application/pdf' });
+          const fileURL = URL.createObjectURL(file);
+          console.log(fileURL);
+          const windowReturn = window.open(fileURL);
+          console.log('Abrir window');
+          console.log(windowReturn);
+        } else {
+          console.log('Invalid response received:', response.data);
+          setTimeout(poll, 2000); // Call the function again after 2 seconds
+        }
+      })
+      .catch(error => {
+        console.error('Error occurred:', error);
+        setTimeout(poll, 2000); // Call the function again after 2 seconds
+      });
+  }
+
+
+    if (!data) {
+    return <ThemeProvider theme={Theme}>
+            <div class="pautas-page-container">
+              <div style={{ marginBottom: '20px'}}>
+                <Link href="/">
+                <Typography className="text-link" sx={{ display: 'inline-block'}}>
+                  lista de Pautas
+                </Typography>
+                </Link>
+                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+                  &gt;
+                </Typography>
+                <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+                  Pauta
+                </Typography>
+              </div>         
+              <TableLoading />
+            </div>
+          </ThemeProvider>;
+  }
 
   return (
     <div class="pauta-page-container">
       <ThemeProvider theme={Theme}>
-      {/* <div style={{ marginBottom: '20px'}}>
+      <div style={{ marginBottom: '20px'}}>
         <Link href="/">
             <Typography className="text-link" sx={{ display: 'inline-block'}}>
                 lista de Pautas
@@ -139,7 +209,7 @@ export default function Assinar() {
             >{data.anoLectivo}
             </Typography>
           </div>
-        </div> */}
+        </div>
         <Grid container spacing={0}>
           <Grid item sm={6}>
             <div style={{display:'flex', justifyContent:'center', paddingLeft:'80px'}}>  
@@ -205,6 +275,50 @@ export default function Assinar() {
           </Grid>
 
         </Grid>
+        <div>
+          <Dialog
+          open={openSignDialog}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseSignDialog}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            {"Use a aplicação Autenticação.gov para assinar a pauta    "}
+              <Image
+                src="/share-leave-icon.jpg"
+                width={20}
+                height={20}
+                onClick={handlePlugin}
+              />
+
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Quando terminar o processo na aplicação, clique no botão "Já assinei".
+            </DialogContentText>
+            <div style={{marginTop: '1rem'}}>
+              <img
+                style={{ maxWidth: "100%", maxHeight: "calc(100vh - 64px)" }}
+                src="/autenticacaoGovPrint.png"
+                alt="Demonstração de assinatura de pauta"
+              />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseSignDialog}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >Cancelar</Button>
+            <Button onClick={handleGetAndOpenSigned}
+                    variant="outlined" 
+                    className={classes.uaButton}
+                    sx={{marginRight: '10px'}}
+                    >Já assinei</Button>
+          </DialogActions>
+          </Dialog>
+        </div>
       </ThemeProvider>
     </div>
     
