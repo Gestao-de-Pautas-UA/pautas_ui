@@ -90,11 +90,31 @@ export default function Assinar() {
       });      
       console.log(response3)
 
-      
+      const poll = () => {
+        axios.get("http://localhost:3005/get/" + response3.data)
+          .then(response => {
+            if (response.status === 200 && response.data.valid === true) {
+              console.log('Valid response received:', response.data);
+              // Do something with the response
+            } else {
+              console.log('Invalid response received:', response.data);
+              setTimeout(poll, 2000); // Call the function again after 2 seconds
+            }
+          })
+          .catch(error => {
+            console.error('Error occurred:', error);
+            setTimeout(poll, 2000); // Call the function again after 2 seconds
+          });
+      };
+
+      poll(); // Start polling
+    
     } catch (error) {
       // console.error(error);
 
     }
+
+  };
 
   };
 
