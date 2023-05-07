@@ -1,7 +1,8 @@
 
 import { useRouter } from 'next/router'
 import axios from 'axios';
-import { ThemeProvider, Theme, Button} from "@uaveiro/ui";
+import { ThemeProvider, Theme} from "@uaveiro/ui";
+import { Button } from "@mui/material";
 import { useState, useEffect } from 'react';
 import { Subject } from '@mui/icons-material';
 import { Bar } from "react-chartjs-2";
@@ -13,6 +14,14 @@ import Link from 'next/link'
 
 
 export default function pautaDetails() {
+
+    const [showPopup, setShowPopup] = useState(false);
+    const handleLacrarClick = () => {
+        setShowPopup(true);
+      }
+    
+
+      
 
    const router = useRouter();
    const pautaDetailsID = router.query.pautaDetailsID;
@@ -66,8 +75,32 @@ export default function pautaDetails() {
     console.log(graphArray);
     return (
         <ThemeProvider theme={Theme}>
-            <div className="sheet-details-container">
-                <div className="sheet-details">
+   
+        <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
+            <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
+            <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px',marginLeft: '10px' }} onClick={handleLacrarClick}>Lacrar*</Button>
+            {showPopup && 
+            <div style={{display: 'block', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.5)'}}>
+            <div style={{backgroundColor: 'white', width: '40%', margin: 'auto', marginTop: '20%', padding: '2rem'}}>
+                <p1 style={{textAlign: 'center'}}>Deseja lacrar a pauta, depois de lacrada nao pode voltar atras. </p1>
+                <div style={{marginLeft: '60%' }}>
+                    <Button onClick={() => setShowPopup(false)}>Close</Button>
+                    <Button onClick={() => setShowPopup(false)}>Assinar</Button>
+                    {/* <Link href={`/pautaDetails/${subject.codigoPauta}`}>
+                        <Button onClick={() => setShowPopup(false)}>Assinar</Button>
+                    </Link> */}
+                </div>
+
+
+            </div>
+        </div>
+    }
+      
+        </div>
+
+            
+            <div className="sheet-details-container" style={{display:'flex', flexDirection:'column', maxWidth: '800px',textAlign: 'left'}}>
+                <div className="sheet-details" style={{textAlign: 'left', margin: '0px'}}>
                     <h2 className="sheet-details__title">Detalhes</h2>
                     <ul className="sheet-details__list">
                         <li><strong>Disciplina:</strong> {course}</li>
@@ -78,9 +111,9 @@ export default function pautaDetails() {
                         <li><strong>Total de alunos inscritos:</strong> {numberofStudents}</li>
                         <li><strong>Estado da pauta:</strong> {state}</li>
                     </ul>
-                    <Link href="http://localhost:3000">
+                    {/* <Link href="http://localhost:3000">
                         <Button variant="default" width="9rem" >Voltar</Button>
-                    </Link>
+                    </Link> */}
                 </div>
                 <div className="graph-container">
                         <Bar 
