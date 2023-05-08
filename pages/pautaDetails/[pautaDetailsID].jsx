@@ -18,42 +18,70 @@ export default function pautaDetails() {
     const [showPopup, setShowPopup] = useState(false);
     const handleLacrarClick = () => {
         setShowPopup(true);
-      }
-    
+    }
+
+
 
       
-
    const router = useRouter();
    const pautaDetailsID = router.query.pautaDetailsID;
-   const [data, setData] = useState(null);  
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://20.123.119.238/pautasBack/pauta/${pautaDetailsID}`);
-                setData(response.data);
-                console.log(response.data);
-            } catch(error){
-                console.error(error);
-            }
-        };
-        if (pautaDetailsID) {
-            fetchData();
-          }
-    }, [pautaDetailsID]);
+   const [pautaData, setPautaData] = useState(null);  
+   const [pdfData, setPdfData] = useState(null);  
+   
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response1 = await axios.get(`http://20.123.119.238/pautasBack/pauta/${pautaDetailsID}`);
+        const response2 = await axios.get(`http://20.123.119.238/pautasBack/pdf/estudantes/${pautaDetailsID}`, {
+          responseType: 'arraybuffer'
+        });
+        setPautaData(response1.data);
+        setPdfData(response2.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (pautaDetailsID) {
+      fetchData();
+    }
+  }, [pautaDetailsID]);
 
-    if(!data) {
+
+
+
+    if(!pautaData && !pdfData) {
         return (
             <div>Loading...</div>
         )
     }
-    
 
-    const course = data.disciplinaResponse.nome;
-    const courseCode = data.disciplinaResponse.codigo;
-    const state = data.estado;
-    const season = data.tipoExame;
-    const year = data.anoLectivo;
-    const alunos = data.pautaAlunoResponse;
+    const handleDownloadPdf = () => {
+        const file = new Blob([pdfData], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+      };
+
+
+
+    const getPautaStatus = () => {
+        console.log(pautaData.estado);
+        if (pautaData.estado === "PREENCHIDA" || pautaData.estado === "ASSINADA") {
+          return handleDownloadPdf();
+        } else {
+            return alert("Impossivel vizualizar: Pauta não preenchida");
+        
+        }
+      }
+      
+
+      
+    
+    const course = pautaData.disciplinaResponse.nome;
+    const courseCode = pautaData.disciplinaResponse.codigo;
+    const state = pautaData.estado;
+    const season = pautaData.tipoExame;
+    const year = pautaData.anoLectivo;
+    const alunos = pautaData.pautaAlunoResponse;
     const numberofStudents = alunos.length;
     const grades = [];
 
@@ -72,12 +100,15 @@ export default function pautaDetails() {
         grades.forEach((v) => (v === k && count++));
         graphArray.push(count);
     }
-    console.log(graphArray);
+
+
+
     return (
         <ThemeProvider theme={Theme}>
-   
+
+
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
-            <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
+            <Button onClick={getPautaStatus} variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
             <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px',marginLeft: '10px' }} onClick={handleLacrarClick}>Lacrar*</Button>
             {showPopup && 
             <div style={{display: 'block', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.5)'}}>
@@ -116,6 +147,7 @@ export default function pautaDetails() {
                     </Link> */}
                 </div>
                 <div className="graph-container">
+
                         <Bar 
                             data={{
                                 labels:["Undefined",
