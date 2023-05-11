@@ -73,9 +73,25 @@ export default function pautaDetails() {
         }
       }
       
-
-      
     
+    let readableState;
+    if(pautaData.estado === "PREENCHIDA") {
+        readableState = "Preenchida";
+    }else if (pautaData.estado = "ASSINADA") {
+        readableState = "Assinada"; 
+    } else {
+        readableState = "Por preencher";
+    }
+    
+    let readableSeason;
+    if(pautaData.tipoExame === "NM") {
+        readableSeason = "Normal";
+    }else if (pautaData.tipoExame = "RS") {
+        readableSeason = "Recurso"; 
+    } else {
+        readableSeason = "Especial";
+    }
+
     const course = pautaData.disciplinaResponse.nome;
     const courseCode = pautaData.disciplinaResponse.codigo;
     const state = pautaData.estado;
@@ -83,26 +99,43 @@ export default function pautaDetails() {
     const year = pautaData.anoLectivo;
     const alunos = pautaData.pautaAlunoResponse;
     const numberofStudents = alunos.length;
-    const grades = [];
-
+    let grades = [];
+    let trueGrades = [];
     for(let i =0 ; i < numberofStudents ; i++) {
         let grade = alunos[i].nota;
         if (grade === "") {
             grade = -1;
         }
-        grades.push(parseInt(grade));
+        if (grade !== -1) {
+            trueGrades.push(Math.round(parseInt(grade)));
+        }
+        grades.push(Math.round(parseInt(grade)));
     }
-    
-    const graphArray = [];
+
+    console.log(trueGrades);
+
+
+    let graphArray = [];
 
     for (let k = -1; k<=20 ; k++) {
         let count = 0;
         grades.forEach((v) => (v === k && count++));
         graphArray.push(count);
     }
+    
+    let sum = 0;
+    let passCount = 0;
+    for(let k = 0; k < trueGrades.length; k++ ) {
+        sum += trueGrades[k];
+        if(trueGrades[k] >= 10) {
+            passCount++;
+        }
+    }
 
+    let passRate = (passCount / trueGrades.length) * 100;
 
-
+    let average = sum/trueGrades.length;
+    
     return (
         <ThemeProvider theme={Theme}>
 
@@ -135,12 +168,15 @@ export default function pautaDetails() {
                     <h2 className="sheet-details__title">Detalhes</h2>
                     <ul className="sheet-details__list">
                         <li><strong>Disciplina:</strong> {course}</li>
-                        <li><strong>Regime:</strong> {season}</li>
+                        <li><strong>Época:</strong> {readableSeason}</li>
                         <li><strong>Ano Letivo:</strong> {year}</li>
-                       {/* <li><strong>Responsável:</strong> {responsiblePerson}</li>*/}
                         <li><strong>Código da Disciplina:</strong> {courseCode}</li>
                         <li><strong>Total de alunos inscritos:</strong> {numberofStudents}</li>
-                        <li><strong>Estado da pauta:</strong> {state}</li>
+                        <li><strong>Estado da pauta:</strong> {readableState}</li>
+                        <li><strong>Média:</strong> {average} valores</li>
+                        <li><strong>Percentagem de aprovação:</strong> {passRate} %</li>
+
+
                     </ul>
                     {/* <Link href="http://localhost:3000">
                         <Button variant="default" width="9rem" >Voltar</Button>
