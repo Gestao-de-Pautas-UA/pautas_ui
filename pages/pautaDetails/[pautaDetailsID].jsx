@@ -109,11 +109,11 @@ export default function pautaDetails() {
 
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
             <Button onClick={getPautaStatus} variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
-            <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px',marginLeft: '10px' }} onClick={handleLacrarClick}>Lacrar*</Button>
+            <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px',marginLeft: '10px' }} onClick={handleLacrarClick}>Assinar</Button>
             {showPopup && 
             <div style={{display: 'block', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.5)'}}>
             <div style={{backgroundColor: 'white', width: '40%', margin: 'auto', marginTop: '20%', padding: '2rem'}}>
-                <p1 style={{textAlign: 'center'}}>Deseja lacrar a pauta, depois de lacrada nao pode voltar atras. </p1>
+                <p1 style={{textAlign: 'center'}}>Deseja assinar a pauta, depois de assinada nao pode voltar atras. </p1>
                 <div style={{marginLeft: '60%' }}>
                     <Button onClick={() => setShowPopup(false)}>Close</Button>
                     <Button onClick={() => setShowPopup(false)}>Assinar</Button>
