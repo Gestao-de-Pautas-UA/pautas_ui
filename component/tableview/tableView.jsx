@@ -197,8 +197,8 @@ export default function TableView({year}){
                     <thead>
                     <tr>
                         <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>Disciplina<ExpandMoreIcon/></th>
-                        <th>Época de Exame</th>
                         <th>Nº Pauta</th>
+                        <th>Época de Exame</th>
                         <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>Estado<ExpandMoreIcon/></th>
                         <th>Editar</th>
                         <th>Detalhes</th>
