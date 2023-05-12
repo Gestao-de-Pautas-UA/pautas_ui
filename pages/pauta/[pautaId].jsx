@@ -335,14 +335,13 @@ export default function Pauta() {
         <Table 
           marginTop="4px" 
           borders="1px solid" 
-          col2Size="55%"
-          col3Size="10%"
+          col2Size="62%"
+          col3Size="18%"
           col4Size="10%" >
           <thead>
             <tr>
               <th>Nº Mec.</th>
               <th>Nome</th>
-              <th>Código de Curso</th>
               <th>Regime</th>
               <th>Nota</th>
             </tr>
@@ -356,7 +355,6 @@ export default function Pauta() {
               <tr>
                 <td>{student.aluno.nmec}</td>
                 <td>{student.aluno.nome}</td>
-                <td>{student.aluno.codidoCurso}</td>
                 <td>{student.aluno.estatuto[0]}</td>
                 <td>
                   <Input border={`1px solid ${invalidInputs.includes(index) ? 'red' : '#424242'}`}
