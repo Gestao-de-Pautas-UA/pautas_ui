@@ -14,6 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { typeOf } from 'react-is';
+import { read, utils } from 'xlsx';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -77,6 +78,8 @@ export default function Pauta() {
   const [openAssinar, setOpenAssinar] = useState(false);
   
   const [openOverwrite, setOpenOverwrite] = useState(false);
+
+  const [sheetJsonData, setSheetJsonData] = useState(null);
   
   
   const handleCloseGuardar = () => {
@@ -215,15 +218,31 @@ export default function Pauta() {
 
   }
 
-  const handleFileUpload = (event) => {
+
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
+    const file_data = await file.arrayBuffer();
+    const workbook = read(file_data);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    
+    setSheetJsonData(utils.sheet_to_json(worksheet))
 
     setOpenOverwrite(true);
+
+  }
+
+  function overwriteNotas() {
+    setOpenOverwrite(false);
+
+    sheetJsonData.map((student) => {
+      console.log(student["nMec"]);
+      const input = document.getElementById(student["nMec"]);
+      input.value = student["Nota"];
+
+    })
   }
 
   const classes = useStyles();
-
-
 
 
 
@@ -316,14 +335,13 @@ export default function Pauta() {
         <Table 
           marginTop="4px" 
           borders="1px solid" 
-          col2Size="55%"
-          col3Size="10%"
+          col2Size="62%"
+          col3Size="18%"
           col4Size="10%" >
           <thead>
             <tr>
               <th>Nº Mec.</th>
               <th>Nome</th>
-              <th>Código de Curso</th>
               <th>Regime</th>
               <th>Nota</th>
             </tr>
@@ -337,7 +355,6 @@ export default function Pauta() {
               <tr>
                 <td>{student.aluno.nmec}</td>
                 <td>{student.aluno.nome}</td>
-                <td>{student.aluno.codidoCurso}</td>
                 <td>{student.aluno.estatuto[0]}</td>
                 <td>
                   <Input border={`1px solid ${invalidInputs.includes(index) ? 'red' : '#424242'}`}
@@ -438,12 +455,12 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Fechar</Button>
-          <Button onClick={handleCloseOverwrite}
+              >Cancelar</Button>
+          <Button onClick={overwriteNotas}
                   variant="outlined" 
                   className={classes.uaButton}
                   sx={{marginRight: '10px'}}
-                  >Cancelar</Button>
+                  >Sim</Button>
         </DialogActions>
       </Dialog>
     </div>
