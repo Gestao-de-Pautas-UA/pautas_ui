@@ -2,13 +2,13 @@
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import { ThemeProvider, Theme} from "@uaveiro/ui";
-import { Button } from "@mui/material";
 import { useState, useEffect } from 'react';
 import { Subject } from '@mui/icons-material';
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import Link from 'next/link'
-
+import { VictoryChart, VictoryBar, VictoryAxis, VictoryLabel } from 'victory';
+import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
 
 
 
@@ -104,9 +104,17 @@ export default function pautaDetails() {
     for(let i =0 ; i < numberofStudents ; i++) {
         let grade = alunos[i].nota;
         if (grade === "") {
+            grade = -10;
+        } else if (grade === "77"){
+            grade = -3;
+        } else if(grade === "88") {
+            frade = -2;
+        } else if (grade === "99") {
             grade = -1;
+        } else if (grade ==="66") {
+            grade = -4;
         }
-        if (grade !== -1) {
+        if (grade >= 0) {
             trueGrades.push(Math.round(parseInt(grade)));
         }
         grades.push(Math.round(parseInt(grade)));
@@ -117,7 +125,7 @@ export default function pautaDetails() {
 
     let graphArray = [];
 
-    for (let k = -1; k<=20 ; k++) {
+    for (let k = -4; k<=20 ; k++) {
         let count = 0;
         grades.forEach((v) => (v === k && count++));
         graphArray.push(count);
@@ -131,14 +139,63 @@ export default function pautaDetails() {
             passCount++;
         }
     }
-
-    let passRate = (passCount / trueGrades.length) * 100;
+    console.log(trueGrades);
+    console.log(passCount);
+  
+    let passRate = (passCount / numberofStudents) * 100;
 
     let average = sum/trueGrades.length;
     
+   
+
+    const allGrades = ["66",
+    "77",
+    "88",
+    "99",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",]
+
+    const graphData = allGrades.map((grade, index) => ({
+        grade,
+        students: graphArray[index]
+    }));
+    
+
+
     return (
         <ThemeProvider theme={Theme}>
-
+         <div style={{ marginBottom: '20px'}}>
+            <Link href="/">
+                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '30px'}}>
+                    lista de Pautas
+                </Typography>
+            </Link>
+                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+                    &gt;
+                </Typography>
+                <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+                    Detalhes
+                </Typography>
+        </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
             <Button onClick={getPautaStatus} variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>Visualizar pauta</Button>
@@ -150,9 +207,7 @@ export default function pautaDetails() {
                 <div style={{marginLeft: '60%' }}>
                     <Button onClick={() => setShowPopup(false)}>Close</Button>
                     <Button onClick={() => setShowPopup(false)}>Assinar</Button>
-                    {/* <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                        <Button onClick={() => setShowPopup(false)}>Assinar</Button>
-                    </Link> */}
+                   
                 </div>
 
 
@@ -173,20 +228,48 @@ export default function pautaDetails() {
                         <li><strong>Código da Disciplina:</strong> {courseCode}</li>
                         <li><strong>Total de alunos inscritos:</strong> {numberofStudents}</li>
                         <li><strong>Estado da pauta:</strong> {readableState}</li>
-                        <li><strong>Média:</strong> {average} valores</li>
-                        <li><strong>Percentagem de aprovação:</strong> {passRate} %</li>
-
-
-                    </ul>
-                    {/* <Link href="http://localhost:3000">
-                        <Button variant="default" width="9rem" >Voltar</Button>
-                    </Link> */}
+                        <li><strong>Média:</strong> {average.toFixed(2)} valores</li>
+                        <li><strong>Taxa de aprovação:</strong> {passRate.toFixed(2)} %</li>
+                    </ul>             
                 </div>
                 <div className="graph-container">
+                    <VictoryChart width={900} domainPadding={7}>
+                        <VictoryAxis label="Nota" />
+                        <VictoryAxis
+                            dependentAxis
+                            label="Nº de Alunos"
+                            tickFormat={(t) => (Number.isInteger(t) ? t : null)}
+                        />
+                        <VictoryBar
+                            style={{ data: { fill: "#10b4bc" } }}
+                            data={graphData}
+                            x="grade"
+                            y="students"
+                            labels={({ datum }) => datum.students !== 0 ? datum.students : ""}
+                            labelComponent={<VictoryLabel dy={-10} />}
+                        />
+                    </VictoryChart>
 
+
+
+
+
+
+
+
+
+
+
+
+                    
+                      
+                        {/*
                         <Bar 
                             data={{
-                                labels:["Undefined",
+                                labels:["RPNM",
+                                    "Faltou",
+                                    "Desistiu",
+                                    "RF",
                                     "0",
                                     "1",
                                     "2",
@@ -220,9 +303,19 @@ export default function pautaDetails() {
                             height={200}
                             width={500}
                             options={{
-                            maintainAspectRatio: true
-                            }}                                  
+                            maintainAspectRatio: true,
+                            scales: {
+                                yAxes: [{
+                                  ticks: {
+
+                                    stepSize:1
+                                    
+                                  }
+                                }]
+                              }        
+                        }}                                  
                         />
+                    */}
                 </div>
             </div>
         </ThemeProvider>
