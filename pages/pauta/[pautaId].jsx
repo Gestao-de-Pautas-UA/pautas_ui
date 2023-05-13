@@ -182,10 +182,9 @@ export default function Pauta() {
 
     let counter = 0;
     const inputs = document.querySelectorAll('input[type="number"]');
+    const emptyInputs = [];
     inputs.forEach((input) => {
       const inputValue = Number(input.value);
-      console.log(inputValue);
-      console.log(typeOf(inputValue));
       if (
         isNaN(inputValue) ||
         input.value === '' || input.value === "0"
@@ -195,18 +194,18 @@ export default function Pauta() {
         counter++;
       });
       setEmptyInputs(emptyInputs);
+      console.log("emptyInputs: " + emptyInputs);
       if (emptyInputs.length > 0) {
         setOpenAssinar(true);
       }
       
       
-      console.log("Invalidos: " + invalidGuardar);
-      console.log("Emptys: " + emptyInputs);
+      console.log("Invalidos: " + invalidGuardar.length);
+      console.log("Emptys: " + emptyInputs.length);
       if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
-      router.push(`/pauta/${pautaId}/assinar`)
-      
-      // MUDAR ESTADO DA PAUTA PARA PREENCHIDA
-    }
+        router.push(`/pauta/${pautaId}/assinar`)
+      }
+
   }
 
   const handleDownload = () => {
