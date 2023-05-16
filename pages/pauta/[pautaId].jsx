@@ -236,7 +236,10 @@ export default function Pauta() {
     sheetJsonData.map((student) => {
       console.log(student["nMec"]);
       const input = document.getElementById(student["nMec"]);
-      input.value = student["Nota"];
+      
+      if (input) {
+        input.value = student["Nota"];
+      }
 
     })
   }
