@@ -129,12 +129,19 @@ export default function Assinar() {
         if (response.status === 200) {
           console.log('Valid response received');
           // Do something with the response
+          axios.post(process.env.API_URL + "/set/pautaEstado/", 
+          {
+            "codigoPauta": pautaId,
+            "estado": "ASSINADA"
+          }
+          ).catch(error => {
+            console.error('Error @ change pauta estado to assinada', error);
+          });
           const file = new Blob([response.data], { type: 'application/pdf' });
           const fileURL = URL.createObjectURL(file);
-          console.log(fileURL);
           const windowReturn = window.open(fileURL);
-          console.log('Abrir window');
-          console.log(windowReturn);
+
+
         } else {
           console.log('Invalid response received:', response.data);
           setTimeout(poll, 2000); // Call the function again after 2 seconds
