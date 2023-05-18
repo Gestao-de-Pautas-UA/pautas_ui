@@ -208,12 +208,23 @@ export default function Pauta() {
 
   }
 
-  const handleDownload = () => {
-    // POST Guardar antes de GET Download
+  const handleDownload = async () => {
+    // Guardar antes de GET Download
+    await handleGuardar();
 
     // GET File `/get/pdf/{pautaId}`
+    const path = `/excel/${pautaId}`;
+    const url = process.env.API_URL + path;
+    const response = await axios.get(url, {responseType: 'blob'});
+    const blob = new Blob([response.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const urlBlob = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
 
-    // Make browser download the file
+    // User downloads file
+    link.href = urlBlob;
+    link.download = 'filename.xlsx';
+    link.click();    
+
 
   }
 
