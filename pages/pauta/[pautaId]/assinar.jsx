@@ -80,14 +80,29 @@ export default function Assinar() {
     setOpenSignDialog(false);
   };
 
+
   const [signedPdfHashResponse, setSignedPdfHashResponse] = useState('');
+
+  const [openPluginErrorDialog, setOpenPluginErrorDialog] = useState(false);
+
+  const handleClosePluginErrorDialog = () => {
+    setOpenPluginErrorDialog(false);
+  };
 
   const handlePlugin = async () => {
     try {
       
       const path = "http://localhost:3005/";
-      const response = await axios.get(path);
-      console.log(response.data)
+      
+      let response1;
+      try { 
+        response1 = await axios.get(path);
+      } catch (error) {
+        console.error(error);
+        setOpenPluginErrorDialog(true);
+        console.log(openPluginErrorDialog)
+        return;
+      }
 
       const response2 = await axios.get(`http://20.123.119.238/pautasBack/pdf/estudantes/${pautaId}`, {
         responseType: 'arraybuffer'
@@ -282,6 +297,8 @@ export default function Assinar() {
           </Grid>
 
         </Grid>
+        
+        {/* Sign dialog */}
         <div>
           <Dialog
           open={openSignDialog}
@@ -323,6 +340,42 @@ export default function Assinar() {
                     className={classes.uaButton}
                     sx={{marginRight: '10px'}}
                     >Já assinei</Button>
+          </DialogActions>
+          </Dialog>
+        </div>
+
+
+        {/* Plugin error dialog */}
+        <div>
+          <Dialog
+          open={openPluginErrorDialog}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClosePluginErrorDialog}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            {"Você precisa ter o plugin de assinatura a rodar para assinar a pauta"}
+
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Instale e ponha a rodar o plugin para prosseguir com a assinatura da pauta.
+            </DialogContentText>
+            <div style={{marginTop: '1.2rem'}}>
+              <img
+                style={{ maxWidth: "60%", maxHeight: "calc(100vh - 64px)", marginLeft: '10rem' }}
+                src="/pluginRunningPrint.png"
+                alt="Demonstração de plugin a rodar"
+              />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClosePluginErrorDialog}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >Ok</Button>
           </DialogActions>
           </Dialog>
         </div>
