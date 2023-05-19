@@ -159,12 +159,12 @@ export default function Assinar() {
 
         } else {
           console.log('Invalid response received:', response.data);
-          setTimeout(poll, 2000); // Call the function again after 2 seconds
+
         }
       })
       .catch(error => {
         console.error('Error occurred:', error);
-        setTimeout(poll, 2000); // Call the function again after 2 seconds
+
       });
   }
 
