@@ -173,6 +173,8 @@ export default function Pauta() {
           console.error(error);
         }
 
+        setIsNotaChanged(false);
+
         console.log(response.status);
         return invalidInputs;
       } catch (error) {
@@ -269,6 +271,7 @@ export default function Pauta() {
         input.value === '' 
         ) {
           input.value = 99;
+          setIsNotaChanged(true);
         }
     
       });
@@ -287,6 +290,13 @@ export default function Pauta() {
       }
 
     })
+  }
+
+
+  const [isNotaChanged, setIsNotaChanged] = useState(false);
+
+  const handleNotaChange = () => {
+    setIsNotaChanged(true);
   }
 
   const classes = useStyles();
@@ -353,7 +363,7 @@ export default function Pauta() {
           <Grid container spacing={0} sx={{width: '100%'}}>
 
             <Grid item sm={3} md={3} lg={2}>
-              <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar}>
+              <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar} disabled={!isNotaChanged}>
                 Guardar
               </Button>
             
@@ -413,7 +423,8 @@ export default function Pauta() {
                     id={student.aluno.nmec}
                     defaultValue={student.nota}
                     type="number"
-                    step="0.01"/>
+                    step="0.01"
+                    onChange={handleNotaChange}/>
                 </td>
               </tr>
             )})}
