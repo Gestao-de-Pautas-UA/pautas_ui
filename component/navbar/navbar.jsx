@@ -18,7 +18,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-
+import Button from '@mui/material/Button'
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
 
@@ -72,6 +73,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const {t, i18n} = useTranslation();
+  
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -101,7 +104,16 @@ export default function NavBar() {
           <Typography sx={{fontSize: '1.75rem', fontWeight: '100'}} noWrap component="div" className='paco' >
             paco
           </Typography>
-        </Toolbar>
+          <div style={{position:"fixed" , right:"30px" , display:"flex", justifyContent:"flex-end"}}>
+            <Button sx={{color:"white" ,fontSize:"17px",
+            '&:hover': {
+            color: 'black', // Set the desired hover color here
+          },
+        }} onClick={() => {
+          i18n.changeLanguage(t("languageOP"));
+          }}>{t("language")}</Button>
+        </div> 
+        </Toolbar>        
       </AppBar>
       <Drawer
         sx={{
@@ -141,6 +153,7 @@ export default function NavBar() {
                     <Typography style={{ textAlign: 'left', color: '#FFFFFF', fontWeight: '600' }}>
                       {text}
                     </Typography>
+                    
                   }
                 />
               </ListItemButton>

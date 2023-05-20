@@ -18,10 +18,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {useRouter} from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 export default function TableView({year}){
 
-  
+  const {t} = useTranslation();
+
+
   const router = useRouter();
 
 
@@ -159,11 +162,11 @@ export default function TableView({year}){
             >
       
               <MenuItem onClick={alternarOrdenacaoDisciplina}>
-                Ordenar por disciplina
+                {t("ordenardisc")}
                 
               </MenuItem>
               <MenuItem onClick={alternarOrdenacaoEstado}>
-                Ordenar por estado
+                {t("ordenarestado")}
               </MenuItem>
               
               
@@ -196,12 +199,12 @@ export default function TableView({year}){
                     col6Size="15%" >
                     <thead>
                     <tr>
-                        <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>Disciplina<ExpandMoreIcon/></th>
-                        <th>Nº Pauta</th>
-                        <th>Época de Exame</th>
-                        <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>Estado<ExpandMoreIcon/></th>
-                        <th>Editar</th>
-                        <th>Detalhes</th>
+                        <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>{t("disciplina")}<ExpandMoreIcon/></th>
+                        <th>{t("npauta")}</th>
+                        <th>{t("epoca")}</th>
+                        <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>{t("estado")}<ExpandMoreIcon/></th>
+                        <th>{t("editar")}</th>
+                        <th>{t("detalhes")}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -232,12 +235,12 @@ export default function TableView({year}){
                                       onClick={handleClickEditButton} 
                                       variant="outlined" 
                                       style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>
-                                        Editar
+                                        {t("editar")}
                                   </Button>
                                   </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Detalhes</Button>
+                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>{t("detalhes")}</Button>
                                     </Link>
                                 </td>
                             </tr>

@@ -15,6 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { typeOf } from 'react-is';
 import { read, utils } from 'xlsx';
+import { useTranslation } from 'react-i18next';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -67,6 +68,9 @@ const useStyles = makeStyles({
 
 
 export default function Pauta() {
+
+
+  const {t} = useTranslation();
   
   const router = useRouter()
   const { pautaId } = router.query
@@ -331,14 +335,14 @@ export default function Pauta() {
       <div style={{ marginBottom: '20px'}}>
         <Link href="/">
             <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                lista de Pautas
+              {t("lista")}
             </Typography>
         </Link>
             <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
                 &gt;
             </Typography>
             <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-                Pauta
+              {t("pauta")}
             </Typography>
       </div>
         <div>         
@@ -364,21 +368,21 @@ export default function Pauta() {
 
             <Grid item sm={3} md={3} lg={2}>
               <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar} disabled={!isNotaChanged}>
-                Guardar
+                {t("guardar")}
               </Button>
             
               <Button variant="outlined" className={classes.uaButton} onClick={handleAssinar}>
-                Assinar
+               {t("assinar")}
               </Button>
             </Grid>
             <Grid item sm={1} md={1} lg={1}>
             </Grid>
             <Grid item sm={8} md={8} lg={9} sx={{ textAlign: 'right' }} >
               <Button variant="outlined" className={classes.uaButton} onClick={handleDownload} >
-                Download para preencher
+                {t("download")}
               </Button>
               <Button component="label" variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', textAlign:'center'}}>
-                Upload de Ficheiro Excel
+                {t("upload")} 
                   <input
                     type="file"
                     accept=".xls,.xlsx"
@@ -387,7 +391,7 @@ export default function Pauta() {
                   />
               </Button>
               <Button variant="outlined" className={classes.uaButtonMinor} onClick={handleFillMissing} sx={{ marginLeft: '40px', textAlign:'center'}}>
-                Preencher notas vazias como faltantes
+                {t("preenchervazia")} 
               </Button>
             </Grid>
           </Grid>
@@ -400,10 +404,10 @@ export default function Pauta() {
           col4Size="10%" >
           <thead>
             <tr>
-              <th>Nº Mec.</th>
-              <th>Nome</th>
-              <th>Regime</th>
-              <th>Nota</th>
+              <th>{t("nmec")}</th>
+              <th>{t("nome")}</th>
+              <th>{t("regime")}</th>
+              <th>{t("nota")}</th>
             </tr>
           </thead>
           <tbody>
@@ -433,7 +437,7 @@ export default function Pauta() {
       </div>
 
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , textAlign: 'center', fontWeight: '600'}} elevation={24}>
-        66 - Reprovado por nota mínima / 77 - Faltou / 88 - Desistiu / 99 - Reprovado por faltas
+        66 - {t("reprovadomin")} / 77 - {t("faltou")} / 88 - {t("desistiu")} / 99 - {t("reprovadofalta")}
       </Paper>
 
 

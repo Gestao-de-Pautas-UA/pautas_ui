@@ -12,6 +12,7 @@ import axios from 'axios';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle  } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -48,6 +49,11 @@ const useStyles = makeStyles({
 });
 
 export default function Assinar() {
+  
+  
+  const {t} = useTranslation();
+  
+  
   const classes = useStyles();
 
   const router = useRouter();
@@ -196,7 +202,7 @@ export default function Assinar() {
       <div style={{ marginBottom: '20px'}}>
         <Link href="/">
             <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                lista de Pautas
+             {t("lista")}
             </Typography>
         </Link>
             <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
@@ -204,14 +210,14 @@ export default function Assinar() {
             </Typography>
         <Link href={`/pauta/${pautaId}`}>
             <Typography className="text-link" sx={{ display: 'inline-block', marginLeft:'9px'}}>
-                Pauta
+                {t("pautamin")}
             </Typography>
         </Link>
         <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
           &gt;
         </Typography>
         <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-                Assinar
+                {t("assinar")}
         </Typography>
       </div>
       <div>         
@@ -245,10 +251,10 @@ export default function Assinar() {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div" textAlign={'center'}>
-                      Assinar Pauta
+                      {t("assinarpauta")}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Assinar pauta com aplicação da AMA utilizando sua Chave Móvel Digital ou Cartão de Cidadão.
+                      {t("texto1")}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -257,7 +263,7 @@ export default function Assinar() {
                     variant="outlined" 
                     className={classes.uaButton}
                     onClick={handlePlugin}>
-                    Assinar
+                    {t("assinar")}
                   </Button>
                 </CardActions>
               </Card>
@@ -277,17 +283,17 @@ export default function Assinar() {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div" textAlign={'center'}>
-                      Assinar mais tarde
+                      {t("assinartarde")}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Assinar pauta mais tarde. Estado da pauta será mantido como "Preenchida".
+                      {t("texto2")}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
                 <CardActions sx={{justifyContent: 'center'}} >
                   <Link href={`/`}>
                     <Button variant="outlined" className={classes.uaButton}>
-                      Lista de Pautas
+                      {t("listaM")}
                     </Button>
                   </Link>
                 </CardActions>
@@ -319,13 +325,13 @@ export default function Assinar() {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Quando terminar o processo na aplicação, clique no botão "Já assinei".
+              {t("texto3")}
             </DialogContentText>
             <div style={{marginTop: '1rem'}}>
               <img
                 style={{ maxWidth: "100%", maxHeight: "calc(100vh - 64px)" }}
                 src="/autenticacaoGovPrint.png"
-                alt="Demonstração de assinatura de pauta"
+                alt={t("demonstra")}
               />
             </div>
           </DialogContent>
@@ -334,12 +340,12 @@ export default function Assinar() {
                 variant="outlined" 
                 className={classes.uaButton}
                 sx={{marginRight: '10px'}}
-                >Cancelar</Button>
+                >{t("cancelar")}</Button>
             <Button onClick={handleGetAndOpenSigned}
                     variant="outlined" 
                     className={classes.uaButton}
                     sx={{marginRight: '10px'}}
-                    >Já assinei</Button>
+                    >{t("jaassinei")}</Button>
           </DialogActions>
           </Dialog>
         </div>
@@ -355,12 +361,12 @@ export default function Assinar() {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle>
-            {"Você precisa ter o plugin de assinatura a rodar para assinar a pauta"}
+            {t("texto4")}
 
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Instale e ponha a rodar o plugin para prosseguir com a assinatura da pauta.
+              {t("texto5")}
             </DialogContentText>
             <div style={{marginTop: '1.2rem'}}>
               <img
