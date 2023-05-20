@@ -48,7 +48,7 @@ export default function EstadoAmarelo() {
       max={3}
         size='small'
     />
-    <Typography component="legend" fontSize='12px'>Preenchia</Typography>
+    <Typography component="legend" fontSize='12px'>Preenchida</Typography>
     </>
   );
 }

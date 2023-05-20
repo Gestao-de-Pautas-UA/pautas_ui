@@ -14,6 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { typeOf } from 'react-is';
+import { read, utils } from 'xlsx';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -22,7 +23,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles({
   uaButton: {
-    /* define your custom styles here */
     borderRadius: 1,  
     backgroundColor: 'white', 
     color: 'black', 
@@ -45,7 +45,26 @@ const useStyles = makeStyles({
     borderRadius: '1px',
     height: '500px',
   },
+  uaButtonMinor: {
+    borderRadius: 1,  
+    backgroundColor: 'white', 
+    color: 'black', 
+    borderColor: 'black', 
+    fontSize: '0.8rem',
+    padding: '0px 6px 0px 6px',
+    height: 'auto',
+    minHeight: '40px',
+    maxWidth: '160px',
+    textTransform: 'capitalize',
+    justifyContent: 'center',
+    fontWeight: '400',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+    },
+  },
 });
+
 
 export default function Pauta() {
   
@@ -77,6 +96,8 @@ export default function Pauta() {
   const [openAssinar, setOpenAssinar] = useState(false);
   
   const [openOverwrite, setOpenOverwrite] = useState(false);
+
+  const [sheetJsonData, setSheetJsonData] = useState(null);
   
   
   const handleCloseGuardar = () => {
@@ -152,6 +173,8 @@ export default function Pauta() {
           console.error(error);
         }
 
+        setIsNotaChanged(false);
+
         console.log(response.status);
         return invalidInputs;
       } catch (error) {
@@ -179,10 +202,9 @@ export default function Pauta() {
 
     let counter = 0;
     const inputs = document.querySelectorAll('input[type="number"]');
+    const emptyInputs = [];
     inputs.forEach((input) => {
       const inputValue = Number(input.value);
-      console.log(inputValue);
-      console.log(typeOf(inputValue));
       if (
         isNaN(inputValue) ||
         input.value === '' || input.value === "0"
@@ -192,38 +214,92 @@ export default function Pauta() {
         counter++;
       });
       setEmptyInputs(emptyInputs);
+      console.log("emptyInputs: " + emptyInputs);
       if (emptyInputs.length > 0) {
         setOpenAssinar(true);
       }
       
       
-      console.log("Invalidos: " + invalidGuardar);
-      console.log("Emptys: " + emptyInputs);
+      console.log("Invalidos: " + invalidGuardar.length);
+      console.log("Emptys: " + emptyInputs.length);
       if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
-      router.push(`/pauta/${pautaId}/assinar`)
-      
-      // MUDAR ESTADO DA PAUTA PARA PREENCHIDA
-    }
+        router.push(`/pauta/${pautaId}/assinar`)
+      }
+
   }
 
-  const handleDownload = () => {
-    // POST Guardar antes de GET Download
+  const handleDownload = async () => {
+    // Guardar antes de GET Download
+    await handleGuardar();
 
     // GET File `/get/pdf/{pautaId}`
+    const path = `/excel/${pautaId}`;
+    const url = process.env.API_URL + path;
+    const response = await axios.get(url, {responseType: 'blob'});
+    const blob = new Blob([response.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const urlBlob = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
 
-    // Make browser download the file
+    // User downloads file
+    link.href = urlBlob;
+    link.download = 'filename.xlsx';
+    link.click();    
+
 
   }
 
-  const handleFileUpload = (event) => {
+
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
+    const file_data = await file.arrayBuffer();
+    const workbook = read(file_data);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    
+    setSheetJsonData(utils.sheet_to_json(worksheet))
 
     setOpenOverwrite(true);
+
+  }
+
+  const handleFillMissing = () => {
+    const inputs = document.querySelectorAll('input[type="number"]');
+    
+    inputs.forEach((input) => {
+      const inputValue = Number(input.value);
+      if (
+        isNaN(inputValue) ||
+        input.value === '' 
+        ) {
+          input.value = 99;
+          setIsNotaChanged(true);
+        }
+    
+      });
+
+  }
+
+  function overwriteNotas() {
+    setOpenOverwrite(false);
+
+    sheetJsonData.map((student) => {
+      console.log(student["nMec"]);
+      const input = document.getElementById(student["nMec"]);
+      
+      if (input) {
+        input.value = student["Nota"];
+      }
+
+    })
+  }
+
+
+  const [isNotaChanged, setIsNotaChanged] = useState(false);
+
+  const handleNotaChange = () => {
+    setIsNotaChanged(true);
   }
 
   const classes = useStyles();
-
-
 
 
 
@@ -283,47 +359,49 @@ export default function Pauta() {
             </Typography>
           </div>
         </div>
-        <div>
-              <Grid container spacing={1}>
+        <div style={{width: '100vw', paddingRight: '4rem'}}>
+          <Grid container spacing={0} sx={{width: '100%'}}>
 
-                <Grid item md={3} lg={2}>
-                  <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar}>
-                    Guardar
-                  </Button>
-                
-                  <Button variant="outlined" className={classes.uaButton} onClick={handleAssinar}>
-                    Assinar
-                  </Button>
-                </Grid>
-                <Grid item sm={4} md={5} lg={4}>
-                </Grid>
-                <Grid item md={4} lg={5} sx={{ textAlign: 'right' }} >
-                  <Button variant="outlined" className={classes.uaButton} onClick={handleDownload}>
-                    Download para preencher
-                  </Button>
-                  <Button component="label" variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', textAlign:'center'}}>
-                    Upload de Ficheiro Excel
-                      <input
-                        type="file"
-                        accept=".xls,.xlsx"
-                        hidden
-                        onChange={handleFileUpload}
-                      />
-                  </Button>
-                </Grid>
-              </Grid>
+            <Grid item sm={3} md={3} lg={2}>
+              <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar} disabled={!isNotaChanged}>
+                Guardar
+              </Button>
+            
+              <Button variant="outlined" className={classes.uaButton} onClick={handleAssinar}>
+                Assinar
+              </Button>
+            </Grid>
+            <Grid item sm={1} md={1} lg={1}>
+            </Grid>
+            <Grid item sm={8} md={8} lg={9} sx={{ textAlign: 'right' }} >
+              <Button variant="outlined" className={classes.uaButton} onClick={handleDownload} >
+                Download para preencher
+              </Button>
+              <Button component="label" variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', textAlign:'center'}}>
+                Upload de Ficheiro Excel
+                  <input
+                    type="file"
+                    accept=".xls,.xlsx"
+                    hidden
+                    onChange={handleFileUpload}
+                  />
+              </Button>
+              <Button variant="outlined" className={classes.uaButtonMinor} onClick={handleFillMissing} sx={{ marginLeft: '40px', textAlign:'center'}}>
+                Preencher notas vazias como faltantes
+              </Button>
+            </Grid>
+          </Grid>
         </div>
         <Table 
           marginTop="4px" 
           borders="1px solid" 
-          col2Size="55%"
-          col3Size="10%"
+          col2Size="62%"
+          col3Size="18%"
           col4Size="10%" >
           <thead>
             <tr>
               <th>Nº Mec.</th>
               <th>Nome</th>
-              <th>Código de Curso</th>
               <th>Regime</th>
               <th>Nota</th>
             </tr>
@@ -337,7 +415,6 @@ export default function Pauta() {
               <tr>
                 <td>{student.aluno.nmec}</td>
                 <td>{student.aluno.nome}</td>
-                <td>{student.aluno.codidoCurso}</td>
                 <td>{student.aluno.estatuto[0]}</td>
                 <td>
                   <Input border={`1px solid ${invalidInputs.includes(index) ? 'red' : '#424242'}`}
@@ -346,7 +423,8 @@ export default function Pauta() {
                     id={student.aluno.nmec}
                     defaultValue={student.nota}
                     type="number"
-                    step="0.01"/>
+                    step="0.01"
+                    onChange={handleNotaChange}/>
                 </td>
               </tr>
             )})}
@@ -438,12 +516,12 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Fechar</Button>
-          <Button onClick={handleCloseOverwrite}
+              >Cancelar</Button>
+          <Button onClick={overwriteNotas}
                   variant="outlined" 
                   className={classes.uaButton}
                   sx={{marginRight: '10px'}}
-                  >Cancelar</Button>
+                  >Sim</Button>
         </DialogActions>
       </Dialog>
     </div>
