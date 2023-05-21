@@ -18,8 +18,37 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {useRouter} from 'next/router';
+import { makeStyles } from '@mui/styles';
+
+
+const useStyles = makeStyles({
+  uaButton: {
+    /* define your custom styles here */
+    borderRadius: 1,  
+    backgroundColor: 'white', 
+    color: 'black', 
+    borderColor: 'black', 
+    fontSize: '14px',
+    padding: '0px 12px 0px 12px',
+    height: 'auto',
+    minHeight: '40px',
+    maxWidth: '140px',
+    textTransform: 'capitalize',
+    justifyContent: 'center',
+    fontWeight: '400',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+    },
+  },
+});
 
 export default function TableView({year, nMec}){
+
+
+
+  const classes = useStyles();
+  
   
 
   console.log("prof "+nMec);
@@ -229,17 +258,16 @@ export default function TableView({year, nMec}){
                                     )}
                                 </td>
                                 <td>
-                                  <Button 
+                                  <Button variant="outlined" className={classes.uaButton}
                                       id={subject.codigoPauta}
-                                      onClick={handleClickEditButton} 
-                                      variant="outlined" 
-                                      style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>
+                                      onClick={handleClickEditButton}
+                                    >
                                         Editar
                                   </Button>
                                   </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Detalhes</Button>
+                                        <Button variant="outlined" className={classes.uaButton}>Detalhes</Button>
                                     </Link>
                                 </td>
                             </tr>

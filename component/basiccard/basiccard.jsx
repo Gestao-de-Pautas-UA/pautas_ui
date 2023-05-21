@@ -11,16 +11,41 @@ import { useState, useEffect } from 'react';
 import EstadoAmarelo from '../legend/estadoAmarelo';
 import EstadoVerde from '../legend/estadoVerde';
 import EstadoVermelho from '../legend/estadoVermelho';
+import { useRouter } from 'next/router';
+import Link from 'next/link'; 
 
 
 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
+import { makeStyles } from '@mui/styles';
+
+
+const useStyles = makeStyles({
+  uaButton: {
+    /* define your custom styles here */
+    borderRadius: 1,  
+    backgroundColor: 'white', 
+    color: 'black', 
+    borderColor: 'black', 
+    fontSize: '14px',
+    padding: '0px 12px 0px 12px',
+    height: 'auto',
+    minHeight: '40px',
+    maxWidth: '140px',
+    textTransform: 'capitalize',
+    justifyContent: 'center',
+    fontWeight: '400',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+    },
+  },
+});
 
 export default function BasicCard({year, nMec}) {
+
+  const router = useRouter();
+  const classes = useStyles();
 
     //Chamada a api 
     const [data, setData] = useState(null);
@@ -38,7 +63,10 @@ export default function BasicCard({year, nMec}) {
     }, [year]);
 
 
- 
+    const handleClickEditButton = (event) => {
+      router.push('/pauta/'+ event.currentTarget.id);
+    }
+
 
     if (!data) {
         return <ThemeProvider theme={Theme}>
@@ -72,7 +100,7 @@ export default function BasicCard({year, nMec}) {
         <div>
     
           <div>
-            <Card sx={{ width: 350, height: 300, marginLeft: 5, marginTop: 15}} key={index}>
+            <Card sx={{ width: 350, height: 300, marginLeft: 5, marginTop: 3, marginRight: -1}} key={index}>
               <CardContent>
                 <Typography variant="h5" component="div">
                   {subject.disciplinaResponse.nome}
@@ -84,8 +112,15 @@ export default function BasicCard({year, nMec}) {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>Editar</Button>
-                <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>Detalhes</Button>
+              <Button variant="outlined" className={classes.uaButton}
+                                      id={subject.codigoPauta}
+                                      onClick={handleClickEditButton}
+                                    >
+                                        Editar
+              </Button>
+              <Link href={`/pautaDetails/${subject.codigoPauta}`}>
+                    <Button variant="outlined" className={classes.uaButton}>Detalhes</Button>
+              </Link>
                 
               </CardActions>
             </Card>
