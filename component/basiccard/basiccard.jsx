@@ -20,15 +20,15 @@ import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 
-export default function BasicCard({year}) {
+export default function BasicCard({year, nMec}) {
 
     //Chamada a api 
     const [data, setData] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://20.123.119.238/pautasBack/pautas/10309907');
-                setData(response.data.filter(obj => obj.anoLectivo === year));
+              const response = await axios.get('http://20.123.119.238/pautasBack/pautas/' + nMec);
+              setData(response.data.filter(obj => obj.anoLectivo === year));
             } catch(error){
                 console.error(error);
             }
