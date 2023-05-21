@@ -31,7 +31,8 @@ export default function TableView({year, nMec}){
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://20.123.119.238/pautasBack/pautas/' + nMec);
+                const url = process.env.API_URL+'/pautas/' + nMec;
+                const response = await axios.get(url);
                 setData(response.data.filter(obj => obj.anoLectivo === year));
                 console.log(data);
             } catch(error){
