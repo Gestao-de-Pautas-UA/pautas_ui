@@ -314,7 +314,7 @@ export default function Assinar() {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle>
-            {"Use a aplicação Autenticação.gov para assinar a pauta    "}
+          {t("assinardialogotitulo")}
               <Image
                 src="/share-leave-icon.jpg"
                 width={20}

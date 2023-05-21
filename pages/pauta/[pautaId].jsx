@@ -450,7 +450,7 @@ export default function Pauta() {
           onClose={handleCloseGuardar}
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle>{"Notas inválidas foram inseridas para os respetivos alunos:"}</DialogTitle>
+          <DialogTitle>{t("guardardialogoerro")}:</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               {invalidInputs.map((index) => (
@@ -466,7 +466,7 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Fechar</Button>
+              >{t("fechar")}</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -480,7 +480,7 @@ export default function Pauta() {
           onClose={handleCloseAssinar}
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle>{"Para assinar a pauta, todas as notas necessitam estar preenchidas:"}</DialogTitle>
+          <DialogTitle>{t("assinardialogoerro")}:</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               {emptyInputs.map((index) => (
@@ -496,7 +496,7 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Fechar</Button>
+              >{t("fechar")}</Button>
           </DialogActions>
         </Dialog>
       </div>

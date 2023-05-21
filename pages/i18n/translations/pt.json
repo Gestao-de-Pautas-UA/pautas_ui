@@ -55,7 +55,10 @@
         "texto4":"Você precisa ter o plugin de assinatura a rodar para assinar a pauta",
         "texto5":"Instale e corra o plugin para prosseguir com a assinatura da pauta.",
         "languageOP":"en",
-        "ordem":"Ordem"
-        
+        "ordem":"Ordem",
+        "fechar":"Fechar",
+        "guardardialogoerro": "Notas inválidas foram inseridas para os respectivos alunos",
+        "assinardialogoerro": "Para assinar a pauta, todas as notas necessitam estar preenchidas",
+        "assinardialogotitulo": "Use a aplicação Autenticação.gov para assinar a pauta  "
     }
  }

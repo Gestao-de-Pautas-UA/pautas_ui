@@ -55,7 +55,10 @@
         "texto4":"You must have the signature plugin running to sign",
         "texto5":"Intall and run the plugin in order to continue signing the grades sheet",
         "languageOP":"pt",
-        "ordem":"Order"
-        
+        "ordem":"Order",
+        "fechar":"Close",
+        "guardardialogoerro": "Invalid grades were inserted for the following students",
+        "assinardialogoerro": "For the signing of the sheet all grades must be filled",
+        "assinardialogotitulo": "Use the Autenticacao.gov application to sign the sheet  "
     }
  }
