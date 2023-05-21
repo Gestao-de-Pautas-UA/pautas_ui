@@ -291,6 +291,7 @@ export default function Pauta() {
       
       if (input) {
         input.value = student["Nota"];
+        setIsNotaChanged(true);
       }
 
     })
