@@ -59,6 +59,9 @@
         "fechar":"Fechar",
         "guardardialogoerro": "Notas inválidas foram inseridas para os respectivos alunos",
         "assinardialogoerro": "Para assinar a pauta, todas as notas necessitam estar preenchidas",
-        "assinardialogotitulo": "Use a aplicação Autenticação.gov para assinar a pauta  "
+        "assinardialogotitulo": "Use a aplicação Autenticação.gov para assinar a pauta  ",
+        "sobrescreverdialogotitulo": "Alerta de sobrescrição de notas",
+        "sobrescreverdialogodescricao":"O arquivo importado irá sobrescrever as notas existentes. Deseja continuar?",
+        "sim":"Sim"
     }
  }

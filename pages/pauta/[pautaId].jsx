@@ -509,10 +509,10 @@ export default function Pauta() {
         onClose={handleCloseOverwrite}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Alerta de sobrescrição de notas"}</DialogTitle>
+        <DialogTitle>{t("sobrescreverdialogotitulo")}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            O arquivo importado irá sobrescrever as notas existentes. Deseja continuar?
+          {t("sobrescreverdialogodescricao")}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -520,12 +520,12 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Cancelar</Button>
+              >{t("cancelar")}</Button>
           <Button onClick={overwriteNotas}
                   variant="outlined" 
                   className={classes.uaButton}
                   sx={{marginRight: '10px'}}
-                  >Sim</Button>
+                  >{t("sim")}</Button>
         </DialogActions>
       </Dialog>
     </div>
