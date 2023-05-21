@@ -203,7 +203,7 @@ export default function Home() {
 
   return (
     <div>
-      <h2 className="tituloPautas">Gestão de Pautas</h2>
+      <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
       <Dropdown/>
       <DropdownSort />
