@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import Rating from '@mui/material/Rating';
 import CircleIcon from '@mui/icons-material/Circle';
 import Typography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -36,6 +37,9 @@ IconContainer.propTypes = {
 };
 
 export default function EstadoVerde() {
+  
+  const {t} = useTranslation();
+  
   return (
     <>
     <StyledRating
@@ -49,7 +53,7 @@ export default function EstadoVerde() {
       size='small'
     />
    
-    <Typography component="legend" fontSize='12px'>Assinada</Typography>
+    <Typography component="legend" fontSize='12px'>{t("assinada")}</Typography>
     </>
   );
 }

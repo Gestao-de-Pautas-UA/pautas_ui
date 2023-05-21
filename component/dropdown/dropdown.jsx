@@ -9,6 +9,8 @@ import axios from 'axios';
 
 export default function Dropdown() {
 
+  const {t} = useTranslation();
+
   const [data, setData] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
 
@@ -47,8 +49,8 @@ export default function Dropdown() {
     return (
       <Box  sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
         <FormControl fullWidth>
-          <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
-        <Select label="Ano" value={selectedYear} onChange={handleYearChange}>
+          <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>{t("ano")}</InputLabel>
+        <Select label={t("ano")} value={selectedYear} onChange={handleYearChange}>
           {uniqueData.map((choice) => (
             <MenuItem key={choice} value={choice}>
               {choice}

@@ -18,9 +18,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { useTranslation } from 'react-i18next';
 
 
 export default function BasicCard({year}) {
+
+
+    const {t} = useTranslation();
+
 
     //Chamada a api 
     const [data, setData] = useState(null);
@@ -77,14 +82,14 @@ export default function BasicCard({year}) {
                   {subject.disciplinaResponse.nome}
                 </Typography>
                 <Typography variant="body2">
-                  <b>N_Pauta:</b> {subject.disciplinaResponse.codigo} <br />
-                  <b>Época:</b> {subject.tipoExame} <br />
-                  <b>Estado:</b> <p>{estadoIcon} </p><br />
+                  <b>{t("npauta")}:</b> {subject.disciplinaResponse.codigo} <br />
+                  <b>{t("epoca")}:</b> {subject.tipoExame} <br />
+                  <b>{t("estado")}:</b> <p>{estadoIcon} </p><br />
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>Editar</Button>
-                <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>Detalhes</Button>
+                <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>{t("editar")}</Button>
+                <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '12px' }}>{t("detalhes")}</Button>
                 
               </CardActions>
             </Card>
