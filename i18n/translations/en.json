@@ -59,6 +59,9 @@
         "fechar":"Close",
         "guardardialogoerro": "Invalid grades were inserted for the following students",
         "assinardialogoerro": "For the signing of the sheet all grades must be filled",
-        "assinardialogotitulo": "Use the Autenticacao.gov application to sign the sheet  "
+        "assinardialogotitulo": "Use the Autenticacao.gov application to sign the sheet  ",
+        "sobrescreverdialogotitulo": "Grades overwrite alert",
+        "sobrescreverdialogodescricao":"The imported file will overwrite some of the current grades. Do you wish to continue?",
+        "sim":"Yes"
     }
  }
