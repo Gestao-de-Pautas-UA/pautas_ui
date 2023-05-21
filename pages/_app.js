@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import NavBar from '@/component/navbar/navbar';
 import { Roboto } from 'next/font/google';
-import './i18n/i18n.js'
+import '../i18n/i18n'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['100', '300', '400', '500', '700'] })
 
