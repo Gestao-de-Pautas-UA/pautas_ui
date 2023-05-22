@@ -18,7 +18,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {useRouter} from 'next/router';
+
 import { makeStyles } from '@mui/styles';
+
+import { useTranslation } from 'react-i18next';
+
+
 
 
 const useStyles = makeStyles({
@@ -52,6 +57,11 @@ export default function TableView({year, nMec}){
   
 
   console.log("prof "+nMec);
+
+  const {t} = useTranslation();
+
+
+
   const router = useRouter();
 
 
@@ -190,11 +200,11 @@ export default function TableView({year, nMec}){
             >
       
               <MenuItem onClick={alternarOrdenacaoDisciplina}>
-                Ordenar por disciplina
+                {t("ordenardisc")}
                 
               </MenuItem>
               <MenuItem onClick={alternarOrdenacaoEstado}>
-                Ordenar por estado
+                {t("ordenarestado")}
               </MenuItem>
               
               
@@ -227,12 +237,12 @@ export default function TableView({year, nMec}){
                     col6Size="15%" >
                     <thead>
                     <tr>
-                        <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>Disciplina<ExpandMoreIcon/></th>
-                        <th>Época de Exame</th>
-                        <th>Nº Pauta</th>
-                        <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>Estado<ExpandMoreIcon/></th>
-                        <th>Editar</th>
-                        <th>Detalhes</th>
+                        <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>{t("disciplina")}<ExpandMoreIcon/></th>
+                        <th>{t("npauta")}</th>
+                        <th>{t("epoca")}</th>
+                        <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>{t("estado")}<ExpandMoreIcon/></th>
+                        <th>{t("editar")}</th>
+                        <th>{t("detalhes")}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -260,14 +270,21 @@ export default function TableView({year, nMec}){
                                 <td>
                                   <Button variant="outlined" className={classes.uaButton}
                                       id={subject.codigoPauta}
+
                                       onClick={handleClickEditButton}
                                     >
-                                        Editar
+                                        {t("editar")}
+
+                                     
+                          
                                   </Button>
                                   </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                                        <Button variant="outlined" className={classes.uaButton}>Detalhes</Button>
+
+                                        <Button variant="outlined" className={classes.uaButton}>{t("detalhes")}</Button>
+
+                       
                                     </Link>
                                 </td>
                             </tr>

@@ -19,12 +19,14 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 export default function Page() {
     
     const router = useRouter();
     const { profId } = router.query;
-    
+
+    const {t} = useTranslation();
     
     const [view, setView] = useState('tableView');
     const [selectedYear, setSelectedYear] = useState('2019/2020');
@@ -212,7 +214,7 @@ export default function Page() {
   return (
     <ThemeProvider theme={Theme}>
     <div>
-      <h2 className="tituloPautas">Gestão de Pautas</h2>
+      <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
       <Dropdown/>
       <DropdownSort />

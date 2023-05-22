@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import Rating from '@mui/material/Rating';
 import CircleIcon from '@mui/icons-material/Circle';
 import Typography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -36,6 +37,9 @@ IconContainer.propTypes = {
 };
 
 export default function EstadoAmarelo() {
+  
+  const {t} = useTranslation();
+  
   return (
     <>
     <StyledRating
@@ -48,7 +52,7 @@ export default function EstadoAmarelo() {
       max={3}
         size='small'
     />
-    <Typography component="legend" fontSize='12px'>Preenchia</Typography>
+    <Typography component="legend" fontSize='12px'>{t("preenchida")}</Typography>
     </>
   );
 }
