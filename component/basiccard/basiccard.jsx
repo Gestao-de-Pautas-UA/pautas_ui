@@ -126,13 +126,14 @@ export default function BasicCard({year, nMec}) {
               <CardActions>
 
               <Button variant="outlined" className={classes.uaButton}
+                                      style={{ marginBottom: "290px"}}
                                       id={subject.codigoPauta}
                                       onClick={handleClickEditButton}
                                     >
                                         {t("editar")}
               </Button>
               <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                    <Button variant="outlined" className={classes.uaButton}>{t("detalhes")}</Button>
+                    <Button variant="outlined" className={classes.uaButton} style={{margin: "10px", marginBottom: "300px"}} >{t("detalhes")}</Button>
               </Link>
 
               </CardActions>
