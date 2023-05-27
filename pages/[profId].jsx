@@ -1,4 +1,4 @@
-import { Theme, ThemeProvider, Button } from "@uaveiro/ui";
+import { Theme, ThemeProvider, Button, TableLoading  } from "@uaveiro/ui";
 import TableView from "../component/tableview/tableView";
 import Container from 'react-bootstrap';
 import IconButton from '@mui/material/IconButton';
@@ -31,7 +31,8 @@ export default function Page() {
     const [view, setView] = useState('tableView');
     const [selectedYear, setSelectedYear] = useState('2019/2020');
     const [data, setData] = useState(null);
-    
+    const [isLoading, setIsLoading] = useState(true)
+
     //Chamada a api
     useEffect(() => {
         const fetchData = async () => {
@@ -45,8 +46,10 @@ export default function Page() {
             const response = await axios.get(url);
             setData(response.data);
             console.log(response.data);
+            setIsLoading(false);
         } catch(error){
             console.error(error);
+            setIsLoading(false);
         }
     };
     fetchData();
@@ -207,8 +210,9 @@ export default function Page() {
 
 
 
-
+    console.log("Primeiro: " + profId)
   return (
+    <ThemeProvider theme={Theme}>
     <div>
       <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
@@ -225,9 +229,15 @@ export default function Page() {
         </Stack>
       </div>
 
-      {/* <div>{renderView()}</div> */}
-      {view === 'tableView' && <TableView year={selectedYear} />}
-      {view === 'overviewCard' && <BasicCard year={selectedYear} />}
+      {isLoading ? (
+        <div> <TableLoading/></div> // Exibir mensagem de carregamento
+      ) : (
+        <>
+          {view === 'tableView' && <TableView year={selectedYear} nMec={profId} />}
+          {view === 'overviewCard' && <BasicCard year={selectedYear} nMec={profId} />}
+        </>
+      )}
     </div>
+    </ThemeProvider>
   );
 }
