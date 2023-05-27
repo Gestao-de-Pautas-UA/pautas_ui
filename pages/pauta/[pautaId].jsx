@@ -246,7 +246,7 @@ export default function Pauta() {
 
     // User downloads file
     link.href = urlBlob;
-    link.download = 'filename.xlsx';
+    link.download = data.disciplinaResponse.nome + '.xlsx';
     link.click();    
 
 
