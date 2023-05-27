@@ -97,8 +97,8 @@ export default function Pauta() {
 
   const [openGuardar, setOpenGuardar] = useState(false);
   const [openAssinar, setOpenAssinar] = useState(false);
-  
   const [openOverwrite, setOpenOverwrite] = useState(false);
+  const [openMissing, setOpenMissing] = useState(false);
 
   const [sheetJsonData, setSheetJsonData] = useState(null);
   
@@ -115,9 +115,14 @@ export default function Pauta() {
     setOpenOverwrite(false);
   };
 
-  
+  const handleCloseMissing = () => {
+    setOpenMissing(false);
+  };
+
+
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [emptyInputs, setEmptyInputs] = useState([]);
+  const [missingStudentsList, setMissingStudentsList] = useState([]);
 
   const handleGuardar = async () => {
     const invalidInputs = [];
@@ -256,8 +261,8 @@ export default function Pauta() {
     const file_data = await file.arrayBuffer();
     const workbook = read(file_data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const sheet_json = utils.sheet_to_json(worksheet);
 
-    console.log(sheet_json);
     setSheetJsonData(sheet_json)
 
     setOpenOverwrite(true);
@@ -284,8 +289,10 @@ export default function Pauta() {
   function overwriteNotas() {
     setOpenOverwrite(false);
 
+    const missingStudents = [];
+
     sheetJsonData.map((student) => {
-      console.log(student["nMec"]);
+      
       const input = document.getElementById(student["nMec"]);
       
       if (input) {
@@ -293,7 +300,19 @@ export default function Pauta() {
         setIsNotaChanged(true);
       }
 
+      if (!input) {
+        missingStudents.push(student["nMec"]);
+      }
     })
+
+    if (missingStudents.length > 0) {
+      setMissingStudentsList(missingStudents);
+      setOpenMissing(true);
+    }
+
+    if (missingStudents.length === 0) {
+      setMissingStudentsList([]);
+    }
   }
 
 
@@ -502,33 +521,64 @@ export default function Pauta() {
       </div>
 
       <div>
-      <Dialog
-        open={openOverwrite}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleCloseOverwrite}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{t("sobrescreverdialogotitulo")}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-          {t("sobrescreverdialogodescricao")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseOverwrite}
-              variant="outlined" 
-              className={classes.uaButton}
-              sx={{marginRight: '10px'}}
-              >{t("cancelar")}</Button>
-          <Button onClick={overwriteNotas}
-                  variant="outlined" 
-                  className={classes.uaButton}
-                  sx={{marginRight: '10px'}}
-                  >{t("sim")}</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <Dialog
+          open={openOverwrite}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseOverwrite}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{t("sobrescreverdialogotitulo")}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+            {t("sobrescreverdialogodescricao")}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseOverwrite}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("cancelar")}</Button>
+            <Button onClick={overwriteNotas}
+                    variant="outlined" 
+                    className={classes.uaButton}
+                    sx={{marginRight: '10px'}}
+                    >{t("sim")}</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={openMissing}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseMissing}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{t("faltandodialogotitulo")}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              
+            {missingStudentsList.map((student) => (
+                <div key={student}>
+                  {student}
+                </div>
+              ))}
+
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseMissing}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("fechar")}</Button>
+            
+          </DialogActions>
+        </Dialog>
+      </div>
       
     </ThemeProvider>
   );

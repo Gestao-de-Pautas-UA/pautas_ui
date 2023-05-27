@@ -62,6 +62,7 @@
         "assinardialogotitulo": "Use a aplicação Autenticação.gov para assinar a pauta  ",
         "sobrescreverdialogotitulo": "Alerta de sobrescrição de notas",
         "sobrescreverdialogodescricao":"O arquivo importado irá sobrescrever as notas existentes. Deseja continuar?",
-        "sim":"Sim"
+        "sim":"Sim",
+        "faltandodialogotitulo": "Atenção, alguns alunos do ficheiro importado não estão na pauta:"
     }
  }
