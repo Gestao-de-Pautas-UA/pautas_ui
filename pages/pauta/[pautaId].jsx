@@ -212,7 +212,7 @@ export default function Pauta() {
       const inputValue = Number(input.value);
       if (
         isNaN(inputValue) ||
-        input.value === '' || input.value === "0"
+        input.value === '' 
         ) {
           emptyInputs.push(counter);
         }
