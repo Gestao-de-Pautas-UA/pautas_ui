@@ -227,7 +227,11 @@ export default function Pauta() {
 
   const handleDownload = async () => {
     // Guardar antes de GET Download
-    await handleGuardar();
+    const invalidGuardar = await handleGuardar();
+
+    if (invalidGuardar.length > 0) {
+      return;
+    }
 
     // GET File `/get/pdf/{pautaId}`
     const path = `/excel/${pautaId}`;
@@ -248,12 +252,12 @@ export default function Pauta() {
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
+    event.target.value = null;
     const file_data = await file.arrayBuffer();
     const workbook = read(file_data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const sheet_json = utils.sheet_to_json(worksheet)
 
-
+    console.log(sheet_json);
     setSheetJsonData(sheet_json)
 
     setOpenOverwrite(true);
