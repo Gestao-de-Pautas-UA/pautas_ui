@@ -33,7 +33,7 @@ export default function TableView({year}){
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://20.123.119.238/pautasBack/pautas/10309907');
+                const response = await axios.get(process.env.API_URL + '/pautasBack/pautas/10309907');
                 setData(response.data.filter(obj => obj.anoLectivo === year));
                 console.log(data);
             } catch(error){
