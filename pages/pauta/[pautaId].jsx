@@ -321,11 +321,9 @@ export default function Pauta() {
     return <ThemeProvider theme={Theme}>
             <div class="pautas-page-container">
               <div style={{ marginBottom: '20px'}}>
-                <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                  lista de Pautas
-                </Typography>
-                </Link>
+              <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+                {t("lista")}
+              </Typography>
                 <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
                   &gt;
                 </Typography>

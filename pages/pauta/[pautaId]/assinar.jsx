@@ -79,6 +79,15 @@ export default function Assinar() {
   fetchData();
 }, [pautaId]);
 
+  const goToOverview = async () => {
+    try {
+      const response = await axios.get(process.env.API_URL + `/professorByPauta/${pautaId}`);
+      const codProf = response.data.nmec;
+      router.push(`/${codProf}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const [openSignDialog, setOpenSignDialog] = useState(false);
 
@@ -179,11 +188,9 @@ export default function Assinar() {
     return <ThemeProvider theme={Theme}>
             <div class="pautas-page-container">
               <div style={{ marginBottom: '20px'}}>
-                <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                  lista de Pautas
+                <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+                  {t("lista")}
                 </Typography>
-                </Link>
                 <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
                   &gt;
                 </Typography>
@@ -199,12 +206,10 @@ export default function Assinar() {
   return (
     <div class="pauta-page-container">
       <ThemeProvider theme={Theme}>
-      <div style={{ marginBottom: '20px'}}>
-        <Link href="/">
-            <Typography className="text-link" sx={{ display: 'inline-block'}}>
-             {t("lista")}
-            </Typography>
-        </Link>
+        <div style={{ marginBottom: '20px'}}>
+          <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+            {t("lista")}
+          </Typography>
             <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
                 &gt;
             </Typography>
