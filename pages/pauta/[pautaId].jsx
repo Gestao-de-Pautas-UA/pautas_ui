@@ -87,7 +87,6 @@ export default function Pauta() {
       const url = process.env.API_URL + path;
       const response = await axios.get(url);
       setData(response.data);
-      console.log(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -98,8 +97,8 @@ export default function Pauta() {
 
   const [openGuardar, setOpenGuardar] = useState(false);
   const [openAssinar, setOpenAssinar] = useState(false);
-  
   const [openOverwrite, setOpenOverwrite] = useState(false);
+  const [openMissing, setOpenMissing] = useState(false);
 
   const [sheetJsonData, setSheetJsonData] = useState(null);
   
@@ -116,9 +115,14 @@ export default function Pauta() {
     setOpenOverwrite(false);
   };
 
-  
+  const handleCloseMissing = () => {
+    setOpenMissing(false);
+  };
+
+
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [emptyInputs, setEmptyInputs] = useState([]);
+  const [missingStudentsList, setMissingStudentsList] = useState([]);
 
   const handleGuardar = async () => {
     const invalidInputs = [];
@@ -160,7 +164,6 @@ export default function Pauta() {
 
         setData(null)
 
-        console.log({alunoRequests, codigoPauta: pautaId});
         const response = await axios.post(url, {
           alunoRequests,
           codigoPauta: pautaId
@@ -172,14 +175,12 @@ export default function Pauta() {
           const url = process.env.API_URL + path;
           const response = await axios.get(url);
           setData(response.data);
-          console.log(response.data)
         } catch (error) {
           console.error(error);
         }
 
         setIsNotaChanged(false);
 
-        console.log(response.status);
         return invalidInputs;
       } catch (error) {
         console.error(error);
@@ -218,14 +219,11 @@ export default function Pauta() {
         counter++;
       });
       setEmptyInputs(emptyInputs);
-      console.log("emptyInputs: " + emptyInputs);
       if (emptyInputs.length > 0) {
         setOpenAssinar(true);
       }
       
-      
-      console.log("Invalidos: " + invalidGuardar.length);
-      console.log("Emptys: " + emptyInputs.length);
+    
       if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
         router.push(`/pauta/${pautaId}/assinar`)
       }
@@ -234,7 +232,11 @@ export default function Pauta() {
 
   const handleDownload = async () => {
     // Guardar antes de GET Download
-    await handleGuardar();
+    const invalidGuardar = await handleGuardar();
+
+    if (invalidGuardar.length > 0) {
+      return;
+    }
 
     // GET File `/get/pdf/{pautaId}`
     const path = `/excel/${pautaId}`;
@@ -246,7 +248,7 @@ export default function Pauta() {
 
     // User downloads file
     link.href = urlBlob;
-    link.download = 'filename.xlsx';
+    link.download = data.disciplinaResponse.nome + '.xlsx';
     link.click();    
 
 
@@ -255,11 +257,13 @@ export default function Pauta() {
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
+    event.target.value = null;
     const file_data = await file.arrayBuffer();
     const workbook = read(file_data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    
-    setSheetJsonData(utils.sheet_to_json(worksheet))
+    const sheet_json = utils.sheet_to_json(worksheet);
+
+    setSheetJsonData(sheet_json)
 
     setOpenOverwrite(true);
 
@@ -285,8 +289,10 @@ export default function Pauta() {
   function overwriteNotas() {
     setOpenOverwrite(false);
 
+    const missingStudents = [];
+
     sheetJsonData.map((student) => {
-      console.log(student["nMec"]);
+      
       const input = document.getElementById(student["nMec"]);
       
       if (input) {
@@ -294,7 +300,19 @@ export default function Pauta() {
         setIsNotaChanged(true);
       }
 
+      if (!input) {
+        missingStudents.push(student["nMec"]);
+      }
     })
+
+    if (missingStudents.length > 0) {
+      setMissingStudentsList(missingStudents);
+      setOpenMissing(true);
+    }
+
+    if (missingStudents.length === 0) {
+      setMissingStudentsList([]);
+    }
   }
 
 
@@ -503,33 +521,64 @@ export default function Pauta() {
       </div>
 
       <div>
-      <Dialog
-        open={openOverwrite}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleCloseOverwrite}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{t("sobrescreverdialogotitulo")}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-          {t("sobrescreverdialogodescricao")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseOverwrite}
-              variant="outlined" 
-              className={classes.uaButton}
-              sx={{marginRight: '10px'}}
-              >{t("cancelar")}</Button>
-          <Button onClick={overwriteNotas}
-                  variant="outlined" 
-                  className={classes.uaButton}
-                  sx={{marginRight: '10px'}}
-                  >{t("sim")}</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <Dialog
+          open={openOverwrite}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseOverwrite}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{t("sobrescreverdialogotitulo")}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+            {t("sobrescreverdialogodescricao")}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseOverwrite}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("cancelar")}</Button>
+            <Button onClick={overwriteNotas}
+                    variant="outlined" 
+                    className={classes.uaButton}
+                    sx={{marginRight: '10px'}}
+                    >{t("sim")}</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={openMissing}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseMissing}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{t("faltandodialogotitulo")}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              
+            {missingStudentsList.map((student) => (
+                <div key={student}>
+                  {student}
+                </div>
+              ))}
+
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseMissing}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("fechar")}</Button>
+            
+          </DialogActions>
+        </Dialog>
+      </div>
       
     </ThemeProvider>
   );

@@ -62,6 +62,8 @@
         "assinardialogotitulo": "Use the Autenticacao.gov application to sign the sheet  ",
         "sobrescreverdialogotitulo": "Grades overwrite alert",
         "sobrescreverdialogodescricao":"The imported file will overwrite some of the current grades. Do you wish to continue?",
-        "sim":"Yes"
+        "sim":"Yes",
+        "faltandodialogotitulo": "Alert! Some students in the imported file are not in the current sheet:"
+
     }
  }
