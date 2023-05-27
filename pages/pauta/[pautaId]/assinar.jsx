@@ -110,7 +110,7 @@ export default function Assinar() {
         return;
       }
 
-      const response2 = await axios.get(process.env.API_URL + `/pautasBack/pdf/estudantes/${pautaId}`, {
+      const response2 = await axios.get(process.env.API_URL + `/pdf/estudantes/${pautaId}`, {
         responseType: 'arraybuffer'
       });
       console.log(response2.data)
