@@ -87,7 +87,6 @@ export default function Pauta() {
       const url = process.env.API_URL + path;
       const response = await axios.get(url);
       setData(response.data);
-      console.log(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -160,7 +159,6 @@ export default function Pauta() {
 
         setData(null)
 
-        console.log({alunoRequests, codigoPauta: pautaId});
         const response = await axios.post(url, {
           alunoRequests,
           codigoPauta: pautaId
@@ -172,14 +170,12 @@ export default function Pauta() {
           const url = process.env.API_URL + path;
           const response = await axios.get(url);
           setData(response.data);
-          console.log(response.data)
         } catch (error) {
           console.error(error);
         }
 
         setIsNotaChanged(false);
 
-        console.log(response.status);
         return invalidInputs;
       } catch (error) {
         console.error(error);
@@ -218,14 +214,11 @@ export default function Pauta() {
         counter++;
       });
       setEmptyInputs(emptyInputs);
-      console.log("emptyInputs: " + emptyInputs);
       if (emptyInputs.length > 0) {
         setOpenAssinar(true);
       }
       
-      
-      console.log("Invalidos: " + invalidGuardar.length);
-      console.log("Emptys: " + emptyInputs.length);
+    
       if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
         router.push(`/pauta/${pautaId}/assinar`)
       }
@@ -258,8 +251,10 @@ export default function Pauta() {
     const file_data = await file.arrayBuffer();
     const workbook = read(file_data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    
-    setSheetJsonData(utils.sheet_to_json(worksheet))
+    const sheet_json = utils.sheet_to_json(worksheet)
+
+
+    setSheetJsonData(sheet_json)
 
     setOpenOverwrite(true);
 
