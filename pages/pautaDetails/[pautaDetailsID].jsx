@@ -36,8 +36,8 @@ export default function pautaDetails() {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await axios.get(`http://20.123.119.238/pautasBack/pauta/${pautaDetailsID}`);
-        const response2 = await axios.get(`http://20.123.119.238/pautasBack/pdf/estudantes/${pautaDetailsID}`, {
+        const response1 = await axios.get(process.env.API_URL + `/pautasBack/pauta/${pautaDetailsID}`);
+        const response2 = await axios.get(process.env.API_URL + `/pautasBack/pdf/estudantes/${pautaDetailsID}`, {
           responseType: 'arraybuffer'
         });
         setPautaData(response1.data);
