@@ -274,7 +274,7 @@ export default function Pauta() {
         isNaN(inputValue) ||
         input.value === '' 
         ) {
-          input.value = 99;
+          input.value = 77;
           setIsNotaChanged(true);
         }
     
