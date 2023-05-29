@@ -36,8 +36,8 @@ export default function pautaDetails() {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await axios.get(process.env.API_URL + `/pautasBack/pauta/${pautaDetailsID}`);
-        const response2 = await axios.get(process.env.API_URL + `/pautasBack/pdf/estudantes/${pautaDetailsID}`, {
+        const response1 = await axios.get(process.env.API_URL + `/pauta/${pautaDetailsID}`);
+        const response2 = await axios.get(process.env.API_URL + `/pdf/estudantes/${pautaDetailsID}`, {
           responseType: 'arraybuffer'
         });
         setPautaData(response1.data);
@@ -139,7 +139,7 @@ export default function pautaDetails() {
         } else if (grade === "77"){
             grade = -3;
         } else if(grade === "88") {
-            frade = -2;
+            grade = -2;
         } else if (grade === "99") {
             grade = -1;
         } else if (grade ==="66") {
