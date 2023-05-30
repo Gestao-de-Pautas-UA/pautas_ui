@@ -53,6 +53,7 @@ input::-webkit-inner-spin-button {
 .text-link {
   color: var(--paco-grey-text);
   font-size: 12px;
+  cursor: pointer;
 }
 
 .text-link:hover {
