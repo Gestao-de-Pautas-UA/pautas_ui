@@ -15,6 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { typeOf } from 'react-is';
 import { read, utils } from 'xlsx';
+import { useTranslation } from 'react-i18next';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -67,6 +68,9 @@ const useStyles = makeStyles({
 
 
 export default function Pauta() {
+
+
+  const {t} = useTranslation();
   
   const router = useRouter()
   const { pautaId } = router.query
@@ -83,7 +87,6 @@ export default function Pauta() {
       const url = process.env.API_URL + path;
       const response = await axios.get(url);
       setData(response.data);
-      console.log(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -91,11 +94,20 @@ export default function Pauta() {
   fetchData();
   }, [pautaId]);
 
+  const goToOverview = async () => {
+    try {
+      const response = await axios.get(process.env.API_URL + `/professorByPauta/${pautaId}`);
+      const codProf = response.data.nmec;
+      router.push(`/${codProf}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const [openGuardar, setOpenGuardar] = useState(false);
   const [openAssinar, setOpenAssinar] = useState(false);
-  
   const [openOverwrite, setOpenOverwrite] = useState(false);
+  const [openMissing, setOpenMissing] = useState(false);
 
   const [sheetJsonData, setSheetJsonData] = useState(null);
   
@@ -112,9 +124,14 @@ export default function Pauta() {
     setOpenOverwrite(false);
   };
 
-  
+  const handleCloseMissing = () => {
+    setOpenMissing(false);
+  };
+
+
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [emptyInputs, setEmptyInputs] = useState([]);
+  const [missingStudentsList, setMissingStudentsList] = useState([]);
 
   const handleGuardar = async () => {
     const invalidInputs = [];
@@ -156,7 +173,6 @@ export default function Pauta() {
 
         setData(null)
 
-        console.log({alunoRequests, codigoPauta: pautaId});
         const response = await axios.post(url, {
           alunoRequests,
           codigoPauta: pautaId
@@ -168,14 +184,12 @@ export default function Pauta() {
           const url = process.env.API_URL + path;
           const response = await axios.get(url);
           setData(response.data);
-          console.log(response.data)
         } catch (error) {
           console.error(error);
         }
 
         setIsNotaChanged(false);
 
-        console.log(response.status);
         return invalidInputs;
       } catch (error) {
         console.error(error);
@@ -207,21 +221,18 @@ export default function Pauta() {
       const inputValue = Number(input.value);
       if (
         isNaN(inputValue) ||
-        input.value === '' || input.value === "0"
+        input.value === '' 
         ) {
           emptyInputs.push(counter);
         }
         counter++;
       });
       setEmptyInputs(emptyInputs);
-      console.log("emptyInputs: " + emptyInputs);
       if (emptyInputs.length > 0) {
         setOpenAssinar(true);
       }
       
-      
-      console.log("Invalidos: " + invalidGuardar.length);
-      console.log("Emptys: " + emptyInputs.length);
+    
       if (emptyInputs.length === 0 && invalidGuardar.length === 0) {
         router.push(`/pauta/${pautaId}/assinar`)
       }
@@ -230,7 +241,11 @@ export default function Pauta() {
 
   const handleDownload = async () => {
     // Guardar antes de GET Download
-    await handleGuardar();
+    const invalidGuardar = await handleGuardar();
+
+    if (invalidGuardar.length > 0) {
+      return;
+    }
 
     // GET File `/get/pdf/{pautaId}`
     const path = `/excel/${pautaId}`;
@@ -242,7 +257,7 @@ export default function Pauta() {
 
     // User downloads file
     link.href = urlBlob;
-    link.download = 'filename.xlsx';
+    link.download = data.disciplinaResponse.nome + '.xlsx';
     link.click();    
 
 
@@ -251,11 +266,13 @@ export default function Pauta() {
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
+    event.target.value = null;
     const file_data = await file.arrayBuffer();
     const workbook = read(file_data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    
-    setSheetJsonData(utils.sheet_to_json(worksheet))
+    const sheet_json = utils.sheet_to_json(worksheet);
+
+    setSheetJsonData(sheet_json)
 
     setOpenOverwrite(true);
 
@@ -270,7 +287,7 @@ export default function Pauta() {
         isNaN(inputValue) ||
         input.value === '' 
         ) {
-          input.value = 99;
+          input.value = 77;
           setIsNotaChanged(true);
         }
     
@@ -281,15 +298,30 @@ export default function Pauta() {
   function overwriteNotas() {
     setOpenOverwrite(false);
 
+    const missingStudents = [];
+
     sheetJsonData.map((student) => {
-      console.log(student["nMec"]);
+      
       const input = document.getElementById(student["nMec"]);
       
       if (input) {
         input.value = student["Nota"];
+        setIsNotaChanged(true);
       }
 
+      if (!input) {
+        missingStudents.push(student["nMec"]);
+      }
     })
+
+    if (missingStudents.length > 0) {
+      setMissingStudentsList(missingStudents);
+      setOpenMissing(true);
+    }
+
+    if (missingStudents.length === 0) {
+      setMissingStudentsList([]);
+    }
   }
 
 
@@ -307,11 +339,9 @@ export default function Pauta() {
     return <ThemeProvider theme={Theme}>
             <div class="pautas-page-container">
               <div style={{ marginBottom: '20px'}}>
-                <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                  lista de Pautas
-                </Typography>
-                </Link>
+              <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+                {t("lista")}
+              </Typography>
                 <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
                   &gt;
                 </Typography>
@@ -328,19 +358,17 @@ export default function Pauta() {
 
     <ThemeProvider theme={Theme}>
       <div class="pauta-page-container">
-      <div style={{ marginBottom: '20px'}}>
-        <Link href="/">
-            <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                lista de Pautas
-            </Typography>
-        </Link>
-            <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-                &gt;
-            </Typography>
-            <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-                Pauta
-            </Typography>
-      </div>
+        <div style={{ marginBottom: '20px'}}>
+          <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+            {t("lista")}
+          </Typography>
+          <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+              &gt;
+          </Typography>
+          <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+            {t("pauta")}
+          </Typography>
+        </div>
         <div>         
           <div style={{ display: 'flex'}}>
             <Typography sx={{fontSize: '1.75rem' ,fontWeight: '600', lineHeight: '1.5', marginRight: '10px'}}
@@ -364,21 +392,21 @@ export default function Pauta() {
 
             <Grid item sm={3} md={3} lg={2}>
               <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar} disabled={!isNotaChanged}>
-                Guardar
+                {t("guardar")}
               </Button>
             
               <Button variant="outlined" className={classes.uaButton} onClick={handleAssinar}>
-                Assinar
+               {t("assinar")}
               </Button>
             </Grid>
             <Grid item sm={1} md={1} lg={1}>
             </Grid>
             <Grid item sm={8} md={8} lg={9} sx={{ textAlign: 'right' }} >
               <Button variant="outlined" className={classes.uaButton} onClick={handleDownload} >
-                Download para preencher
+                {t("download")}
               </Button>
               <Button component="label" variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', textAlign:'center'}}>
-                Upload de Ficheiro Excel
+                {t("upload")} 
                   <input
                     type="file"
                     accept=".xls,.xlsx"
@@ -387,7 +415,7 @@ export default function Pauta() {
                   />
               </Button>
               <Button variant="outlined" className={classes.uaButtonMinor} onClick={handleFillMissing} sx={{ marginLeft: '40px', textAlign:'center'}}>
-                Preencher notas vazias como faltantes
+                {t("preenchervazia")} 
               </Button>
             </Grid>
           </Grid>
@@ -400,10 +428,10 @@ export default function Pauta() {
           col4Size="10%" >
           <thead>
             <tr>
-              <th>Nº Mec.</th>
-              <th>Nome</th>
-              <th>Regime</th>
-              <th>Nota</th>
+              <th>{t("nmec")}</th>
+              <th>{t("nome")}</th>
+              <th>{t("regime")}</th>
+              <th>{t("nota")}</th>
             </tr>
           </thead>
           <tbody>
@@ -433,7 +461,7 @@ export default function Pauta() {
       </div>
 
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , textAlign: 'center', fontWeight: '600'}} elevation={24}>
-        66 - Reprovado por nota mínima / 77 - Faltou / 88 - Desistiu / 99 - Reprovado por faltas
+        66 - {t("reprovadomin")} / 77 - {t("faltou")} / 88 - {t("desistiu")} / 99 - {t("reprovadofalta")}
       </Paper>
 
 
@@ -446,7 +474,7 @@ export default function Pauta() {
           onClose={handleCloseGuardar}
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle>{"Notas inválidas foram inseridas para os respetivos alunos:"}</DialogTitle>
+          <DialogTitle>{t("guardardialogoerro")}:</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               {invalidInputs.map((index) => (
@@ -462,7 +490,7 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Fechar</Button>
+              >{t("fechar")}</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -476,7 +504,7 @@ export default function Pauta() {
           onClose={handleCloseAssinar}
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle>{"Para assinar a pauta, todas as notas necessitam estar preenchidas:"}</DialogTitle>
+          <DialogTitle>{t("assinardialogoerro")}:</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               {emptyInputs.map((index) => (
@@ -492,39 +520,70 @@ export default function Pauta() {
               variant="outlined" 
               className={classes.uaButton}
               sx={{marginRight: '10px'}}
-              >Fechar</Button>
+              >{t("fechar")}</Button>
           </DialogActions>
         </Dialog>
       </div>
 
       <div>
-      <Dialog
-        open={openOverwrite}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleCloseOverwrite}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Alerta de sobrescrição de notas"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            O arquivo importado irá sobrescrever as notas existentes. Deseja continuar?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseOverwrite}
-              variant="outlined" 
-              className={classes.uaButton}
-              sx={{marginRight: '10px'}}
-              >Cancelar</Button>
-          <Button onClick={overwriteNotas}
-                  variant="outlined" 
-                  className={classes.uaButton}
-                  sx={{marginRight: '10px'}}
-                  >Sim</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <Dialog
+          open={openOverwrite}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseOverwrite}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{t("sobrescreverdialogotitulo")}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+            {t("sobrescreverdialogodescricao")}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseOverwrite}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("cancelar")}</Button>
+            <Button onClick={overwriteNotas}
+                    variant="outlined" 
+                    className={classes.uaButton}
+                    sx={{marginRight: '10px'}}
+                    >{t("sim")}</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={openMissing}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseMissing}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{t("faltandodialogotitulo")}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              
+            {missingStudentsList.map((student) => (
+                <div key={student}>
+                  {student}
+                </div>
+              ))}
+
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseMissing}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("fechar")}</Button>
+            
+          </DialogActions>
+        </Dialog>
+      </div>
       
     </ThemeProvider>
   );

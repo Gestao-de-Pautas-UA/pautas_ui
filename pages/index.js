@@ -18,10 +18,14 @@ import axios from 'axios';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { useTranslation } from "react-i18next";
 
 
 
 export default function Home() {
+
+  const {t} = useTranslation();
+
 
   const [view, setView] = useState('tableView');
   const [selectedYear, setSelectedYear] = useState('2019/2020');
@@ -47,8 +51,8 @@ export default function Home() {
     return (
       <Box  sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
         <FormControl fullWidth>
-          <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
-        <Select label="Ano" value={selectedYear} onChange={handleYearChange}>
+          <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>{t("ano")}</InputLabel>
+        <Select label={t("ano")} value={selectedYear} onChange={handleYearChange}>
           {uniqueData.map((choice) => (
             <MenuItem key={choice} value={choice}>
               {choice}
@@ -131,7 +135,7 @@ export default function Home() {
         <React.Fragment>
           <Box sx={{  float: 'right' , margin: '25px', color: 'gray'}}>
     
-            <Tooltip title="Ordenação">
+            <Tooltip title={t("ordem")}>
               <FilterAltIcon
                 onClick={handleClick}
                 size="small"
@@ -181,11 +185,11 @@ export default function Home() {
           >
     
             <MenuItem onClick={alternarOrdenacaoDisciplina}>
-              Ordenar por disciplina
+              {t("ordenardisc")}
               
             </MenuItem>
             <MenuItem onClick={alternarOrdenacaoEstado}>
-              Ordenar por estado
+              {t("ordenarestado")}
             </MenuItem>
             
             
@@ -199,7 +203,7 @@ export default function Home() {
 
   return (
     <div>
-      <h2 className="tituloPautas">Gestão de Pautas</h2>
+      <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
       <Dropdown/>
       <DropdownSort />

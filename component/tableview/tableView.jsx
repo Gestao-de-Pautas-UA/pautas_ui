@@ -19,9 +19,49 @@ import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {useRouter} from 'next/router';
 
-export default function TableView({year}){
+import { makeStyles } from '@mui/styles';
 
+import { useTranslation } from 'react-i18next';
+
+
+
+
+const useStyles = makeStyles({
+  uaButton: {
+    /* define your custom styles here */
+    borderRadius: 1,  
+    backgroundColor: 'white', 
+    color: 'black', 
+    borderColor: 'black', 
+    fontSize: '14px',
+    padding: '0px 12px 0px 12px',
+    height: 'auto',
+    minHeight: '40px',
+    maxWidth: '140px',
+    textTransform: 'capitalize',
+    justifyContent: 'center',
+    fontWeight: '400',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+    },
+  },
+});
+
+export default function TableView({year, nMec}){
+
+
+
+  const classes = useStyles();
   
+  
+
+  console.log("prof "+nMec);
+
+  const {t} = useTranslation();
+
+
+
   const router = useRouter();
 
 
@@ -30,7 +70,8 @@ export default function TableView({year}){
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://20.123.119.238/pautasBack/pautas/10309907');
+                const url = process.env.API_URL+'/pautas/' + nMec;
+                const response = await axios.get(url);
                 setData(response.data.filter(obj => obj.anoLectivo === year));
                 console.log(data);
             } catch(error){
@@ -159,11 +200,11 @@ export default function TableView({year}){
             >
       
               <MenuItem onClick={alternarOrdenacaoDisciplina}>
-                Ordenar por disciplina
+                {t("ordenardisc")}
                 
               </MenuItem>
               <MenuItem onClick={alternarOrdenacaoEstado}>
-                Ordenar por estado
+                {t("ordenarestado")}
               </MenuItem>
               
               
@@ -196,12 +237,12 @@ export default function TableView({year}){
                     col6Size="15%" >
                     <thead>
                     <tr>
-                        <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>Disciplina<ExpandMoreIcon/></th>
-                        <th>Nº Pauta</th>
-                        <th>Época de Exame</th>
-                        <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>Estado<ExpandMoreIcon/></th>
-                        <th>Editar</th>
-                        <th>Detalhes</th>
+                        <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>{t("disciplina")}<ExpandMoreIcon/></th>
+                        <th>{t("npauta")}</th>
+                        <th>{t("epoca")}</th>
+                        <th onClick={alternarOrdenacaoEstado} style={{cursor: "pointer"}}>{t("estado")}<ExpandMoreIcon/></th>
+                        <th>{t("editar")}</th>
+                        <th>{t("detalhes")}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -227,17 +268,23 @@ export default function TableView({year}){
                                     )}
                                 </td>
                                 <td>
-                                  <Button 
+                                  <Button variant="outlined" className={classes.uaButton}
                                       id={subject.codigoPauta}
-                                      onClick={handleClickEditButton} 
-                                      variant="outlined" 
-                                      style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>
-                                        Editar
+
+                                      onClick={handleClickEditButton}
+                                    >
+                                        {t("editar")}
+
+                                     
+                          
                                   </Button>
                                   </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                                        <Button variant="outlined" style={{ borderRadius: 1,  backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '13px' }}>Detalhes</Button>
+
+                                        <Button variant="outlined" className={classes.uaButton}>{t("detalhes")}</Button>
+
+                       
                                     </Link>
                                 </td>
                             </tr>
