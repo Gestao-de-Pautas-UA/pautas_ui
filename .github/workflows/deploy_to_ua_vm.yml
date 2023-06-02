@@ -1,0 +1,33 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: 
+      - self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: create env file
+        run: |
+          echo API_URL=${{ secrets.API_URL }} > .env
+      
+      - name: Install dependencies
+        run: npm install --force
+      
+      - name: Build
+        run: npm run build
+        
+      - name: Kill and Restart application
+        run: pm2 delete pautas-ui || true && pm2 --name pautas-ui start npm -- start
