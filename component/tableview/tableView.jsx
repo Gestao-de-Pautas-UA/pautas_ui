@@ -68,18 +68,39 @@ export default function TableView({year, nMec}){
     //Chamada a api 
     const [data, setData] = useState(null);
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const url = process.env.API_URL+'/pautas/' + nMec;
-                const response = await axios.get(url);
-                setData(response.data.filter(obj => obj.anoLectivo === year));
-                console.log(data);
-            } catch(error){
-                console.error(error);
-            }
-        };
-        fetchData();
-    }, [year]);
+      const fetchData = async () => {
+        if (!nMec) {
+          return;
+        }
+        try {
+        const path = `/pautas/${nMec}`;
+        const url = process.env.API_URL + path;
+        const response = await axios.get(url);
+        setData(response.data.filter(obj => obj.anoLectivo === year));
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [year]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const path = `/pautas/`+nMec;
+    //             console.log("---"+path)
+    //             console.log("+++",process.env.API_URL);
+    //             const url = process.env.API_URL + path;
+    //             const response = await axios.get(url);
+    //             setData(response.data.filter(obj => obj.anoLectivo === year));
+    //             console.log(data);
+    //         } catch(error){
+    //             console.error(error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [year]);
 
     const handleClickEditButton = (event) => {
       router.push('/pauta/'+ event.currentTarget.id);
@@ -131,7 +152,7 @@ export default function TableView({year, nMec}){
     if (!data) {
         return <ThemeProvider theme={Theme}>
                 <div class="pautas-page-container">
-                    {/* <TableLoading /> */}
+                    <TableLoading />
                 </div>
               </ThemeProvider>;
       }
@@ -154,7 +175,7 @@ export default function TableView({year, nMec}){
                 <FilterAltIcon
                   onClick={handleClick}
                   size="small"
-                  sx={{ ml: 2 }}
+                  sx={{ ml: 2,color:"gray", margin:"0px", marginTop:"0px" }}
                   aria-controls={open ? 'account-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
@@ -223,8 +244,9 @@ export default function TableView({year, nMec}){
       
             <div className="overviewTable">
                 <div className="overviewTable__header"> 
-      
+                <DropdownSort />
                 </div>
+            
             
                 <Table 
                     

@@ -29,31 +29,43 @@ export default function Page() {
     const {t} = useTranslation();
     
     const [view, setView] = useState('tableView');
-    const [selectedYear, setSelectedYear] = useState('2019/2020');
+    const [selectedYear, setSelectedYear] = useState('');
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+   
 
-    //Chamada a api
+
+   
+
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (!profId){
-                return;
-            } 
-            
-            try {
-            const url = process.env.API_URL+'/pautas/' + profId;
-            console.log(url);
-            const response = await axios.get(url);
-            setData(response.data);
-            console.log(response.data);
-            setIsLoading(false);
-        } catch(error){
-            console.error(error);
-            setIsLoading(false);
+      const fetchData = async () => {
+        if (!profId) {
+          return;
         }
+        try {
+        const path = `/pautas/${profId}`;
+        const url = process.env.API_URL + path;
+        console.log("url1: "+url)
+        const response = await axios.get(url);
+        setData(response.data);
+        setIsLoading(false);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, [profId]);
+
+  useEffect(() => {
+    if (data) {
+      const uniqueData = [...new Set(data.map((choice) => choice.anoLectivo))];
+      uniqueData.sort((a, b) => b - a);
+      setSelectedYear(uniqueData[0]);
+    }
+  }, [data]);
+
 
   //Dropdown que exibe os anos lectivos
   function Dropdown() {
@@ -217,8 +229,8 @@ export default function Page() {
       <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
       <Dropdown/>
-      <DropdownSort />
-        <Stack className='iconButton' direction="row" spacing={1} style={{ marginLeft: "70%" }} >
+      {/* <DropdownSort /> */}
+        <Stack className='iconButton' direction="row" spacing={1} style={{ marginLeft: "75%" }} >
           <IconButton aria-label="table" onClick={() => handleViewChange('tableView')}>
             <TableRowsIcon />
           </IconButton>
@@ -230,7 +242,7 @@ export default function Page() {
       </div>
 
       {isLoading ? (
-        <div> <TableLoading/></div> // Exibir mensagem de carregamento
+        <div><TableLoading/></div> // Exibir mensagem de carregamento
       ) : (
         <>
           {view === 'tableView' && <TableView year={selectedYear} nMec={profId} />}
