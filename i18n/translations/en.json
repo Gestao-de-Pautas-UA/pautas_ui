@@ -63,7 +63,10 @@
         "sobrescreverdialogotitulo": "Grades overwrite alert",
         "sobrescreverdialogodescricao":"The imported file will overwrite some of the current grades. Do you wish to continue?",
         "sim":"Yes",
-        "faltandodialogotitulo": "Alert! Some students in the imported file are not in the current sheet:"
+        "faltandodialogotitulo": "Alert! Some students in the imported file are not in the current sheet:",
+        "bemvindo": "Welcome",
+        "insiracodigo": "Insert your professor code for the demo",
+        "prosseguir": "Next"
 
     }
  }
