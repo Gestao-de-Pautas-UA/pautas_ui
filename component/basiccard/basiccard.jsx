@@ -112,7 +112,7 @@ export default function BasicCard({year, nMec}) {
         <div>
     
           <div>
-            <Card sx={{ width: 350, height: 300, marginLeft: 5, marginTop: 3, marginRight: -1}} key={index}>
+            <Card sx={{ width: 350, marginLeft: 5, marginTop: 3, marginRight: -1}} key={index}>
               <CardContent>
                 <Typography variant="h5" component="div">
                   {subject.disciplinaResponse.nome}
@@ -126,14 +126,14 @@ export default function BasicCard({year, nMec}) {
               <CardActions>
 
               <Button variant="outlined" className={classes.uaButton}
-                                      style={{ marginBottom: "290px"}}
+                                      style={{ marginLeft: '0.5rem', marginBottom: '0.5rem'}}
                                       id={subject.codigoPauta}
                                       onClick={handleClickEditButton}
                                     >
                                         {t("editar")}
               </Button>
               <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                    <Button variant="outlined" className={classes.uaButton} style={{margin: "10px", marginBottom: "300px"}} >{t("detalhes")}</Button>
+                    <Button variant="outlined" className={classes.uaButton} style={{marginLeft: "0.5rem", marginBottom: '0.5rem'}} >{t("detalhes")}</Button>
               </Link>
 
               </CardActions>
