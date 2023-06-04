@@ -49,6 +49,10 @@ const useStyles = makeStyles({
       color: '#FFFFFF',
     },
   },
+  uaCard: {
+    borderRadius: '0px',
+    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 2px 4px'
+  }
 });
 
 export default function BasicCard({year, nMec}) {
@@ -143,7 +147,7 @@ export default function BasicCard({year, nMec}) {
         };
         return (
           <React.Fragment>
-            <Box sx={{  float: 'right' , margin: '25px'}}>
+            <Box sx={{  float: 'right' , margin: '25px', marginRight: '5rem'}}>
       
               <Tooltip title="Ordenação">
                 <FilterAltIcon
@@ -234,7 +238,10 @@ export default function BasicCard({year, nMec}) {
        
         <div>
           <div>
-            <Card sx={{ width: 350, marginLeft: 5, marginTop: 3, marginRight: -1}} key={index}>
+            <Card 
+              sx={{ width: 350, marginLeft: 5, marginTop: 3, marginRight: -1}} 
+              key={index}
+              className={classes.uaCard}>
               <CardContent>
                 <Typography variant="h5" component="div">
                   {subject.disciplinaResponse.nome}
