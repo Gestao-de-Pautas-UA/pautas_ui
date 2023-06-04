@@ -28,29 +28,6 @@ const useStyles = makeStyles({
       color: '#FFFFFF',
     },
   },
-  uaDialog: {
-    border:'0px solid',
-    borderRadius: '1px',
-    height: '500px',
-  },
-  uaButtonMinor: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '0.8rem',
-    padding: '0px 6px 0px 6px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '160px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
 });
 
 
