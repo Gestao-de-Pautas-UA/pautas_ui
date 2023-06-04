@@ -66,6 +66,7 @@
         "faltandodialogotitulo": "Atenção, alguns alunos do ficheiro importado não estão na pauta:",
         "bemvindo": "Bem-vindo(a)",
         "insiracodigo": "Insira vosso código de professor para a demo",
-        "prosseguir": "Prosseguir"
+        "prosseguir": "Prosseguir",
+        "codigoinvalido": "código inválido"
     }
  }

@@ -66,7 +66,8 @@
         "faltandodialogotitulo": "Alert! Some students in the imported file are not in the current sheet:",
         "bemvindo": "Welcome",
         "insiracodigo": "Insert your professor code for the demo",
-        "prosseguir": "Next"
+        "prosseguir": "Next",
+        "codigoinvalido": "invalid code"
 
     }
  }

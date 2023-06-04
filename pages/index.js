@@ -9,6 +9,7 @@ import { Input } from "@uaveiro/ui";
 import { makeStyles } from '@mui/styles';
 import { useRouter } from 'next/router';
 
+
 const useStyles = makeStyles({
   uaButtonHome: {
     borderRadius: 1,  
@@ -34,6 +35,8 @@ const useStyles = makeStyles({
 
 export default function Home() {
 
+  const [invalidProfId, setInvalidProfId] = useState(false);
+
   const {t} = useTranslation();
 
   const classes = useStyles();
@@ -42,10 +45,22 @@ export default function Home() {
 
   const router = useRouter();
 
-  const goToPautas = () => {
-    router.push(`/${profId}`);
-  }
+  const goToPautas = async () => {
 
+    try {
+      const url = process.env.API_URL + '/pautas/' + profId;
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        setInvalidProfId(false);
+        router.push(`/${profId}`);
+      }
+      
+    } catch (error) {
+      setInvalidProfId(true);
+      console.log(error);
+    }
+
+  }
 
   return (
 
@@ -55,7 +70,7 @@ export default function Home() {
       <p className="subtituloPautas">{t("insiracodigo")}</p>
       <div style={{marginLeft: '50px', marginTop: '50px', display: 'flex'}}>
         <Input 
-          border={`1px solid #424242`}
+          border={`1px solid ${invalidProfId ? 'red' : '#424242'}`}
           width="100px" 
           height="40px"
           color="#424242" 
@@ -70,6 +85,11 @@ export default function Home() {
             style={{ marginLeft: "5rem"}}>
             {t("prosseguir")}
           </Button> 
+      </div>
+      <div style={{marginLeft: '50px', fontSize: '0.8rem'}}>
+        {invalidProfId && <p style={{color: 'red'}}>
+          {t("codigoinvalido")}
+        </p>}
       </div>
     </div>
     </ThemeProvider>
