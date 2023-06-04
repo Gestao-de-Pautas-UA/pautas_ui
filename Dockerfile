@@ -9,6 +9,8 @@ WORKDIR /usr/app
 # Copying this first prevents re-running npm install on every code change.
 COPY . .
 
+RUN echo "API_URL='http://pautasbackend.com/pautasBack'" > .env
+
 # Install production dependencies.
 # If you add a package-lock.json, speed your build by switching to 'npm ci'.
 RUN npm ci --only=production
