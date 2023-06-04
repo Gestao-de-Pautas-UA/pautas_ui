@@ -88,7 +88,7 @@ export default function Page() {
   function Dropdown() {
     
     return (
-      <Box  sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
+      <Box  sx={{ width: 130 , marginLeft: 6 , marginTop: 2 }}>
         <FormControl fullWidth>
           <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
         <Select label="Ano" value={selectedYear} onChange={handleYearChange} className={classes.uaSelect}>
