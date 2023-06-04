@@ -20,6 +20,25 @@ import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { makeStyles } from '@mui/styles';
+
+
+const useStyles = makeStyles({
+  uaIcon: {
+    height: '40px',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+      
+    },
+  },
+  uaSelect: {
+    height: '55px',
+    paddingTop: '4px',
+    borderRadius: '0px',
+    borderColor: '#000000',
+  }
+});
 
 export default function Page() {
     
@@ -27,42 +46,52 @@ export default function Page() {
     const { profId } = router.query;
 
     const {t} = useTranslation();
+
+    const classes = useStyles();
     
     const [view, setView] = useState('tableView');
-    const [selectedYear, setSelectedYear] = useState('2019/2020');
+    const [selectedYear, setSelectedYear] = useState('');
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+   
 
-    //Chamada a api
     useEffect(() => {
-        const fetchData = async () => {
-            if (!profId){
-                return;
-            } 
-            
-            try {
-            const url = process.env.API_URL+'/pautas/' + profId;
-            console.log(url);
-            const response = await axios.get(url);
-            setData(response.data);
-            console.log(response.data);
-            setIsLoading(false);
-        } catch(error){
-            console.error(error);
-            setIsLoading(false);
+      const fetchData = async () => {
+        if (!profId) {
+          return;
         }
+        try {
+        const path = `/pautas/${profId}`;
+        const url = process.env.API_URL + path;
+        console.log("url1: "+url)
+        const response = await axios.get(url);
+        setData(response.data);
+        setIsLoading(false);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, [profId]);
+
+  useEffect(() => {
+    if (data) {
+      const uniqueData = [...new Set(data.map((choice) => choice.anoLectivo))];
+      uniqueData.sort((a, b) => b - a);
+      setSelectedYear(uniqueData[0]);
+    }
+  }, [data]);
+
 
   //Dropdown que exibe os anos lectivos
   function Dropdown() {
     
     return (
-      <Box  sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
+      <Box  sx={{ width: 130 , marginLeft: 6 , marginTop: 2 }}>
         <FormControl fullWidth>
           <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
-        <Select label="Ano" value={selectedYear} onChange={handleYearChange}>
+        <Select label="Ano" value={selectedYear} onChange={handleYearChange} className={classes.uaSelect}>
           {uniqueData.map((choice) => (
             <MenuItem key={choice} value={choice}>
               {choice}
@@ -217,20 +246,27 @@ export default function Page() {
       <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
       <Dropdown/>
-      <DropdownSort />
-        <Stack className='iconButton' direction="row" spacing={1} style={{ marginLeft: "70%" }} >
-          <IconButton aria-label="table" onClick={() => handleViewChange('tableView')}>
+  
+        <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginRight: '4.3rem', paddingTop: "1rem"  }}>
+          <IconButton 
+            aria-label="table" 
+            onClick={() => handleViewChange('tableView')}
+            className={classes.uaIcon}>
             <TableRowsIcon />
           </IconButton>
 
-          <IconButton aria-label="grid" onClick={() => handleViewChange('overviewCard')}>
+          <IconButton 
+            aria-label="grid" 
+            onClick={() => handleViewChange('overviewCard')}
+            className={classes.uaIcon}>
             <GridViewIcon />
           </IconButton>
-        </Stack>
+        </div>
+      
       </div>
 
       {isLoading ? (
-        <div> <TableLoading/></div> // Exibir mensagem de carregamento
+        <div><TableLoading/></div> // Exibir mensagem de carregamento
       ) : (
         <>
           {view === 'tableView' && <TableView year={selectedYear} nMec={profId} />}

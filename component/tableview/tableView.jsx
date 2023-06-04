@@ -46,6 +46,11 @@ const useStyles = makeStyles({
       color: '#FFFFFF',
     },
   },
+  uaTableRow: {
+    '&:hover': {
+      background: '#F5F5F5',
+    },
+  }
 });
 
 export default function TableView({year, nMec}){
@@ -68,18 +73,39 @@ export default function TableView({year, nMec}){
     //Chamada a api 
     const [data, setData] = useState(null);
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const url = process.env.API_URL+'/pautas/' + nMec;
-                const response = await axios.get(url);
-                setData(response.data.filter(obj => obj.anoLectivo === year));
-                console.log(data);
-            } catch(error){
-                console.error(error);
-            }
-        };
-        fetchData();
-    }, [year]);
+      const fetchData = async () => {
+        if (!nMec) {
+          return;
+        }
+        try {
+        const path = `/pautas/${nMec}`;
+        const url = process.env.API_URL + path;
+        const response = await axios.get(url);
+        setData(response.data.filter(obj => obj.anoLectivo === year));
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [year]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const path = `/pautas/`+nMec;
+    //             console.log("---"+path)
+    //             console.log("+++",process.env.API_URL);
+    //             const url = process.env.API_URL + path;
+    //             const response = await axios.get(url);
+    //             setData(response.data.filter(obj => obj.anoLectivo === year));
+    //             console.log(data);
+    //         } catch(error){
+    //             console.error(error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [year]);
 
     const handleClickEditButton = (event) => {
       router.push('/pauta/'+ event.currentTarget.id);
@@ -131,7 +157,7 @@ export default function TableView({year, nMec}){
     if (!data) {
         return <ThemeProvider theme={Theme}>
                 <div class="pautas-page-container">
-                    {/* <TableLoading /> */}
+                    <TableLoading />
                 </div>
               </ThemeProvider>;
       }
@@ -148,13 +174,13 @@ export default function TableView({year, nMec}){
         };
         return (
           <React.Fragment>
-            <Box sx={{  float: 'right' , margin: '25px'}}>
+            <Box sx={{  float: 'right' , marginRight: '1.6rem', marginTop: '0.5rem', marginBottom: '1rem'}}>
       
               <Tooltip title="Ordenação">
                 <FilterAltIcon
                   onClick={handleClick}
                   size="small"
-                  sx={{ ml: 2 }}
+                  sx={{ ml: 2,color:"gray", margin:"0px", marginTop:"0px" }}
                   aria-controls={open ? 'account-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
@@ -223,20 +249,28 @@ export default function TableView({year, nMec}){
       
             <div className="overviewTable">
                 <div className="overviewTable__header"> 
-      
+                  <DropdownSort />
                 </div>
             
+            
                 <Table 
-                    
                     marginTop="15px" 
                     borders="1px solid" 
                     col2Size="20%"
                     col3Size="15%"
                     col4Size="10%" 
                     col5Size="20%"
-                    col6Size="15%" >
+                    col6Size="15%"
+                    
+                    >
                     <thead>
-                    <tr>
+                    <tr
+                      style={{
+                        backgroundColor: "#F3F3F3",
+                        borderTop: "4px solid #0EB4BD",
+                        padding: "100px",
+                      }}
+                    >
                         <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>{t("disciplina")}<ExpandMoreIcon/></th>
                         <th>{t("npauta")}</th>
                         <th>{t("epoca")}</th>
@@ -248,7 +282,9 @@ export default function TableView({year, nMec}){
                     <tbody>
                         {data.map((subject, index) => (
                             
-                            <tr>
+                            <tr
+                              className={classes.uaTableRow}
+                            >
                                 <td>{subject.disciplinaResponse.nome}</td>
                                 <td>{subject.disciplinaResponse.codigo}</td>
                                 <td>{subject.tipoExame}</td>
