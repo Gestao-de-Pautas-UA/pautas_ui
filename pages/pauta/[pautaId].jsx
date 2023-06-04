@@ -95,6 +95,15 @@ export default function Pauta() {
   fetchData();
   }, [pautaId]);
 
+  const goToOverview = async () => {
+    try {
+      const response = await axios.get(process.env.API_URL + `/professorByPauta/${pautaId}`);
+      const codProf = response.data.nmec;
+      router.push(`/${codProf}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const [openGuardar, setOpenGuardar] = useState(false);
   const [openAssinar, setOpenAssinar] = useState(false);
@@ -312,11 +321,9 @@ export default function Pauta() {
     return <ThemeProvider theme={Theme}>
             <div class="pautas-page-container">
               <div style={{ marginBottom: '20px'}}>
-                <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block'}}>
-                  lista de Pautas
-                </Typography>
-                </Link>
+              <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+                {t("lista")}
+              </Typography>
                 <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
                   &gt;
                 </Typography>
@@ -333,19 +340,17 @@ export default function Pauta() {
 
     <ThemeProvider theme={Theme}>
       <div class="pauta-page-container">
-      <div style={{ marginBottom: '20px'}}>
-        <Link href="/">
-            <Typography className="text-link" sx={{ display: 'inline-block'}}>
-              {t("lista")}
-            </Typography>
-        </Link>
-            <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-                &gt;
-            </Typography>
-            <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
-              {t("pauta")}
-            </Typography>
-      </div>
+        <div style={{ marginBottom: '20px'}}>
+          <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
+            {t("lista")}
+          </Typography>
+          <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+              &gt;
+          </Typography>
+          <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+            {t("pauta")}
+          </Typography>
+        </div>
         <div>         
           <div style={{ display: 'flex'}}>
             <Typography sx={{fontSize: '1.75rem' ,fontWeight: '600', lineHeight: '1.5', marginRight: '10px'}}
