@@ -46,6 +46,11 @@ const useStyles = makeStyles({
       color: '#FFFFFF',
     },
   },
+  uaTableRow: {
+    '&:hover': {
+      background: '#F5F5F5',
+    },
+  }
 });
 
 export default function TableView({year, nMec}){
@@ -277,7 +282,9 @@ export default function TableView({year, nMec}){
                     <tbody>
                         {data.map((subject, index) => (
                             
-                            <tr>
+                            <tr
+                              className={classes.uaTableRow}
+                            >
                                 <td>{subject.disciplinaResponse.nome}</td>
                                 <td>{subject.disciplinaResponse.codigo}</td>
                                 <td>{subject.tipoExame}</td>
