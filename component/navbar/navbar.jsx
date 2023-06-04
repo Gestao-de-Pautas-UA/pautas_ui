@@ -101,7 +101,7 @@ export default function NavBar() {
         <MenuIcon />
         </IconButton>
           <img src="/logo.png" className="App-logo"  />
-          <Typography sx={{fontSize: '1.75rem', fontWeight: '100'}} noWrap component="div" className='paco' >
+          <Typography sx={{fontSize: '1.75rem', fontWeight: '200', marginLeft: '60px'}} className='paco' >
             paco
           </Typography>
           <div style={{position:"fixed" , right:"30px" , display:"flex", justifyContent:"flex-end"}}>
