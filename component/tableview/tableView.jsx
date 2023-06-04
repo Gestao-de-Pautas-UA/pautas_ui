@@ -169,7 +169,7 @@ export default function TableView({year, nMec}){
         };
         return (
           <React.Fragment>
-            <Box sx={{  float: 'right' , marginRight: '1.6rem', marginTop: '1rem'}}>
+            <Box sx={{  float: 'right' , marginRight: '1.6rem', marginTop: '0.5rem', marginBottom: '1rem'}}>
       
               <Tooltip title="Ordenação">
                 <FilterAltIcon
@@ -244,21 +244,28 @@ export default function TableView({year, nMec}){
       
             <div className="overviewTable">
                 <div className="overviewTable__header"> 
-                <DropdownSort />
+                  <DropdownSort />
                 </div>
             
             
                 <Table 
-                    
                     marginTop="15px" 
                     borders="1px solid" 
                     col2Size="20%"
                     col3Size="15%"
                     col4Size="10%" 
                     col5Size="20%"
-                    col6Size="15%" >
+                    col6Size="15%"
+                    
+                    >
                     <thead>
-                    <tr>
+                    <tr
+                      style={{
+                        backgroundColor: "#F3F3F3",
+                        borderTop: "4px solid #0EB4BD",
+                        padding: "100px",
+                      }}
+                    >
                         <th onClick={alternarOrdenacaoDisciplina} style={{cursor: "pointer"}}>{t("disciplina")}<ExpandMoreIcon/></th>
                         <th>{t("npauta")}</th>
                         <th>{t("epoca")}</th>
