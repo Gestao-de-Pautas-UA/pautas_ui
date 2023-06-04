@@ -32,6 +32,12 @@ const useStyles = makeStyles({
       
     },
   },
+  uaSelect: {
+    height: '55px',
+    paddingTop: '4px',
+    borderRadius: '0px',
+    borderColor: '#000000',
+  }
 });
 
 export default function Page() {
@@ -85,7 +91,7 @@ export default function Page() {
       <Box  sx={{ width: 130 , marginLeft: 5 , marginTop: 2 }}>
         <FormControl fullWidth>
           <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
-        <Select label="Ano" value={selectedYear} onChange={handleYearChange}>
+        <Select label="Ano" value={selectedYear} onChange={handleYearChange} className={classes.uaSelect}>
           {uniqueData.map((choice) => (
             <MenuItem key={choice} value={choice}>
               {choice}
