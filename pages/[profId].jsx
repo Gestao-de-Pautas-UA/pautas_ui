@@ -20,6 +20,19 @@ import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { makeStyles } from '@mui/styles';
+
+
+const useStyles = makeStyles({
+  uaIcon: {
+    height: '40px',
+    '&:hover': {
+      background: '#0EB4BD',
+      color: '#FFFFFF',
+      
+    },
+  },
+});
 
 export default function Page() {
     
@@ -27,16 +40,14 @@ export default function Page() {
     const { profId } = router.query;
 
     const {t} = useTranslation();
+
+    const classes = useStyles();
     
     const [view, setView] = useState('tableView');
     const [selectedYear, setSelectedYear] = useState('');
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
    
-
-
-   
-
 
     useEffect(() => {
       const fetchData = async () => {
@@ -229,16 +240,23 @@ export default function Page() {
       <h2 className="tituloPautas">{t("gestao")}</h2>
       <div style={{ display: 'flex' }}>
       <Dropdown/>
-      {/* <DropdownSort /> */}
-        <Stack className='iconButton' direction="row" spacing={1} style={{ marginLeft: "75%" }} >
-          <IconButton aria-label="table" onClick={() => handleViewChange('tableView')}>
+  
+        <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginRight: '4.3rem', paddingTop: "1rem"  }}>
+          <IconButton 
+            aria-label="table" 
+            onClick={() => handleViewChange('tableView')}
+            className={classes.uaIcon}>
             <TableRowsIcon />
           </IconButton>
 
-          <IconButton aria-label="grid" onClick={() => handleViewChange('overviewCard')}>
+          <IconButton 
+            aria-label="grid" 
+            onClick={() => handleViewChange('overviewCard')}
+            className={classes.uaIcon}>
             <GridViewIcon />
           </IconButton>
-        </Stack>
+        </div>
+      
       </div>
 
       {isLoading ? (
