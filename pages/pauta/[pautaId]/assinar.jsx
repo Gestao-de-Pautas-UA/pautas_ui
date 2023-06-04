@@ -91,7 +91,9 @@ export default function Assinar() {
 
   const [openSignDialog, setOpenSignDialog] = useState(false);
 
-  const handleCloseSignDialog = () => {
+  const handleCloseSignDialog = (event, reason) => {
+    if (reason && reason == "backdropClick") 
+        return;
     setOpenSignDialog(false);
   };
 
