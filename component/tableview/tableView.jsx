@@ -169,7 +169,7 @@ export default function TableView({year, nMec}){
         };
         return (
           <React.Fragment>
-            <Box sx={{  float: 'right' , margin: '25px'}}>
+            <Box sx={{  float: 'right' , marginRight: '1.6rem', marginTop: '1rem'}}>
       
               <Tooltip title="Ordenação">
                 <FilterAltIcon
