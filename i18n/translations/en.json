@@ -67,7 +67,7 @@
         "bemvindo": "Welcome",
         "insiracodigo": "Insert your professor code for the demo",
         "prosseguir": "Next",
-        "codigoinvalido": "invalid code"
-
+        "codigoinvalido": "invalid code",
+        "erro": "Error: Check if you entered nMec correctly."
     }
  }

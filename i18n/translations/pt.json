@@ -67,6 +67,7 @@
         "bemvindo": "Bem-vindo(a)",
         "insiracodigo": "Insira vosso código de professor para a demo",
         "prosseguir": "Prosseguir",
-        "codigoinvalido": "código inválido"
+        "codigoinvalido": "código inválido",
+        "erro": "Erro: Verifique se introduziu o nMec correctamente."
     }
  }

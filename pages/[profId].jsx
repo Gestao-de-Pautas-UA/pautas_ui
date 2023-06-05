@@ -254,7 +254,8 @@ export default function Page() {
     if (erro) {
       return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '75vh' }}>
-          <h3>Erro: Verifique se introduziu o nMec correctamente.</h3>
+         
+          <h3>{t("erro")}</h3>
         </Box>
       );
     }else {
