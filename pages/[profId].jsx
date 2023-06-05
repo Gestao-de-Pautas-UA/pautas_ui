@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 
 
+
 const useStyles = makeStyles({
   uaIcon: {
     height: '40px',
@@ -50,39 +51,50 @@ export default function Page() {
     const classes = useStyles();
     
     const [view, setView] = useState('tableView');
-    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedYear, setSelectedYear] = useState('2022/2023');
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-   
+    const [erro, setErro] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
         if (!profId) {
           return;
         }
+  
         try {
-        const path = `/pautas/${profId}`;
-        const url = process.env.API_URL + path;
-        console.log("url1: "+url)
-        const response = await axios.get(url);
-        setData(response.data);
-        setIsLoading(false);
-        console.log(response.data)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [profId]);
+          const path = `/pautas/${profId}`;
+          const url = process.env.API_URL + path;
+          const response = await axios.get(url);
+  
+          if (response.status === 200) {
+            setData(response.data);
+            setIsLoading(false);
+            console.log("ok")
+          } 
+        } catch (error) {
+          console.error(error);
+          setErro(error);
+        }
+      };
+  
+      fetchData();
+    }, [profId]);
+  
 
-  useEffect(() => {
-    if (data) {
-      const uniqueData = [...new Set(data.map((choice) => choice.anoLectivo))];
-      uniqueData.sort((a, b) => b - a);
-      setSelectedYear(uniqueData[0]);
-    }
-  }, [data]);
-
+  // useEffect(() => {
+  //   if (data) {
+  //     sortAndSelectYear();
+  //   }
+  // }, [data]);
+  
+  // const sortAndSelectYear = () => {
+  //   if (data) {
+  //     const uniqueData = [...new Set(data.map((choice) => choice.anoLectivo))];
+  //     uniqueData.sort((a, b) => b - a);
+  //     setSelectedYear(uniqueData[0]);
+  //   }
+  // };
 
   //Dropdown que exibe os anos lectivos
   function Dropdown() {
@@ -239,41 +251,49 @@ export default function Page() {
 
 
 
-    console.log("Primeiro: " + profId)
-  return (
-    <ThemeProvider theme={Theme}>
-    <div>
-      <h2 className="tituloPautas">{t("gestao")}</h2>
-      <div style={{ display: 'flex' }}>
-      <Dropdown/>
-  
-        <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginRight: '4.3rem', paddingTop: "1rem"  }}>
-          <IconButton 
-            aria-label="table" 
-            onClick={() => handleViewChange('tableView')}
-            className={classes.uaIcon}>
-            <TableRowsIcon />
-          </IconButton>
-
-          <IconButton 
-            aria-label="grid" 
-            onClick={() => handleViewChange('overviewCard')}
-            className={classes.uaIcon}>
-            <GridViewIcon />
-          </IconButton>
-        </div>
+    if (erro) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '75vh' }}>
+         
+          <h3>{t("erro")}</h3>
+        </Box>
+      );
+    }else {
+      return (
+        <ThemeProvider theme={Theme}>
+        <div>
+          <h2 className="tituloPautas">{t("gestao")}</h2>
+          <div style={{ display: 'flex' }}>
+          <Dropdown/>
       
-      </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginRight: '4.3rem', paddingTop: "1rem"  }}>
+              <IconButton 
+                aria-label="table" 
+                onClick={() => handleViewChange('tableView')}
+                className={classes.uaIcon}>
+                <TableRowsIcon />
+              </IconButton>
 
-      {isLoading ? (
-        <div><TableLoading/></div> // Exibir mensagem de carregamento
-      ) : (
-        <>
-          {view === 'tableView' && <TableView year={selectedYear} nMec={profId} />}
-          {view === 'overviewCard' && <BasicCard year={selectedYear} nMec={profId} />}
-        </>
-      )}
-    </div>
-    </ThemeProvider>
-  );
+              <IconButton 
+                aria-label="grid" 
+                onClick={() => handleViewChange('overviewCard')}
+                className={classes.uaIcon}>
+                <GridViewIcon />
+              </IconButton>
+            </div>
+          
+          </div>
+
+          {isLoading ? (
+            <div><TableLoading/></div> // Exibir mensagem de carregamento
+          ) : (
+            <>
+              {view === 'tableView' && <TableView year={selectedYear} nMec={profId} />}
+              {view === 'overviewCard' && <BasicCard year={selectedYear} nMec={profId} />}
+            </>
+          )}
+        </div>
+        </ThemeProvider>
+      );
+  }
 }
