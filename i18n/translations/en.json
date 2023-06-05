@@ -68,6 +68,7 @@
         "insiracodigo": "Insert your professor code for the demo",
         "prosseguir": "Next",
         "codigoinvalido": "invalid code",
-        "erro": "Error: Check if you entered nMec correctly."
+        "erro": "Error: Check if you entered nMec correctly.", 
+        "anoActual": "Year"
     }
  }

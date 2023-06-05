@@ -102,7 +102,7 @@ export default function Page() {
     return (
       <Box  sx={{ width: 130 , marginLeft: 6 , marginTop: 2 }}>
         <FormControl fullWidth>
-          <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>Ano</InputLabel>
+          <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{marginLeft: 2}}>{t("anoActual")}</InputLabel>
         <Select label="Ano" value={selectedYear} onChange={handleYearChange} className={classes.uaSelect}>
           {uniqueData.map((choice) => (
             <MenuItem key={choice} value={choice}>

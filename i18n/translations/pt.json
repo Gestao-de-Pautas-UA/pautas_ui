@@ -68,6 +68,8 @@
         "insiracodigo": "Insira vosso código de professor para a demo",
         "prosseguir": "Prosseguir",
         "codigoinvalido": "código inválido",
-        "erro": "Erro: Verifique se introduziu o nMec correctamente."
+        "erro": "Erro: Verifique se introduziu o nMec correctamente.", 
+        "anoActual":"Ano"
+
     }
  }
