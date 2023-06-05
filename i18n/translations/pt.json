@@ -68,6 +68,7 @@
         "insiracodigo": "Insira vosso código de professor para a demo",
         "prosseguir": "Prosseguir",
         "codigoinvalido": "código inválido",
+        "anoActual":"Ano",
         "erro": "Erro: Verifique se introduziu o nMec correctamente.",
         "amaappdialogotitulo": "Aplicação Autenticação.gov não executada",
         "amaappdialogodescricao": "Verifique se a aplicação de assinatura digital Autenticação.gov está instalada e configurada e tente novamente."
