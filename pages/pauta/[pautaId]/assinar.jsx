@@ -147,19 +147,19 @@ export default function Assinar() {
         });      
         console.log(response3)
         setSignedPdfHashResponse(response3.data);
-        setOpenNoAmaAppDialog(true);
       } catch (error) {
         console.error(error);
       }
       
-
-
+      
+      
       
       setOpenSignDialog(true);
       
       
     } catch (error) {
       console.error(error);
+      setOpenNoAmaAppDialog(true);
       
     }
     
