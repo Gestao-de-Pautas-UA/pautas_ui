@@ -246,7 +246,7 @@ export default function pautaDetails() {
     return (
         <ThemeProvider theme={Theme}>
 
-            <div style={{ marginBottom: '20px'}}>
+            <div style={{marginLeft: '50px' , marginBottom: '20px'}}>
             <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
                 {t("lista")}
             </Typography>
