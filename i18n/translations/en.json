@@ -67,7 +67,9 @@
         "bemvindo": "Welcome",
         "insiracodigo": "Insert your professor code for the demo",
         "prosseguir": "Next",
-        "codigoinvalido": "invalid code"
+        "codigoinvalido": "invalid code",
+        "amaappdialogotitulo": "Autenticação.gov not executed",
+        "amaappdialogodescricao": "Verify that the Autenticação.gov app for digital signature is installed and try again."
 
     }
  }

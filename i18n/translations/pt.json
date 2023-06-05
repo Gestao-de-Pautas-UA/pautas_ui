@@ -67,6 +67,8 @@
         "bemvindo": "Bem-vindo(a)",
         "insiracodigo": "Insira vosso código de professor para a demo",
         "prosseguir": "Prosseguir",
-        "codigoinvalido": "código inválido"
+        "codigoinvalido": "código inválido",
+        "amaappdialogotitulo": "Aplicação Autenticação.gov não executada",
+        "amaappdialogodescricao": "Verifique se a aplicação de assinatura digital Autenticação.gov está instalada e configurada e tente novamente."
     }
  }
