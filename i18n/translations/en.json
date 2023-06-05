@@ -68,6 +68,8 @@
         "insiracodigo": "Insert your professor code for the demo",
         "prosseguir": "Next",
         "codigoinvalido": "invalid code",
-        "erro": "Error: Check if you entered nMec correctly."
+        "erro": "Error: Check if you entered nMec correctly.",
+        "amaappdialogotitulo": "Autenticação.gov not executed",
+        "amaappdialogodescricao": "Verify that the Autenticação.gov app for digital signature is installed and try again."
     }
  }

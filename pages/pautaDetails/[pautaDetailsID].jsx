@@ -10,15 +10,35 @@ import Link from 'next/link'
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryLabel } from 'victory';
 import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
 import { useTranslation } from 'react-i18next';
+import { makeStyles } from '@mui/styles';
 
-
+const useStyles = makeStyles({
+    uaButton: {
+        borderRadius: 1,  
+        backgroundColor: 'white', 
+        color: 'black', 
+        borderColor: 'black', 
+        fontSize: '14px',
+        padding: '0px 12px 0px 12px',
+        height: 'auto',
+        minHeight: '40px',
+        maxWidth: '140px',
+        textTransform: 'capitalize',
+        justifyContent: 'center',
+        fontWeight: '400',
+        '&:hover': {
+          background: '#0EB4BD',
+          color: '#FFFFFF',
+        },
+      }
+});
 
 
 export default function pautaDetails() {
 
 
     const {t} = useTranslation();
-
+    const classes = useStyles();
 
     const [showPopup, setShowPopup] = useState(false);
     const handleLacrarClick = () => {
@@ -83,7 +103,15 @@ export default function pautaDetails() {
         window.open(fileURL);
       };
 
-
+    const goToOverview = async () => {
+        try {
+          const response = await axios.get(process.env.API_URL + `/professorByPauta/${pautaDetailsID}`);
+          const codProf = response.data.nmec;
+          router.push(`/${codProf}`);
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
     const getPautaStatus = () => {
         console.log(pautaData.estado);
@@ -173,7 +201,7 @@ export default function pautaDetails() {
     console.log(trueGrades);
     console.log(passCount);
   
-    let passRate = (passCount / trueGrades.length) * 100;
+    let passRate = (passCount / numberofStudents) * 100;
 
     let average = sum/trueGrades.length;
     
@@ -214,27 +242,26 @@ export default function pautaDetails() {
     }));
     
     const pathtopauta = "/pauta/" + pautaDetailsID;
-
+    
     return (
         <ThemeProvider theme={Theme}>
-         <div style={{ marginBottom: '20px'}}>
-            <Link href="/">
-                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '30px'}}>
+
+            <div style={{ marginBottom: '20px'}}>
+            <Typography className="text-link" sx={{ display: 'inline-block'}} onClick={goToOverview}>
                 {t("lista")}
-                </Typography>
-            </Link>
-                <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
-                    &gt;
-                </Typography>
-                <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
+            </Typography>
+            <Typography className="text-link" sx={{ display: 'inline-block', marginLeft: '5px'}} >
+                &gt;
+            </Typography>
+            <Typography sx={{ display: 'inline-block', marginLeft:'9px', fontWeight: '600'}}>
                 {t("detalhes")}
-                </Typography>
-        </div>
+            </Typography>
+            </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
-            <Button onClick={getPautaStatus} variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px', marginLeft: '10px' }}>{t("visualizar")}</Button>
+            <Button onClick={getPautaStatus} variant="outlined" className={classes.uaButton} sx={{ marginLeft: '10px'}}>{t("visualizar")}</Button>
             <Link href={pathtopauta}>
-                <Button variant="outlined" style={{ borderRadius: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', fontSize: '10px',marginLeft: '10px' }}>{t("irpara")}</Button>
+                <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '10px'}}>{t("irpara")}</Button>
             </Link> 
         </div>
 
@@ -253,7 +280,7 @@ export default function pautaDetails() {
                         <li><strong>{t("taxa")}:</strong> {passRate.toFixed(2)} %</li>
                     </ul>             
                 </div>
-                <div className="graph-container">
+                <div className="graph-container" style={{marginBottom:"70px"}}>
                     <VictoryChart width={900} domainPadding={7}>
                         <VictoryAxis label={t("nota")} />
                         <VictoryAxis
@@ -338,6 +365,10 @@ export default function pautaDetails() {
                         />
                     */}
                 </div>
+                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , textAlign: 'center', fontWeight: '600'}} elevation={24}>
+                    66 - {t("reprovadomin")} / 77 - {t("faltou")} / 88 - {t("desistiu")} / 99 - {t("reprovadofalta")}
+                </Paper>
+
             </div>
         </ThemeProvider>
     );
