@@ -63,6 +63,10 @@
         "sobrescreverdialogotitulo": "Alerta de sobrescrição de notas",
         "sobrescreverdialogodescricao":"O arquivo importado irá sobrescrever as notas existentes. Deseja continuar?",
         "sim":"Sim",
-        "faltandodialogotitulo": "Atenção, alguns alunos do ficheiro importado não estão na pauta:"
+        "faltandodialogotitulo": "Atenção, alguns alunos do ficheiro importado não estão na pauta:",
+        "bemvindo": "Bem-vindo(a)",
+        "insiracodigo": "Insira vosso código de professor para a demo",
+        "prosseguir": "Prosseguir",
+        "codigoinvalido": "código inválido"
     }
  }
