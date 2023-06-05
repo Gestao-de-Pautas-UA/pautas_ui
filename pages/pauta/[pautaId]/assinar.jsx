@@ -98,6 +98,13 @@ export default function Assinar() {
   };
 
 
+  const [openNoAmaAppDialog, setOpenNoAmaAppDialog] = useState(false);
+
+  const handleCloseNoAmaAppDialog = () => {
+    setOpenNoAmaAppDialog(false);
+  };
+
+
   const [signedPdfHashResponse, setSignedPdfHashResponse] = useState('');
 
   const [openPluginErrorDialog, setOpenPluginErrorDialog] = useState(false);
@@ -132,12 +139,18 @@ export default function Assinar() {
 
       formData.append('file', blob);
 
-      const response3 = await axios.post("http://localhost:3005/upload", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });      
-      console.log(response3)
+      try {
+        const response3 = await axios.post("http://localhost:3005/upload", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });      
+        console.log(response3)
+      } catch (error) {
+        setOpenNoAmaAppDialog(true);
+        console.error(error);
+      }
+      
 
       setSignedPdfHashResponse(response3.data);
 
@@ -390,8 +403,42 @@ export default function Assinar() {
           </DialogActions>
           </Dialog>
         </div>
+
+
+        {/* No AMA app dialog */}
+        <div>
+          <Dialog
+          open={openNoAmaAppDialog}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseNoAmaAppDialog}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            {t("amaappdialogotitulo")}
+
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {t("amaappdialogodescricao")}
+            </DialogContentText>
+          
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseNoAmaAppDialog}
+                variant="outlined" 
+                className={classes.uaButton}
+                sx={{marginRight: '10px'}}
+                >{t("fechar")}</Button>
+          </DialogActions>
+          </Dialog>
+        </div>
+
+
       </ThemeProvider>
     </div>
+
+    
     
   );
 };
