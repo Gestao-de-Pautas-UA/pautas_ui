@@ -298,11 +298,9 @@ export default function Assinar() {
                   </CardContent>
                 </CardActionArea>
                 <CardActions sx={{justifyContent: 'center'}} >
-                  <Link href={`/`}>
-                    <Button variant="outlined" className={classes.uaButton}>
+                    <Button variant="outlined" className={classes.uaButton} onClick={goToOverview}>
                       {t("listaM")}
                     </Button>
-                  </Link>
                 </CardActions>
               </Card>
               
