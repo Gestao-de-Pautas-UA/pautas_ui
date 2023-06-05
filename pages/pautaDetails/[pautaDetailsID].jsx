@@ -258,7 +258,7 @@ export default function pautaDetails() {
             </Typography>
             </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '80%'  }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '75%'  }}>
             <Button onClick={getPautaStatus} variant="outlined" className={classes.uaButton} sx={{ marginLeft: '10px'}}>{t("visualizar")}</Button>
             <Link href={pathtopauta}>
                 <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '10px'}}>{t("irpara")}</Button>
@@ -266,7 +266,7 @@ export default function pautaDetails() {
         </div>
 
             
-            <div className="sheet-details-container" style={{display:'flex', flexDirection:'column', maxWidth: '800px',textAlign: 'left'}}>
+            <div className="sheet-details-container" style={{marginLeft: '50px' ,display:'flex', flexDirection:'column', maxWidth: '800px',textAlign: 'left'}}>
                 <div className="sheet-details" style={{textAlign: 'left', margin: '0px'}}>
                     <h2 className="sheet-details__title">{t("detalhes")}</h2>
                     <ul className="sheet-details__list">
