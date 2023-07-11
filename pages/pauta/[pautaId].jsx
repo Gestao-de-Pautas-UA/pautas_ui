@@ -1,10 +1,7 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-import { Table, Theme, ThemeProvider, TableLoading } from "@uaveiro/ui";
-import { Input } from "@uaveiro/ui";  
-import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
 import { useState, useEffect, forwardRef } from 'react';
+import { useRouter } from 'next/router'
+import { Table, Theme, ThemeProvider, TableLoading, Input } from "@uaveiro/ui";  
+import { Typography, Paper, Button, Grid } from "@mui/material";
 import axios from 'axios';
 import { makeStyles } from '@mui/styles';
 import Dialog from '@mui/material/Dialog';
@@ -13,7 +10,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { typeOf } from 'react-is';
 import { read, utils } from 'xlsx';
 import { useTranslation } from 'react-i18next';
 
@@ -193,7 +189,6 @@ export default function Pauta() {
         return invalidInputs;
       } catch (error) {
         console.error(error);
-        // handle the error
       }
     }
 
@@ -240,14 +235,12 @@ export default function Pauta() {
   }
 
   const handleDownload = async () => {
-    // Guardar antes de GET Download
     const invalidGuardar = await handleGuardar();
 
     if (invalidGuardar.length > 0) {
       return;
     }
 
-    // GET File `/get/pdf/{pautaId}`
     const path = `/excel/${pautaId}`;
     const url = process.env.API_URL + path;
     const response = await axios.get(url, {responseType: 'blob'});
@@ -255,7 +248,6 @@ export default function Pauta() {
     const urlBlob = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
 
-    // User downloads file
     link.href = urlBlob;
     link.download = data.disciplinaResponse.nome + '.xlsx';
     link.click();    
