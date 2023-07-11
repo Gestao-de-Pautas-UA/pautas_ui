@@ -24,7 +24,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles({
   uaButton: {
-    /* define your custom styles here */
     borderRadius: 1,  
     backgroundColor: 'white', 
     color: 'black', 
@@ -57,7 +56,7 @@ export default function Assinar() {
   const classes = useStyles();
 
   const router = useRouter();
-  const { pautaId } = router.query; // retrieve the "pautaId" from the URL
+  const { pautaId } = router.query;
 
   const [data, setData] = useState(null);
 
@@ -71,7 +70,6 @@ export default function Assinar() {
       const url = process.env.API_URL + path;
       const response = await axios.get(url);
       setData(response.data);
-      console.log(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -118,7 +116,6 @@ export default function Assinar() {
       
       const path = "http://localhost:3005/";
       
-      let response1;
       try { 
         response1 = await axios.get(path);
       } catch (error) {
@@ -131,7 +128,6 @@ export default function Assinar() {
       const response2 = await axios.get(process.env.API_URL + `/pdf/estudantes/${pautaId}`, {
         responseType: 'arraybuffer'
       });
-      console.log(response2.data)
 
 
       const formData = new FormData();
@@ -145,7 +141,6 @@ export default function Assinar() {
             'Content-Type': 'multipart/form-data'
           }
         });      
-        console.log(response3)
         setSignedPdfHashResponse(response3.data);
       } catch (error) {
         console.error(error);
@@ -168,12 +163,10 @@ export default function Assinar() {
 
   const handleGetAndOpenSigned = async () => {
     setOpenSignDialog(false);
-    // Fazer se o usuário clicou no botão de Já assinei
     axios.get("http://localhost:3005/get/" + signedPdfHashResponse, {responseType: 'arraybuffer'})
       .then(response => {
         if (response.status === 200) {
           console.log('Valid response received');
-          // Do something with the response
           axios.post(process.env.API_URL + "/set/pautaEstado/", 
           {
             "codigoPauta": pautaId,
@@ -322,7 +315,6 @@ export default function Assinar() {
 
         </Grid>
         
-        {/* Sign dialog */}
         <div>
           <Dialog
           open={openSignDialog}
@@ -369,7 +361,6 @@ export default function Assinar() {
         </div>
 
 
-        {/* Plugin error dialog */}
         <div>
           <Dialog
           open={openPluginErrorDialog}
@@ -405,7 +396,6 @@ export default function Assinar() {
         </div>
 
 
-        {/* No AMA app dialog */}
         <div>
           <Dialog
           open={openNoAmaAppDialog}
@@ -433,7 +423,6 @@ export default function Assinar() {
           </DialogActions>
           </Dialog>
         </div>
-
 
       </ThemeProvider>
     </div>
