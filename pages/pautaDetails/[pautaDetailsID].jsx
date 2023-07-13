@@ -129,7 +129,7 @@ export default function pautaDetails() {
     if(pautaData.estado === "PREENCHIDA") {
         readableState = "Preenchida";
         translatedState= t("preenchida");
-    }else if (pautaData.estado = "ASSINADA") {
+    }else if (pautaData.estado === "ASSINADA") {
         readableState = "Assinada";
         translatedState= t("assinada"); 
     } else {
@@ -143,7 +143,7 @@ export default function pautaDetails() {
     if(pautaData.tipoExame === "NM") {
         readableSeason = "Normal";
         translatedSeason = t("normal");
-    }else if (pautaData.tipoExame = "RS") {
+    }else if (pautaData.tipoExame === "RS") {
         readableSeason = "Recurso";
         translatedSeason = t("recurso"); 
     } else {
@@ -179,8 +179,6 @@ export default function pautaDetails() {
         grades.push(Math.round(parseInt(grade)));
     }
 
-    console.log(trueGrades);
-
 
     let graphArray = [];
 
@@ -198,8 +196,6 @@ export default function pautaDetails() {
             passCount++;
         }
     }
-    console.log(trueGrades);
-    console.log(passCount);
   
     let passRate = (passCount / numberofStudents) * 100;
 
@@ -297,73 +293,6 @@ export default function pautaDetails() {
                             labelComponent={<VictoryLabel dy={-10} />}
                         />
                     </VictoryChart>
-
-
-
-
-
-
-
-
-
-
-
-
-                    
-                      
-                        {/*
-                        <Bar 
-                            data={{
-                                labels:["RPNM",
-                                    "Faltou",
-                                    "Desistiu",
-                                    "RF",
-                                    "0",
-                                    "1",
-                                    "2",
-                                    "3",
-                                    "4",
-                                    "5",
-                                    "6",
-                                    "7",
-                                    "8",
-                                    "9",
-                                    "10",
-                                    "11",
-                                    "12",
-                                    "13",
-                                    "14",
-                                    "15",
-                                    "16",
-                                    "17",
-                                    "18",
-                                    "19",
-                                    "20",
-                                ],
-                                datasets: [
-                                   { 
-                                    label: "Número de alunos",
-                                    data:graphArray,
-                                    backgroundColor: "#10b4bc",
-                                   } 
-                                ]
-                            }}
-                            height={200}
-                            width={500}
-                            options={{
-                            maintainAspectRatio: true,
-                            scales: {
-                                yAxes: [{
-                                  ticks: {
-
-                                    stepSize:1
-                                    
-                                  }
-                                }]
-                              }        
-                        }}                                  
-                        />
-                    */}
                 </div>
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 , textAlign: 'center', fontWeight: '600'}} elevation={24}>
                     66 - {t("reprovadomin")} / 77 - {t("faltou")} / 88 - {t("desistiu")} / 99 - {t("reprovadofalta")}
