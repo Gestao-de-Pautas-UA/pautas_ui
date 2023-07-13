@@ -2,13 +2,10 @@
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import { ThemeProvider, Theme , TableLoading} from "@uaveiro/ui";
-import { useState, useEffect } from 'react';
-import { Subject } from '@mui/icons-material';
-import { Bar } from "react-chartjs-2";
-import Chart from "chart.js/auto";
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryLabel } from 'victory';
-import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
+import { Typography,Paper, Button} from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 
@@ -40,7 +37,7 @@ export default function pautaDetails() {
     const {t} = useTranslation();
     const classes = useStyles();
 
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(false); //!
     const handleLacrarClick = () => {
         setShowPopup(true);
     }
@@ -96,7 +93,7 @@ export default function pautaDetails() {
             </ThemeProvider>
         )
     }
-
+    
     const handleDownloadPdf = () => {
         const file = new Blob([pdfData], { type: 'application/pdf' });
         const fileURL = URL.createObjectURL(file);
