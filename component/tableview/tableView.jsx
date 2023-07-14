@@ -1,77 +1,57 @@
 import * as React from 'react';
-import { Table, Tables, TableLoading} from "@uaveiro/ui";
-import { ThemeProvider, Theme} from "@uaveiro/ui";
-import { useState, useEffect } from 'react';
-import { Button, Stack } from "@mui/material";
 import axios from 'axios';
 import EstadoVermelho from '../legend/estadoVermelho'
 import EstadoAmarelo from "../legend/estadoAmarelo";
 import EstadoVerde from "../legend/estadoVerde";
- 
-import Link from 'next/link'
-
-
+import  makeStyles  from '@mui/styles';
+import  Button  from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Link from 'next/link'
+import { Table, TableLoading} from "@uaveiro/ui";
+import { ThemeProvider, Theme} from "@uaveiro/ui";
+import { useState, useEffect } from 'react';
 import {useRouter} from 'next/router';
-
-import { makeStyles } from '@mui/styles';
-
 import { useTranslation } from 'react-i18next';
 
 
-
-
-const useStyles = makeStyles({
-  uaButton: {
-    /* define your custom styles here */
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-  uaTableRow: {
-    '&:hover': {
-      background: '#F5F5F5',
-    },
-  }
-});
+// const useStyles = makeStyles({
+//   uaButton: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+//   uaTableRow: {
+//     '&:hover': {
+//       background: '#F5F5F5',
+//     },
+//   }
+// });
 
 export default function TableView({year, nMec}){
 
-
-
   const classes = useStyles();
-  
-  
-
-  console.log("prof "+nMec);
-
   const {t} = useTranslation();
-
-
-
   const router = useRouter();
+  const [data, setData] = useState(null);
 
-
-    //Chamada a api 
-    const [data, setData] = useState(null);
     useEffect(() => {
       const fetchData = async () => {
         if (!nMec) {
@@ -90,30 +70,11 @@ export default function TableView({year, nMec}){
     fetchData();
   }, [year]);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const path = `/pautas/`+nMec;
-    //             console.log("---"+path)
-    //             console.log("+++",process.env.API_URL);
-    //             const url = process.env.API_URL + path;
-    //             const response = await axios.get(url);
-    //             setData(response.data.filter(obj => obj.anoLectivo === year));
-    //             console.log(data);
-    //         } catch(error){
-    //             console.error(error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, [year]);
 
     const handleClickEditButton = (event) => {
       router.push('/pauta/'+ event.currentTarget.id);
     }
 
-    const handleClickDetailsButton = (event) => {
-      router.push('/pautaDetails/'+ event.currentTarget.id);
-    }
   
     //Ordenação por disciplina
     const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
@@ -128,9 +89,6 @@ export default function TableView({year, nMec}){
         const ordemDisciplina = ordenacaoDisciplina === "crescente" ? ordenarPorDisciplinaCrescente : ordenarPorDisciplinaDecrescente;
         data.sort(ordemDisciplina);
     }
-
-
-
 
     //Ordenação por estado
     const estadoMap = {
@@ -151,8 +109,6 @@ export default function TableView({year, nMec}){
         data.sort(ordemEstado);
     }
 
-   
-
 
     if (!data) {
         return <ThemeProvider theme={Theme}>
@@ -161,7 +117,6 @@ export default function TableView({year, nMec}){
                 </div>
               </ThemeProvider>;
       }
-
 
       function DropdownSort() {
         const [anchorEl, setAnchorEl] = React.useState(null);
@@ -240,10 +195,6 @@ export default function TableView({year, nMec}){
       }
 
 
-
-
-
-
     return (
         <ThemeProvider theme={Theme}>
       
@@ -290,49 +241,34 @@ export default function TableView({year, nMec}){
                                 <td>{subject.tipoExame}</td>
                                 <td>
                                     {subject.estado === "POR_PREENCHER" ? (
-                                        // <CircleIcon sx={{color: "red" }} />
                                         <EstadoVermelho/>
-                                    ) : subject.estado === "PREENCHIDA" ? (
-                                        // <CircleIcon color="primary" />
-                                        // <CircleIcon sx={{color: "orange" }} />
+                                    ) : subject.estado === "PREENCHIDA" ? (                                        
                                         <EstadoAmarelo/>
                                     ) : (
 
-                                        // <CircleIcon color="success" />
-                                        //  <CircleIcon color="primary" />
                                         <EstadoVerde/>
                                     )}
                                 </td>
                                 <td>
-                                  <Button variant="outlined" className={classes.uaButton}
+                                  <Button variant="outlined" className={classes.uaButton2}
                                       id={subject.codigoPauta}
 
                                       onClick={handleClickEditButton}
                                     >
                                         {t("editar")}
-
-                                     
-                          
                                   </Button>
                                   </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-
-                                        <Button variant="outlined" className={classes.uaButton}>{t("detalhes")}</Button>
-
-                       
+                                        <Button variant="outlined" className={classes.uaButton2}>{t("detalhes")}</Button>
                                     </Link>
                                 </td>
                             </tr>
                         ))}
-
-                    
                     </tbody>
                 </Table>
             </div>
 
         </ThemeProvider>
-
-    )
-    
+    )  
 }

@@ -1,71 +1,61 @@
 import * as React from 'react';
-import { ThemeProvider, Theme} from "@uaveiro/ui";
-import { TableLoading} from "@uaveiro/ui";
+import axios from 'axios';
+import '@/styles/styles.css';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import EstadoAmarelo from '../legend/estadoAmarelo';
 import EstadoVerde from '../legend/estadoVerde';
 import EstadoVermelho from '../legend/estadoVermelho';
-import { useRouter } from 'next/router';
-import Link from 'next/link'; 
-
-
-
-
-
-import { makeStyles } from '@mui/styles';
-
+import  makeStyles  from '@mui/styles';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Link from 'next/link'; 
+import { ThemeProvider, Theme} from "@uaveiro/ui";
+import { TableLoading} from "@uaveiro/ui";
+import EstadoAmarelo from '../legend/estadoAmarelo';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 
 
-const useStyles = makeStyles({
-  uaButton: {
-    /* define your custom styles here */
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-  uaCard: {
-    borderRadius: '0px',
-    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 2px 4px'
-  }
-});
+// const useStyles = makeStyles({
+//   uaButton2: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+//   uaCard: {
+//     borderRadius: '0px',
+//     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 2px 4px'
+//   }
+// });
 
 export default function BasicCard({year, nMec}) {
 
-  const router = useRouter();
-  const classes = useStyles();
-
-
+    const router = useRouter();
+    const classes = useStyles();
     const {t} = useTranslation();
-
-
-    //Chamada a api 
     const [data, setData] = useState(null);
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -84,8 +74,6 @@ export default function BasicCard({year, nMec}) {
       router.push('/pauta/'+ event.currentTarget.id);
     }
 
-
-    //Ordenação por disciplina
     const [ordenacaoDisciplina, setOrdenacaoDisciplina] = useState("crescente");
     const ordenarPorDisciplinaCrescente = (a, b) => a.disciplinaResponse.nome.localeCompare(b.disciplinaResponse.nome);
     const ordenarPorDisciplinaDecrescente = (a, b) => b.disciplinaResponse.nome.localeCompare(a.disciplinaResponse.nome);
@@ -100,9 +88,6 @@ export default function BasicCard({year, nMec}) {
     }
 
 
-
-
-    //Ordenação por estado
     const estadoMap = {
         "POR_PREENCHER": 0,
         "PREENCHIDA": 1,
@@ -121,8 +106,7 @@ export default function BasicCard({year, nMec}) {
         data.sort(ordemEstado);
     }
 
-   
-
+  
 
     if (!data) {
         return <ThemeProvider theme={Theme}>
@@ -133,10 +117,7 @@ export default function BasicCard({year, nMec}) {
       }
 
 
-
-
-
-      function DropdownSort() {
+    function DropdownSort() {
         const [anchorEl, setAnchorEl] = React.useState(null);
         const open = Boolean(anchorEl);
         const handleClick = (event) => {
@@ -214,22 +195,16 @@ export default function BasicCard({year, nMec}) {
       }
 
 
-
- 
-
     const cards = data.map((subject, index) => {
       let estadoIcon;
   
       if (subject.estado === "POR_PREENCHER") {
-        // estadoIcon = <CircleIcon sx={{ fontSize: 10.5, color: "red" }} />;
         estadoIcon = <EstadoVermelho/>;
 
       } else if (subject.estado === "PREENCHIDA") {
-        // estadoIcon = <CircleIcon  sx={{ fontSize: 10.5, color: "orange" }}/>;
         estadoIcon = <EstadoAmarelo/>;
 
       } else if (subject.estado === "ASSINADA") {
-        // estadoIcon = <CircleIcon color="success" sx={{ fontSize: 10.5 }}/>;
         estadoIcon = <EstadoVerde/>;
       }
   
@@ -254,7 +229,7 @@ export default function BasicCard({year, nMec}) {
               </CardContent>
               <CardActions>
 
-              <Button variant="outlined" className={classes.uaButton}
+              <Button variant="outlined" className={classes.uaButton2}
                                       style={{ marginLeft: '0.5rem', marginBottom: '0.5rem'}}
                                       id={subject.codigoPauta}
                                       onClick={handleClickEditButton}
@@ -262,7 +237,7 @@ export default function BasicCard({year, nMec}) {
                                         {t("editar")}
               </Button>
               <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                    <Button variant="outlined" className={classes.uaButton} style={{marginLeft: "0.5rem", marginBottom: '0.5rem'}} >{t("detalhes")}</Button>
+                    <Button variant="outlined" className={classes.uaButton2} style={{marginLeft: "0.5rem", marginBottom: '0.5rem'}} >{t("detalhes")}</Button>
               </Link>
 
               </CardActions>
@@ -273,11 +248,8 @@ export default function BasicCard({year, nMec}) {
 
       );
     });
-
-   
   
     return (
-
       <div>
         <div><DropdownSort/></div>
         {(() => {

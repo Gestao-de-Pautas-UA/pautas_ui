@@ -1,5 +1,6 @@
 import { Theme, ThemeProvider } from "@uaveiro/ui";
 import * as React from 'react';
+import '@/styles/styles.css';
 import { useState } from "react";
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
@@ -10,26 +11,26 @@ import { makeStyles } from '@mui/styles';
 import { useRouter } from 'next/router';
 
 
-const useStyles = makeStyles({
-  uaButtonHome: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-});
+// const useStyles = makeStyles({
+//   uaButtonHome: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+// });
 
 
 
@@ -80,7 +81,7 @@ export default function Home() {
           onChange={(e) => setProfId(e.target.value)}
           />
           <Button variant="outlined" 
-            className={classes.uaButtonHome} 
+            className={classes.uaButton2} 
             onClick={goToPautas} 
             style={{ marginLeft: "5rem"}}>
             {t("prosseguir")}
