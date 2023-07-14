@@ -1,5 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
+import '@/styles/styles.css';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -23,30 +24,30 @@ import { useTranslation } from 'react-i18next';
 
 
 
-const useStyles = makeStyles({
-  uaButton: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-  uaCard: {
-    borderRadius: '0px',
-    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 2px 4px'
-  }
-});
+// const useStyles = makeStyles({
+//   uaButton2: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+//   uaCard: {
+//     borderRadius: '0px',
+//     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 2px 4px'
+//   }
+// });
 
 export default function BasicCard({year, nMec}) {
 
@@ -228,7 +229,7 @@ export default function BasicCard({year, nMec}) {
               </CardContent>
               <CardActions>
 
-              <Button variant="outlined" className={classes.uaButton}
+              <Button variant="outlined" className={classes.uaButton2}
                                       style={{ marginLeft: '0.5rem', marginBottom: '0.5rem'}}
                                       id={subject.codigoPauta}
                                       onClick={handleClickEditButton}
@@ -236,7 +237,7 @@ export default function BasicCard({year, nMec}) {
                                         {t("editar")}
               </Button>
               <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                    <Button variant="outlined" className={classes.uaButton} style={{marginLeft: "0.5rem", marginBottom: '0.5rem'}} >{t("detalhes")}</Button>
+                    <Button variant="outlined" className={classes.uaButton2} style={{marginLeft: "0.5rem", marginBottom: '0.5rem'}} >{t("detalhes")}</Button>
               </Link>
 
               </CardActions>

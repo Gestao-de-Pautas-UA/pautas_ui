@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Table, Theme, ThemeProvider, TableLoading, Input } from "@uaveiro/ui";  
 import { Typography, Paper, Button, Grid } from "@mui/material";
 import axios from 'axios';
+import '@/styles/styles.css';
 import { makeStyles } from '@mui/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,49 +19,49 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles({
-  uaButton: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-  uaDialog: {
-    border:'0px solid',
-    borderRadius: '1px',
-    height: '500px',
-  },
-  uaButtonMinor: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '0.8rem',
-    padding: '0px 6px 0px 6px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '160px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-});
+// const useStyles = makeStyles({
+//   uaButton: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+//   uaDialog: {
+//     border:'0px solid',
+//     borderRadius: '1px',
+//     height: '500px',
+//   },
+//   uaButtonMinor: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '0.8rem',
+//     padding: '0px 6px 0px 6px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '160px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+// });
 
 
 export default function Pauta() {
@@ -383,21 +384,21 @@ export default function Pauta() {
           <Grid container spacing={0} sx={{width: '100%'}}>
 
             <Grid item sm={3} md={3} lg={2}>
-              <Button variant="outlined" className={classes.uaButton} sx={{ marginRight: '40px'}} onClick={handleGuardar} disabled={!isNotaChanged}>
+              <Button variant="outlined" className={classes.uaButton2} sx={{ marginRight: '40px'}} onClick={handleGuardar} disabled={!isNotaChanged}>
                 {t("guardar")}
               </Button>
             
-              <Button variant="outlined" className={classes.uaButton} onClick={handleAssinar}>
+              <Button variant="outlined" className={classes.uaButton2} onClick={handleAssinar}>
                {t("assinar")}
               </Button>
             </Grid>
             <Grid item sm={1} md={1} lg={1}>
             </Grid>
             <Grid item sm={8} md={8} lg={9} sx={{ textAlign: 'right' }} >
-              <Button variant="outlined" className={classes.uaButton} onClick={handleDownload} >
+              <Button variant="outlined" className={classes.uaButton2} onClick={handleDownload} >
                 {t("download")}
               </Button>
-              <Button component="label" variant="outlined" className={classes.uaButton} sx={{ marginLeft: '40px', textAlign:'center'}}>
+              <Button component="label" variant="outlined" className={classes.uaButton2} sx={{ marginLeft: '40px', textAlign:'center'}}>
                 {t("upload")} 
                   <input
                     type="file"
@@ -480,7 +481,7 @@ export default function Pauta() {
             <Button 
               onClick={handleCloseGuardar} 
               variant="outlined" 
-              className={classes.uaButton}
+              className={classes.uaButton2}
               sx={{marginRight: '10px'}}
               >{t("fechar")}</Button>
           </DialogActions>
@@ -510,7 +511,7 @@ export default function Pauta() {
             <Button 
               onClick={handleCloseAssinar} 
               variant="outlined" 
-              className={classes.uaButton}
+              className={classes.uaButton2}
               sx={{marginRight: '10px'}}
               >{t("fechar")}</Button>
           </DialogActions>
@@ -534,12 +535,12 @@ export default function Pauta() {
           <DialogActions>
             <Button onClick={handleCloseOverwrite}
                 variant="outlined" 
-                className={classes.uaButton}
+                className={classes.uaButton2}
                 sx={{marginRight: '10px'}}
                 >{t("cancelar")}</Button>
             <Button onClick={overwriteNotas}
                     variant="outlined" 
-                    className={classes.uaButton}
+                    className={classes.uaButton2}
                     sx={{marginRight: '10px'}}
                     >{t("sim")}</Button>
           </DialogActions>
@@ -569,7 +570,7 @@ export default function Pauta() {
           <DialogActions>
             <Button onClick={handleCloseMissing}
                 variant="outlined" 
-                className={classes.uaButton}
+                className={classes.uaButton2}
                 sx={{marginRight: '10px'}}
                 >{t("fechar")}</Button>
             

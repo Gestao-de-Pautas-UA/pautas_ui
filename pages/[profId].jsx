@@ -1,5 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
+import '@/styles/styles.css';
 import { useState, useEffect } from "react";
 import TableView from "../component/tableview/tableView";
 import TableRowsIcon from '@mui/icons-material/TableRows';
@@ -16,22 +17,22 @@ import { makeStyles } from '@mui/styles';
 
 
 
-const useStyles = makeStyles({
-  uaIcon: {
-    height: '40px',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
+// const useStyles = makeStyles({
+//   uaIcon: {
+//     height: '40px',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
       
-    },
-  },
-  uaSelect: {
-    height: '55px',
-    paddingTop: '4px',
-    borderRadius: '0px',
-    borderColor: '#000000',
-  }
-});
+//     },
+//   },
+//   uaSelect: {
+//     height: '55px',
+//     paddingTop: '4px',
+//     borderRadius: '0px',
+//     borderColor: '#000000',
+//   }
+// });
 
 export default function ProfId() {
     

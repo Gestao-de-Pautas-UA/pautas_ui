@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { Theme, ThemeProvider, TableLoading } from "@uaveiro/ui";
+import '@/styles/styles.css';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -22,30 +23,30 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 
-const useStyles = makeStyles({
-  uaButton: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-  uaCard: {
-    border: '0px solid',
-    borderRadius: '1px',
-  }
-});
+// const useStyles = makeStyles({
+//   uaButton: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+//   uaCard: {
+//     border: '0px solid',
+//     borderRadius: '1px',
+//   }
+// });
 
 export default function Assinar() {
   
@@ -274,7 +275,7 @@ export default function Assinar() {
                 <CardActions sx={{justifyContent: 'center'}} >
                   <Button 
                     variant="outlined" 
-                    className={classes.uaButton}
+                    className={classes.uaButton2}
                     onClick={handlePlugin}>
                     {t("assinar")}
                   </Button>
@@ -304,7 +305,7 @@ export default function Assinar() {
                   </CardContent>
                 </CardActionArea>
                 <CardActions sx={{justifyContent: 'center'}} >
-                    <Button variant="outlined" className={classes.uaButton} onClick={goToOverview}>
+                    <Button variant="outlined" className={classes.uaButton2} onClick={goToOverview}>
                       {t("listaM")}
                     </Button>
                 </CardActions>
@@ -348,12 +349,12 @@ export default function Assinar() {
           <DialogActions>
             <Button onClick={handleCloseSignDialog}
                 variant="outlined" 
-                className={classes.uaButton}
+                className={classes.uaButton2}
                 sx={{marginRight: '10px'}}
                 >{t("cancelar")}</Button>
             <Button onClick={handleGetAndOpenSigned}
                     variant="outlined" 
-                    className={classes.uaButton}
+                    className={classes.uaButton2}
                     sx={{marginRight: '10px'}}
                     >{t("jaassinei")}</Button>
           </DialogActions>
@@ -388,7 +389,7 @@ export default function Assinar() {
           <DialogActions>
             <Button onClick={handleClosePluginErrorDialog}
                 variant="outlined" 
-                className={classes.uaButton}
+                className={classes.uaButton2}
                 sx={{marginRight: '10px'}}
                 >Ok</Button>
           </DialogActions>
@@ -417,7 +418,7 @@ export default function Assinar() {
           <DialogActions>
             <Button onClick={handleCloseNoAmaAppDialog}
                 variant="outlined" 
-                className={classes.uaButton}
+                className={classes.uaButton2}
                 sx={{marginRight: '10px'}}
                 >{t("fechar")}</Button>
           </DialogActions>

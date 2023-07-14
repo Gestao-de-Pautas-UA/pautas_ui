@@ -1,6 +1,7 @@
 
 import { useRouter } from 'next/router'
 import axios from 'axios';
+import '@/styles/styles.css';
 import { ThemeProvider, Theme , TableLoading} from "@uaveiro/ui";
 import { useState, useEffect } from 'react';
 import { Subject } from '@mui/icons-material';
@@ -12,26 +13,26 @@ import { Typography, TextField, Paper, Button, Grid } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles({
-    uaButton: {
-        borderRadius: 1,  
-        backgroundColor: 'white', 
-        color: 'black', 
-        borderColor: 'black', 
-        fontSize: '14px',
-        padding: '0px 12px 0px 12px',
-        height: 'auto',
-        minHeight: '40px',
-        maxWidth: '140px',
-        textTransform: 'capitalize',
-        justifyContent: 'center',
-        fontWeight: '400',
-        '&:hover': {
-          background: '#0EB4BD',
-          color: '#FFFFFF',
-        },
-      }
-});
+// const useStyles = makeStyles({
+//     uaButton: {
+//         borderRadius: 1,  
+//         backgroundColor: 'white', 
+//         color: 'black', 
+//         borderColor: 'black', 
+//         fontSize: '14px',
+//         padding: '0px 12px 0px 12px',
+//         height: 'auto',
+//         minHeight: '40px',
+//         maxWidth: '140px',
+//         textTransform: 'capitalize',
+//         justifyContent: 'center',
+//         fontWeight: '400',
+//         '&:hover': {
+//           background: '#0EB4BD',
+//           color: '#FFFFFF',
+//         },
+//       }
+// });
 
 
 export default function pautaDetails() {
@@ -259,9 +260,9 @@ export default function pautaDetails() {
             </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '75%'  }}>
-            <Button onClick={getPautaStatus} variant="outlined" className={classes.uaButton} sx={{ marginLeft: '10px'}}>{t("visualizar")}</Button>
+            <Button onClick={getPautaStatus} variant="outlined" className={classes.uaButton2} sx={{ marginLeft: '10px'}}>{t("visualizar")}</Button>
             <Link href={pathtopauta}>
-                <Button variant="outlined" className={classes.uaButton} sx={{ marginLeft: '10px'}}>{t("irpara")}</Button>
+                <Button variant="outlined" className={classes.uaButton2} sx={{ marginLeft: '10px'}}>{t("irpara")}</Button>
             </Link> 
         </div>
 
