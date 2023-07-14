@@ -19,31 +19,31 @@ import {useRouter} from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 
-const useStyles = makeStyles({
-  uaButton: {
-    borderRadius: 1,  
-    backgroundColor: 'white', 
-    color: 'black', 
-    borderColor: 'black', 
-    fontSize: '14px',
-    padding: '0px 12px 0px 12px',
-    height: 'auto',
-    minHeight: '40px',
-    maxWidth: '140px',
-    textTransform: 'capitalize',
-    justifyContent: 'center',
-    fontWeight: '400',
-    '&:hover': {
-      background: '#0EB4BD',
-      color: '#FFFFFF',
-    },
-  },
-  uaTableRow: {
-    '&:hover': {
-      background: '#F5F5F5',
-    },
-  }
-});
+// const useStyles = makeStyles({
+//   uaButton: {
+//     borderRadius: 1,  
+//     backgroundColor: 'white', 
+//     color: 'black', 
+//     borderColor: 'black', 
+//     fontSize: '14px',
+//     padding: '0px 12px 0px 12px',
+//     height: 'auto',
+//     minHeight: '40px',
+//     maxWidth: '140px',
+//     textTransform: 'capitalize',
+//     justifyContent: 'center',
+//     fontWeight: '400',
+//     '&:hover': {
+//       background: '#0EB4BD',
+//       color: '#FFFFFF',
+//     },
+//   },
+//   uaTableRow: {
+//     '&:hover': {
+//       background: '#F5F5F5',
+//     },
+//   }
+// });
 
 export default function TableView({year, nMec}){
 
@@ -250,7 +250,7 @@ export default function TableView({year, nMec}){
                                     )}
                                 </td>
                                 <td>
-                                  <Button variant="outlined" className={classes.uaButton}
+                                  <Button variant="outlined" className={classes.uaButton2}
                                       id={subject.codigoPauta}
 
                                       onClick={handleClickEditButton}
@@ -260,7 +260,7 @@ export default function TableView({year, nMec}){
                                   </td>
                                 <td>
                                     <Link href={`/pautaDetails/${subject.codigoPauta}`}>
-                                        <Button variant="outlined" className={classes.uaButton}>{t("detalhes")}</Button>
+                                        <Button variant="outlined" className={classes.uaButton2}>{t("detalhes")}</Button>
                                     </Link>
                                 </td>
                             </tr>
